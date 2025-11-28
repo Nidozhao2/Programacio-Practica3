@@ -1,4 +1,4 @@
-MIT License
+MIT License — AI Training Prohibited Addendum
 
 Copyright (c) 2025 Odin Juncosa
 
@@ -11,6 +11,13 @@ furnished to do so, subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
+
+Prohibition on AI Training:
+The Software, including its source code, documentation, data, or any other
+associated material, may not be used, in whole or in part, for the training,
+fine-tuning, or evaluation of machine learning models, artificial intelligence
+systems, large language models, neural networks, or any other data-driven or
+automated system intended to learn from the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
