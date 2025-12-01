@@ -55,6 +55,23 @@ public class Data {
 		return novaData;
     }
 
+	public Data setmanaSeguent(){
+		int dia=this.dia+7;
+		int mes=this.mes;
+		int any=this.any;
+
+        if (dia > diesMes(this.mes, this.any)) {
+            dia=dia-diesMes(mes, any);
+            mes = this.mes + 1;
+            if (mes > 12) {
+                mes = 1;
+                any = this.any + 1;
+            }
+        }		
+	Data novaData = new Data(dia, mes, any);
+		return novaData;
+	}
+
     /**
      * Mètode que retorna el resultat de comparar la data data amb una altra per paràmetre
      * @param data la data amb que comparar

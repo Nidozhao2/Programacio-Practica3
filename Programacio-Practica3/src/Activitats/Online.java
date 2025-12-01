@@ -6,8 +6,8 @@ public class Online extends Activitat {
     private int placesOcupades = 0;
     private String enllaç;
     private Data dataIniciActivitat;
-    private Data dataIniciInscripcio;
-    private Data dataFiInscripcio;
+    //private Data dataIniciInscripcio;   
+    //private Data dataFiInscripcio;
     private int periodeVisualitzacio; // en dies
 
     public Online(String nom, String[] colectius, Data dataIniciInscripcio, Data dataFiInscripcio, String enllaç) {
@@ -15,6 +15,7 @@ public class Online extends Activitat {
         this.enllaç = enllaç;
     }
 
+    
     public void sumaPlacaOcupada() {
         placesOcupades++;
     }
