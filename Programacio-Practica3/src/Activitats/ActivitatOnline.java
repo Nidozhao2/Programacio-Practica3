@@ -2,7 +2,7 @@ package Activitats;
 
 import packages.*;
 
-public class Online extends Activitat {
+public class ActivitatOnline extends Activitat {
     private int placesOcupades = 0;
     private String enllaç;
     private Data dataIniciActivitat;
@@ -10,7 +10,7 @@ public class Online extends Activitat {
     //private Data dataFiInscripcio;
     private int periodeVisualitzacio; // en dies
 
-    public Online(String nom, String[] colectius, Data dataIniciInscripcio, Data dataFiInscripcio, String enllaç) {
+    public ActivitatOnline(String nom, String[] colectius, Data dataIniciInscripcio, Data dataFiInscripcio, String enllaç) {
         super(nom, 0, colectius, dataIniciInscripcio, dataFiInscripcio);
         this.enllaç = enllaç;
     }
