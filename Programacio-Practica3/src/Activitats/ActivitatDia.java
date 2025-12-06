@@ -5,7 +5,7 @@ import packages.Data;
 public class ActivitatDia extends Activitat {
     private Data dataActivitat;
     private int hora;
-    private int minuts;
+    private int minut;
     private int placesMaximes;
     private String ciutat;
     
@@ -13,18 +13,18 @@ public class ActivitatDia extends Activitat {
 
     public ActivitatDia(String nom, float preu, String[] colectius, 
                         Data dataIniciInscripcio, Data dataFiInscripcio,
-                        Data dataActivitat, int hora, int minuts, int placesMaximes, String ciutat) {
+                        Data dataActivitat, int hora, int minut, int placesMaximes, String ciutat) {
         
         super(nom, preu, colectius, dataIniciInscripcio, dataFiInscripcio);
         
         this.dataActivitat = dataActivitat;
 
-        if (hora >= 0 && hora <= 23 && minuts >= 0 && minuts <= 59) {
+        if (hora >= 0 && hora <= 23 && minut >= 0 && minut <= 59) {
             this.hora = hora;
-            this.minuts = minuts;
+            this.minut = minut;
         } else {
             this.hora = 0;
-            this.minuts = 0;
+            this.minut = 0;
             System.out.println("Error: Hora incorrecta. S'ha posat a 00:00.");
         }
 
@@ -60,7 +60,7 @@ public class ActivitatDia extends Activitat {
     }
 
     public boolean tePlacesDisponibles() {
-        return placesOcupades < placesMaximes;
+        return placesMaximes>placesOcupades;
     }
 
     public boolean activaEnDia(Data data) {
@@ -72,7 +72,7 @@ public class ActivitatDia extends Activitat {
     }
 
     public String toString() {
-        String horari = hora + ":" + minuts;
+        String horari = hora + ":" + minut;
         return "ActivitatDia;" + nom + ";" + preu + ";" + dataActivitat.toString() + ";" + horari + ";" + ciutat;
     }
 
@@ -93,7 +93,7 @@ public class ActivitatDia extends Activitat {
     public int getHora() {
         return hora;
     }
-    public int getMinuts() {
-        return minuts;
+    public int getminut() {
+        return minut;
     }
 }
