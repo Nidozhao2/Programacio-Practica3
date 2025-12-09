@@ -8,4 +8,11 @@ public abstract class Usuari {
         this.alias = alias;
         this.adreça = adreça;
     }
+
+    public String toString(){
+
+        return "Alias: "+alias+" Adreça:" + adreça+" Tipus:";
+
+    }
+
 }

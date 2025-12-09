@@ -30,7 +30,7 @@ public class TestActivitatDia {
 
         // 2. validar atributs especifics
         System.out.println("\nProva 2: validació dels atributs");
-        if (taller.getHora() == 9 && taller.getMinuts() == 30) {
+        if (taller.getHora() == 9 && taller.getminut() == 30) {
             System.out.println("L'hora s'ha guardat correctament (9:30).");
         } else {
             System.out.println("L'hora no coincideix.");

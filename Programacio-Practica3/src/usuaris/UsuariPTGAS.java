@@ -16,7 +16,12 @@ public class UsuariPTGAS extends Usuari {
         this.campus = campus;
     }
 
+
+    @Override
     public String toString() {
-        return "PTGAS;" + alias + ";" + adreça + ";" + campus;
+        // TODO Auto-generated method stub
+        return super.toString()+" Tipus:PTGAS";
     }
+
+
 }

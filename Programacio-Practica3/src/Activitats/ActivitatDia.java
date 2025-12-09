@@ -2,22 +2,30 @@ package Activitats;
 
 import packages.Data;
 
+
+//falten setters, 
+
 public class ActivitatDia extends Activitat {
+
     private Data dataActivitat;
     private int hora;
     private int minut;
     private int placesMaximes;
     private String ciutat;
     
+    private int durada; //sha de inicialitzar dins del constructor, fes'ho de pas quan ficis les excepcions
+
     private int placesOcupades; 
 
     public ActivitatDia(String nom, float preu, String[] colectius, 
                         Data dataIniciInscripcio, Data dataFiInscripcio,
-                        Data dataActivitat, int hora, int minut, int placesMaximes, String ciutat) {
+                        Data dataActivitat, int hora, int minut, int durada, int placesMaximes, String ciutat) {
         
         super(nom, preu, colectius, dataIniciInscripcio, dataFiInscripcio);
         
-        this.dataActivitat = dataActivitat;
+        this.dataActivitat = dataActivitat;}
+
+/*chatgpt historic, fica excepcions cabron
 
         if (hora >= 0 && hora <= 23 && minut >= 0 && minut <= 59) {
             this.hora = hora;
@@ -33,11 +41,17 @@ public class ActivitatDia extends Activitat {
         this.placesOcupades = 0;
     }
 
-
+ */
     public String getNom() {
         return this.nom;
     }
+    public int getMinut() {
+        return minut;
+    }
 
+    public int getPlacesMaximes() {
+        return placesMaximes;
+    }
     public float getPreu() {
         return this.preu;
     }
@@ -52,6 +66,10 @@ public class ActivitatDia extends Activitat {
 
     public Data getDataFiInscripcio() {
         return this.dataFiInscripcio;
+    }
+
+    public int getDurada(){
+        return this.durada;
     }
 
     public boolean estaEnPeriodeInscripcio(Data dataActual) {
