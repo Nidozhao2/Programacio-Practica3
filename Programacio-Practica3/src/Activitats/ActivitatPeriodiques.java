@@ -22,7 +22,7 @@ public class ActivitatPeriodiques extends Activitat {
     
     public ActivitatPeriodiques(String nom, String[] colectius, Data dataIniciInscripcio, Data dataFiInscripcio, int setmanes_totals, int horaInici,int minutInici, int horaFinal, int minutFinal, String centre, String ciutat, int placesMaximes, Data dataIniciActivitat) {
         
-        super(nom, 0, colectius, dataIniciInscripcio, dataFiInscripcio);
+        super(nom, 0, colectius, dataIniciInscripcio, dataFiInscripcio, placesMaximes  );
 
         this.setmanes_totals=setmanes_totals;
         this.horaInici=horaInici;
@@ -31,7 +31,6 @@ public class ActivitatPeriodiques extends Activitat {
         this.minutFinal=minutFinal;
         this.centre=centre;
         this.ciutat=ciutat;
-        this.placesMaximes=placesMaximes;
         placesOcupades=0;
         this.dataIniciActivitat=dataIniciActivitat;
         setDurada();
@@ -65,9 +64,6 @@ public class ActivitatPeriodiques extends Activitat {
         return minutFinal;
     }
 
-    public int getPlacesMaximes() {
-        return placesMaximes;
-    }
 
     public int getSetmanes_totals() {
         return setmanes_totals;
@@ -86,13 +82,8 @@ public class ActivitatPeriodiques extends Activitat {
         return ciutat;
     }
 
-    public int getPlaces() {
-        return placesMaximes;
-    }
-@Override
-    public int getPlacesOcupades() {
-        return placesOcupades;
-    }
+
+
 @Override
     public float getPreu() {
         return preu;
@@ -143,13 +134,8 @@ public class ActivitatPeriodiques extends Activitat {
         this.ciutat = ciutat;
     }
 
-    public void setPlaces(int placesMaximes) {
-        this.placesMaximes = placesMaximes;
-    }
     
-    public void setPlacesOcupades(int placesOcupades) {
-        this.placesOcupades = placesOcupades;
-    }
+
 
     public void setPreu(float preu) {
         this.preu = preu;
@@ -179,9 +165,7 @@ public class ActivitatPeriodiques extends Activitat {
         setDurada();
     }
 
-    public void setPlacesMaximes(int placesMaximes) {
-        this.placesMaximes = placesMaximes;
-    }
+ 
 
 
 
@@ -212,10 +196,7 @@ public class ActivitatPeriodiques extends Activitat {
         return (dataActual.comparaAmb(this.dataIniciInscripcio) >= 0 &&
                 dataActual.comparaAmb(this.dataFiInscripcio) <= 0);
     }
-@Override
-    public boolean tePlacesDisponibles() {
-        return placesMaximes>placesOcupades;
-    }
+
 
     @Override
     public String toString() {
@@ -232,9 +213,7 @@ public class ActivitatPeriodiques extends Activitat {
     }
 
 
-    public void sumaPlacaOcupada() {
-        placesOcupades++;
-    }
+
 
 
 

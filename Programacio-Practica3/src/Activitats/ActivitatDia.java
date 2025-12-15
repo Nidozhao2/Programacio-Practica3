@@ -18,7 +18,7 @@ public class ActivitatDia extends Activitat {
                         Data dataIniciInscripcio, Data dataFiInscripcio,
                         Data dataActivitat, int hora, int minut, int durada, int placesMaximes, String ciutat) {
         
-        super(nom, preu, colectius, dataIniciInscripcio, dataFiInscripcio);
+        super(nom, preu, colectius, dataIniciInscripcio, dataFiInscripcio, placesMaximes);
         
         this.dataActivitat = dataActivitat;}
 
@@ -46,9 +46,7 @@ public class ActivitatDia extends Activitat {
         return minut;
     }
 
-    public int getPlacesMaximes() {
-        return placesMaximes;
-    }
+
     public float getPreu() {
         return this.preu;
     }
@@ -74,17 +72,12 @@ public class ActivitatDia extends Activitat {
                 dataActual.comparaAmb(this.dataFiInscripcio) <= 0);
     }
 
-    public boolean tePlacesDisponibles() {
-        return placesMaximes>placesOcupades;
-    }
 
     public boolean activaEnDia(Data data) {
         return this.dataActivitat.esIgualA(data);
     }
 
-    public int getPlacesOcupades() {
-        return placesOcupades;
-    }
+
 
     public String toString() {
         String horari = hora + ":" + minut;
@@ -92,12 +85,7 @@ public class ActivitatDia extends Activitat {
     }
 
 
-    // Mètode per incrementar inscrits
-    public void ocuparPlaca() {
-        if (tePlacesDisponibles()) {
-            this.placesOcupades++;
-        }
-    }
+
 
     public String getCiutat() { 
         return ciutat; 

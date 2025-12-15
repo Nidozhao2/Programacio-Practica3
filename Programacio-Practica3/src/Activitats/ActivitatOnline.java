@@ -11,7 +11,7 @@ public class ActivitatOnline extends Activitat {
     private int periodeVisualitzacio; // en dies
 
     public ActivitatOnline(String nom, String[] colectius, Data dataIniciInscripcio, Data dataFiInscripcio, String enllaç) {
-        super(nom, 0, colectius, dataIniciInscripcio, dataFiInscripcio);
+        super(nom, 0, colectius, dataIniciInscripcio, dataFiInscripcio,Integer.MAX_VALUE);
         this.enllaç = enllaç;
     }
 
