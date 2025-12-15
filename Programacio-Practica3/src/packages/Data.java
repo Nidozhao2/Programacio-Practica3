@@ -95,6 +95,19 @@ public class Data {
 		}
 	}
 
+
+	public boolean dataPassada(Data data){
+		if(this.any<data.any) return false;
+		else if(this.any>data.any) return true;
+
+		if(this.mes<data.mes) return false;
+		else if(this.mes>data.mes) return true;
+
+		if(this.dia<=data.dia) return false;
+		else return true;
+
+	}
+
 	/**
 	 * Mètode que comprova si la data actual correspon a un any de traspas
 	 * @return si és any de traspas

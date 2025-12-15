@@ -7,6 +7,9 @@ public abstract class Activitat {
     protected String[] colectius;
     protected Data dataIniciInscripcio;
     protected Data dataFiInscripcio;
+    protected int placesMaximes;
+    protected int placesOcupades;
+
 
     public Activitat(String nom, float preu, String[] colectius, Data dataIniciInscripcio, Data dataFiInscripcio) {
         this.nom = nom;
@@ -16,23 +19,26 @@ public abstract class Activitat {
         this.dataFiInscripcio = dataFiInscripcio;
     }
 
-    public abstract String getNom();
 
-    public abstract float getPreu();
 
-    public abstract String[] getColectius();
+    public abstract String toString(); 
 
-    public abstract Data getDataIniciInscripcio();
-
-    public abstract Data getDataFiInscripcio();
-
-    public abstract String toString();
-
-    public abstract boolean estaEnPeriodeInscripcio(Data dataActual);
-
-    public abstract boolean tePlacesDisponibles();
+    public boolean estaEnPeriodeInscripcio(Data dataActual){
+        return !dataActual.dataPassada(dataFiInscripcio) && dataActual.dataPassada(dataIniciInscripcio);
+    }  
 
     public abstract boolean activaEnDia(Data data);
+    
+    
+    public String getNom(){return nom;}
+    public float getPreu(){return preu;}
+    public String[] getColectius(){return colectius;}
+    public boolean tePlacesDisponibles(){return placesOcupades<placesMaximes;}//en online tenemos override de esto
+    public Data getDataIniciInscripcio(){return dataIniciInscripcio;}
+    public Data getDataFiInscripcio(){return dataFiInscripcio;}    
+    public int getPlacesOcupades(){return placesOcupades;}
 
-    public abstract int getPlacesOcupades();
+
+
+
 }

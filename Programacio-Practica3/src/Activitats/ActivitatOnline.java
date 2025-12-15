@@ -3,7 +3,7 @@ package Activitats;
 import packages.*;
 
 public class ActivitatOnline extends Activitat {
-    private int placesOcupades = 0;
+
     private String enllaç;
     private Data dataIniciActivitat;
     //private Data dataIniciInscripcio;   
@@ -61,14 +61,12 @@ public class ActivitatOnline extends Activitat {
                 dataActual.comparaAmb(this.dataFiInscripcio) <= 0);
     }
 
-    public boolean tePlacesDisponibles() {
-        return true; // Les activitats online no tenen límit de places
-    }
 
     public String toString() {
         return "Activitat Online: " + nom + ", Enllaç: " + enllaç + ", Preu: " + preu + "€, Data Inici Inscripció: " + dataIniciInscripcio.toString() + ", Data Fi Inscripció: " + dataFiInscripcio.toString();
     }
 
+    @Override
     public boolean activaEnDia(Data data) {
         Data dataFiActivitat = dataIniciActivitat.copia();
         for (int i = 0; i < periodeVisualitzacio; i++) {
@@ -80,6 +78,14 @@ public class ActivitatOnline extends Activitat {
     public boolean classeEnDia(Data data) {
         return activaEnDia(data);
     }
+
+
+    @Override
+    public boolean tePlacesDisponibles(){
+        return true;
+    }
+
+
 
 
 }

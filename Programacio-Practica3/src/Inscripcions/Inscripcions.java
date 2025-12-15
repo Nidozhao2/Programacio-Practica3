@@ -1,12 +1,21 @@
 package Inscripcions;
 
-public class Inscripcions {
-    
-    public String prova;
+import usuaris.Usuari;
 
-    public Inscripcions(String prova) {
-        this.prova = prova;
+public class Inscripcions {
+
+    private Usuari usuariInscripcio;
+    private Inscripcions seguentInscripcio;
+    private int iusuari; //index de llista inscripcions
+
+    public Inscripcions(Usuari usuariInscripcio,int iusuari) {
+        this.usuariInscripcio=usuariInscripcio;
+        this.iusuari=iusuari;
+        seguentInscripcio=null;
     }
 
     
+
+
+
 }

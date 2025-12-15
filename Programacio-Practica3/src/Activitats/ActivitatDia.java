@@ -10,12 +10,9 @@ public class ActivitatDia extends Activitat {
     private Data dataActivitat;
     private int hora;
     private int minut;
-    private int placesMaximes;
     private String ciutat;
-    
     private int durada; //sha de inicialitzar dins del constructor, fes'ho de pas quan ficis les excepcions
 
-    private int placesOcupades; 
 
     public ActivitatDia(String nom, float preu, String[] colectius, 
                         Data dataIniciInscripcio, Data dataFiInscripcio,

@@ -18,8 +18,6 @@ public class ActivitatPeriodiques extends Activitat {
 
     private String centre;
     private String ciutat;
-    private int placesMaximes;
-    private int placesOcupades;
     private Data dataIniciActivitat;
     
     public ActivitatPeriodiques(String nom, String[] colectius, Data dataIniciInscripcio, Data dataFiInscripcio, int setmanes_totals, int horaInici,int minutInici, int horaFinal, int minutFinal, String centre, String ciutat, int placesMaximes, Data dataIniciActivitat) {
@@ -195,11 +193,20 @@ public class ActivitatPeriodiques extends Activitat {
 @Override
     public boolean activaEnDia(Data data) {
         Data dataFiActivitat = dataIniciActivitat.copia();
-        for (int i = 0; i < setmanes_totals; i++) {
+
+        boolean retornar=data.esIgualA(dataFiActivitat);
+        int i=0;
+
+        while(i < setmanes_totals && !retornar) {
             dataFiActivitat = dataFiActivitat.setmanaSeguent();
+            retornar=data.esIgualA(dataFiActivitat);
+            i++;
         }
-        return (data.comparaAmb(dataIniciActivitat) >= 0 && data.comparaAmb(dataFiActivitat) <= 0);
+        return retornar;
     }
+
+
+
 @Override
     public boolean estaEnPeriodeInscripcio(Data dataActual) {
         return (dataActual.comparaAmb(this.dataIniciInscripcio) >= 0 &&
