@@ -18,11 +18,11 @@ public class ActivitatPeriodiques extends Activitat {
 
     private String centre;
     private String ciutat;
-    private Data dataIniciActivitat;
+
     
-    public ActivitatPeriodiques(String nom, String[] colectius, Data dataIniciInscripcio, Data dataFiInscripcio, int setmanes_totals, int horaInici,int minutInici, int horaFinal, int minutFinal, String centre, String ciutat, int placesMaximes, Data dataIniciActivitat) {
+    public ActivitatPeriodiques(String nom, String[] colectius, Data dataIniciInscripcio, Data dataFiInscripcio, int setmanes_totals, int horaInici,int minutInici, int horaFinal, int minutFinal, String centre, String ciutat, int placesMaximes, Data dataActivitat) {
         
-        super(nom, 0, colectius, dataIniciInscripcio, dataFiInscripcio, placesMaximes  );
+        super(nom, 0, colectius, dataIniciInscripcio, dataFiInscripcio, placesMaximes,dataActivitat );
 
         this.setmanes_totals=setmanes_totals;
         this.horaInici=horaInici;
@@ -32,7 +32,7 @@ public class ActivitatPeriodiques extends Activitat {
         this.centre=centre;
         this.ciutat=ciutat;
         placesOcupades=0;
-        this.dataIniciActivitat=dataIniciActivitat;
+
         setDurada();
     }
 
@@ -110,9 +110,7 @@ public class ActivitatPeriodiques extends Activitat {
         return dataFiInscripcio;
     }
 
-    public Data getDataIniciActivitat() {
-        return dataIniciActivitat;
-    }
+
 
 
 
@@ -141,9 +139,7 @@ public class ActivitatPeriodiques extends Activitat {
         this.preu = preu;
     }
 
-    public void setDataIniciActivitat(Data dataIniciActivitat) {
-        this.dataIniciActivitat = dataIniciActivitat;
-    }
+
 
     public void setHoraInici(int horaInici) {
         this.horaInici = horaInici;
@@ -176,7 +172,7 @@ public class ActivitatPeriodiques extends Activitat {
 
 @Override
     public boolean activaEnDia(Data data) {
-        Data dataFiActivitat = dataIniciActivitat.copia();
+        Data dataFiActivitat = dataActivitat.copia();
 
         boolean retornar=data.esIgualA(dataFiActivitat);
         int i=0;
@@ -209,7 +205,7 @@ public class ActivitatPeriodiques extends Activitat {
                 ", Ciutat: " + ciutat +
                 ", Places màximes: " + placesMaximes +
                 ", Places ocupades: " + placesOcupades +
-                ", Data inici activitat: " + dataIniciActivitat.toString();
+                ", Data inici activitat: " + dataActivitat.toString();
     }
 
 

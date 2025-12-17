@@ -9,9 +9,9 @@ public abstract class Activitat {
     protected Data dataFiInscripcio;
     protected int placesMaximes;
     protected int placesOcupades;
+    protected Data dataActivitat;
 
-
-    public Activitat(String nom, float preu, String[] colectius, Data dataIniciInscripcio, Data dataFiInscripcio,int placesMaximes) {
+    public Activitat(String nom, float preu, String[] colectius, Data dataIniciInscripcio, Data dataFiInscripcio,int placesMaximes,Data dataActivitat) {
         this.nom = nom;
         this.preu = preu;
         this.colectius = colectius;
@@ -19,6 +19,7 @@ public abstract class Activitat {
         this.dataFiInscripcio = dataFiInscripcio;
         this.placesMaximes=placesMaximes;
         placesOcupades=0;
+        this.dataActivitat=dataActivitat;
     }
 
 
@@ -31,7 +32,7 @@ public abstract class Activitat {
 
     public abstract boolean activaEnDia(Data data);
     
-    
+    public Data getDataInici(){return dataActivitat;}
     public String getNom(){return nom;}
     public float getPreu(){return preu;}
     public String[] getColectius(){return colectius;}
@@ -51,6 +52,48 @@ public abstract class Activitat {
 
     public void ocuparPlaca(){
         placesOcupades++;
+    }
+
+
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+
+
+    public void setPreu(float preu) {
+        this.preu = preu;
+    }
+
+
+
+    public void setColectius(String[] colectius) {
+        this.colectius = colectius;
+    }
+
+
+
+    public void setDataIniciInscripcio(Data dataIniciInscripcio) {
+        this.dataIniciInscripcio = dataIniciInscripcio;
+    }
+
+
+
+    public void setDataFiInscripcio(Data dataFiInscripcio) {
+        this.dataFiInscripcio = dataFiInscripcio;
+    }
+
+
+
+    public void setPlacesOcupades(int placesOcupades) {
+        this.placesOcupades = placesOcupades;
+    }
+
+
+
+    public void setDataActivitat(Data dataActivitat) {
+        this.dataActivitat = dataActivitat;
     }
 
 

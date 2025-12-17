@@ -18,9 +18,10 @@ public class ActivitatDia extends Activitat {
                         Data dataIniciInscripcio, Data dataFiInscripcio,
                         Data dataActivitat, int hora, int minut, int durada, int placesMaximes, String ciutat) {
         
-        super(nom, preu, colectius, dataIniciInscripcio, dataFiInscripcio, placesMaximes);
+        super(nom, preu, colectius, dataIniciInscripcio, dataFiInscripcio, placesMaximes,dataActivitat);
         
-        this.dataActivitat = dataActivitat;}
+
+        }
 
 /*chatgpt historic, fica excepcions cabron
 

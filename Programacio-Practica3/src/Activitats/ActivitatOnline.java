@@ -5,20 +5,20 @@ import packages.*;
 public class ActivitatOnline extends Activitat {
 
     private String enllaç;
-    private Data dataIniciActivitat;
+
     //private Data dataIniciInscripcio;   
     //private Data dataFiInscripcio;
     private int periodeVisualitzacio; // en dies
     private Data dataFiActivitat;
 
-    public ActivitatOnline(String nom, String[] colectius, Data dataIniciInscripcio, Data dataFiInscripcio, Data dataIniciActivitat, int periodeVisualitzacio, String enllaç) {
-        super(nom, 0, colectius, dataIniciInscripcio, dataFiInscripcio,Integer.MAX_VALUE);
-        this.dataIniciActivitat = dataIniciActivitat;
+    public ActivitatOnline(String nom, String[] colectius, Data dataIniciInscripcio, Data dataFiInscripcio, int periodeVisualitzacio, String enllaç,Data dataActivitat) {
+        super(nom, 0, colectius, dataIniciInscripcio, dataFiInscripcio,Integer.MAX_VALUE,dataActivitat);
+
         this.periodeVisualitzacio = periodeVisualitzacio;
         this.enllaç = enllaç;
 
         // calculem la data fi de l'activitat
-        this.dataFiActivitat = dataIniciActivitat.copia();
+        this.dataFiActivitat = dataActivitat.copia();
         for (int i = 0; i < periodeVisualitzacio; i++) {
             dataFiActivitat = dataFiActivitat.diaSeguent();
         }
@@ -81,11 +81,11 @@ public class ActivitatOnline extends Activitat {
 
     @Override
     public boolean activaEnDia(Data data) {
-        Data dataFiActivitat = dataIniciActivitat.copia();
+        Data dataFiActivitat = dataActivitat.copia();
         for (int i = 0; i < periodeVisualitzacio; i++) {
             dataFiActivitat = dataFiActivitat.diaSeguent();
         }
-        return (data.comparaAmb(dataIniciActivitat) >= 0 && data.comparaAmb(dataFiActivitat) <= 0);
+        return (data.comparaAmb(dataActivitat) >= 0 && data.comparaAmb(dataFiActivitat) <= 0);
     }
 
     public boolean classeEnDia(Data data) {
