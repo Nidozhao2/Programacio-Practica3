@@ -4,7 +4,7 @@ public class UsuariPTGAS extends Usuari {
     private String campus;
 
     public UsuariPTGAS(String alias, String adreça, String campus) {
-        super(alias, adreça);
+        super(alias, adreça, "PTGAS");
         this.campus = campus;
     }
 

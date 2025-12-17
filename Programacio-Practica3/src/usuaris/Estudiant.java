@@ -11,7 +11,7 @@ public class Estudiant extends Usuari{
 
     
     public Estudiant(String alias, String adreça,int any, String grau) {
-        super(alias,adreça);
+        super(alias,adreça, "Estudiant");
         this.any = any;
         this.grau = grau;
     }

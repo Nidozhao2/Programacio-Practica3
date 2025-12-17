@@ -9,10 +9,19 @@ public class ActivitatOnline extends Activitat {
     //private Data dataIniciInscripcio;   
     //private Data dataFiInscripcio;
     private int periodeVisualitzacio; // en dies
+    private Data dataFiActivitat;
 
-    public ActivitatOnline(String nom, String[] colectius, Data dataIniciInscripcio, Data dataFiInscripcio, String enllaç) {
+    public ActivitatOnline(String nom, String[] colectius, Data dataIniciInscripcio, Data dataFiInscripcio, Data dataIniciActivitat, int periodeVisualitzacio, String enllaç) {
         super(nom, 0, colectius, dataIniciInscripcio, dataFiInscripcio,Integer.MAX_VALUE);
+        this.dataIniciActivitat = dataIniciActivitat;
+        this.periodeVisualitzacio = periodeVisualitzacio;
         this.enllaç = enllaç;
+
+        // calculem la data fi de l'activitat
+        this.dataFiActivitat = dataIniciActivitat.copia();
+        for (int i = 0; i < periodeVisualitzacio; i++) {
+            dataFiActivitat = dataFiActivitat.diaSeguent();
+        }
     }
 
     
@@ -54,6 +63,10 @@ public class ActivitatOnline extends Activitat {
 
     public Data getDataFiInscripcio() {
         return dataFiInscripcio;
+    }
+
+    public Data getDataFiActivitat() {
+        return this.dataFiActivitat;
     }
 
     public boolean estaEnPeriodeInscripcio(Data dataActual) {
