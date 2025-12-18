@@ -3,6 +3,7 @@ package Inscripcions;
 import packages.Data;
 import Activitats.*;
 import usuaris.Usuari;
+import usuaris.LlistaUsuaris;
 
 /**
  * Classe Inscripcions
@@ -14,18 +15,18 @@ import usuaris.Usuari;
  */
 public class Inscripcions {
 
-    private Usuari[] usuarisInscrits;
-    private Usuari[] usuarisEnEspera;
+    private LlistaUsuaris usuarisInscrits;
+    private LlistaUsuaris usuarisEnEspera;
     private Activitat activitatInscripcio;
     private static final int MAX_ESPERA = 10;
 
     public Inscripcions(Activitat activitatInscripcio){
         if (activitatInscripcio instanceof ActivitatOnline) {
-            this.usuarisInscrits = new Usuari[1000000]; // per a activitats online, posem un límit molt alt
+            this.usuarisInscrits = new LlistaUsuaris(1000000); // per a activitats online, posem un límit molt alt
         } else {
-            this.usuarisInscrits = new Usuari[activitatInscripcio.getPlacesMaximes()];
+            this.usuarisInscrits = new LlistaUsuaris(activitatInscripcio.getPlacesMaximes());
         }
-        this.usuarisEnEspera = new Usuari[MAX_ESPERA];
+        this.usuarisEnEspera = new LlistaUsuaris(MAX_ESPERA);
         this.activitatInscripcio = activitatInscripcio;
     }
 
@@ -37,20 +38,10 @@ public class Inscripcions {
                 if (activitatInscripcio.tePlacesDisponibles()) {
                     // Inscriure a l'usuari
                     activitatInscripcio.ocuparPlaca();
-                    for (int i = 0; i < usuarisInscrits.length; i++) {
-                        if (usuarisInscrits[i] == null) {
-                            usuarisInscrits[i] = usuariInscripcio;
-                            break;
-                        }
-                    }
-                } else if (usuarisEnEspera.length < MAX_ESPERA) {
+                    usuarisInscrits.afegirUsuari(usuariInscripcio);
+                } else if (usuarisEnEspera.length() < MAX_ESPERA) {
                     // Afegir a la llista d'espera
-                    for (int i = 0; i < MAX_ESPERA; i++) {
-                        if (usuarisEnEspera[i] == null) {
-                            usuarisEnEspera[i] = usuariInscripcio;
-                            break;
-                        }
-                    }
+                    usuarisEnEspera.afegirUsuari(usuariInscripcio);
                 } else {
                     throw new IllegalArgumentException("No hi ha places disponibles ni a la llista d'espera."); // possiblement no és la excepció més adequada
                 }
@@ -62,47 +53,27 @@ public class Inscripcions {
         }
     }
 
+    
     public void baixaUsuari(Usuari usuariBaixa) { // !! Posible reformateo para optimizar
-        
-        if (usuariEnLlista(usuariBaixa, usuarisInscrits)) { // L'usuari que es vol donar de baixa està inscrit a l'activitat
 
-            for (int i = 0; i < usuarisInscrits.length; i++) {
-                if (usuarisInscrits[i] != null && usuarisInscrits[i].getAlias().equals(usuariBaixa.getAlias())) {
-    
-                    // Eliminar l'usuari de la llista d'inscrits i desplaçar la resta
-                    for (int j = i; j < usuarisInscrits.length - 1; j++) {
-                        usuarisInscrits[j] = usuarisInscrits[j + 1];
-                    }
-    
-                    // Si hi ha usuaris en espera, moure el primer a inscrits. Si no, alliberar plaça
-                    if (usuarisEnEspera.length > 0) {
-                        usuarisInscrits[usuarisInscrits.length - 1] = usuarisEnEspera[0];
-                        // Desplaçar la llista d'espera
-                        for (int k = 0; k < usuarisEnEspera.length - 1; k++) {
-                            usuarisEnEspera[k] = usuarisEnEspera[k + 1];
-                        }
-                        usuarisEnEspera[usuarisEnEspera.length - 1] = null;
-                    } else {
-                        activitatInscripcio.alliberarPlaca();
-                    }
-                }
-            }
-        } else if (usuariEnLlista(usuariBaixa, usuarisEnEspera)) { // L'usuari que es vol donar de baixa està a la llista d'espera
+        if (usuarisInscrits.usuariExisteix(usuariBaixa)) { // L'usuari que es vol donar de baixa està inscrit a l'activitat
 
-            for (int i = 0; i < usuarisEnEspera.length; i++) {
-                if (usuarisEnEspera[i] != null && usuarisEnEspera[i].getAlias().equals(usuariBaixa.getAlias())) {
-    
-                    // Eliminar l'usuari de la llista d'espera i desplaçar la resta
-                    for (int j = i; j < usuarisEnEspera.length - 1; j++) {
-                        usuarisEnEspera[j] = usuarisEnEspera[j + 1];
-                    }
-                    usuarisEnEspera[usuarisEnEspera.length - 1] = null;
-                }
+            usuarisInscrits.eliminarUsuari(usuariBaixa);
+            if (usuarisEnEspera.length() > 0) {
+                // Moure el primer usuari de la llista d'espera a la llista d'inscrits
+                Usuari usuariAInscriure = usuarisEnEspera.getUsuari(0);
+                usuarisInscrits.afegirUsuari(usuariAInscriure);
+                usuarisEnEspera.eliminarUsuari(usuariAInscriure);
+            } else { 
+                activitatInscripcio.alliberarPlaca(); // Si no hi ha ningú a la llista d'espera, alliberem la plaça
             }
+        } else if (usuarisEnEspera.usuariExisteix(usuariBaixa)) { // L'usuari que es vol donar de baixa està a la llista d'espera
+
+            usuarisEnEspera.eliminarUsuari(usuariBaixa);
         } else {
             throw new IllegalArgumentException("L'usuari no està inscrit ni a la llista d'espera.");
         }
-    }
+    } 
 
     /**
      * Comprova si un usuari ja està inscrit a l'activitat o està en llista d'espera.
@@ -110,10 +81,7 @@ public class Inscripcions {
      * @return boolean indicant si l'usuari està inscrit o no.
      */
     public boolean estaInscritOEsperant(Usuari usuariConsulta) {
-        if (usuariEnLlista(usuariConsulta, usuarisInscrits) || usuariEnLlista(usuariConsulta, usuarisEnEspera)) {
-            return true;
-        }
-        return false;
+        return usuarisInscrits.usuariExisteix(usuariConsulta) || usuarisEnEspera.usuariExisteix(usuariConsulta);
     }
 
     /**
@@ -122,10 +90,7 @@ public class Inscripcions {
      * @return boolean indicant si l'usuari està inscrit o no.
      */
     public boolean estaInscrit(Usuari usuariConsulta) {
-        if (usuariEnLlista(usuariConsulta, usuarisInscrits)) {
-            return true;
-        }
-        return false;
+        return usuarisInscrits.usuariExisteix(usuariConsulta);
     }
 
     /**
@@ -146,13 +111,12 @@ public class Inscripcions {
         return tipusUsuariPermes && enPeriodeInscripcio;
     }
 
-    private boolean usuariEnLlista(Usuari usuariConsulta, Usuari[] llistaUsuaris) {
-        for (int i = 0; i < llistaUsuaris.length; i++) {
-            if (llistaUsuaris[i] != null && llistaUsuaris[i].getAlias().equals(usuariConsulta.getAlias())) {
-                return true;
-            }
-        }
-        return false;
+    public LlistaUsuaris getUsuarisInscrits() {
+        return usuarisInscrits;
+    }
+
+    public LlistaUsuaris getUsuarisEnEspera() {
+        return usuarisEnEspera;
     }
 
 
