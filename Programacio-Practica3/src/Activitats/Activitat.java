@@ -10,7 +10,8 @@ public abstract class Activitat {
     protected int placesMaximes;
     protected int placesOcupades;
     protected Data dataActivitat;
-
+    protected Data fiActivitat;
+    
     public Activitat(String nom, float preu, String[] colectius, Data dataIniciInscripcio, Data dataFiInscripcio,int placesMaximes,Data dataActivitat) {
         this.nom = nom;
         this.preu = preu;
@@ -20,9 +21,11 @@ public abstract class Activitat {
         this.placesMaximes=placesMaximes;
         placesOcupades=0;
         this.dataActivitat=dataActivitat;
+        setfiActivitat();
     }
 
-
+    public abstract void setfiActivitat();
+    public Data getfiActivitat(){return fiActivitat;}
 
     public abstract String toString(); 
 

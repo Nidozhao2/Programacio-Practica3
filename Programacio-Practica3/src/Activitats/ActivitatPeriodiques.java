@@ -32,15 +32,20 @@ public class ActivitatPeriodiques extends Activitat {
         this.centre=centre;
         this.ciutat=ciutat;
         placesOcupades=0;
-
+        fiActivitat=getfiActivitat();
         setDurada();
     }
 
+    @Override
+    public void setfiActivitat(){
+        this.fiActivitat=dataActivitat.copia(); //copia bien implementado?
+        for(int i=0;i<setmanes_totals;i++){
+        this.fiActivitat=fiActivitat.setmanaSeguent();
+        }
+    }
 
 
-
-
-    private int setDurada(){
+    public int setDurada(){
     durada = 60 * (horaFinal - horaInici) + (minutFinal - minutInici);
     return durada;
     }
@@ -170,7 +175,7 @@ public class ActivitatPeriodiques extends Activitat {
 
 
 
-@Override
+@Override //cal cambiar aixo, punt 5 de E/S
     public boolean activaEnDia(Data data) {
         Data dataFiActivitat = dataActivitat.copia();
 

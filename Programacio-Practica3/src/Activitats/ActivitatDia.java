@@ -40,6 +40,9 @@ public class ActivitatDia extends Activitat {
     }
 
  */
+    @Override
+    public void setfiActivitat(){fiActivitat=dataActivitat;}
+
     public String getNom() {
         return this.nom;
     }

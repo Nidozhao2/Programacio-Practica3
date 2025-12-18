@@ -16,14 +16,17 @@ public class ActivitatOnline extends Activitat {
 
         this.periodeVisualitzacio = periodeVisualitzacio;
         this.enllaç = enllaç;
+        
 
-        // calculem la data fi de l'activitat
+    }
+    @Override
+    public void setfiActivitat(){ 
+            // calculem la data fi de l'activitat
         this.dataFiActivitat = dataActivitat.copia();
         for (int i = 0; i < periodeVisualitzacio; i++) {
             dataFiActivitat = dataFiActivitat.diaSeguent();
         }
     }
-
     
     public void sumaPlacaOcupada() {
         placesOcupades++;
