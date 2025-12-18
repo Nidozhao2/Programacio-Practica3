@@ -1,6 +1,5 @@
 package Inscripcions;
 
-
 import packages.Data;
 import Activitats.Activitat;
 import usuaris.Usuari;
@@ -9,9 +8,9 @@ import usuaris.Usuari;
  * Classe Inscripcions
  * 
  * La classe Inscripcio gestiona les inscripcions dels usuaris a les activitats.
- * Cada instància representa una inscripció (relació) entre un usuari i una activitat.
+ * Cada instància representa una inscripció (relació) entre una activitat i diversos usuaris.
+ * Té una llista d'usuaris inscrits i una llista d'usuaris en espera.
  * 
- * El constructor valida si l'usuari es pot inscriure a l'activitat i llença una excepció si no és possible.
  */
 public class Inscripcions {
 
