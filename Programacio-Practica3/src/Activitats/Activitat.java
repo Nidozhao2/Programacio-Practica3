@@ -99,6 +99,25 @@ public abstract class Activitat {
         this.dataActivitat = dataActivitat;
     }
 
+    /**
+     * Valida si un usuari d'un tipus específic pot inscriure's a l'activitat.
+     * 
+     * @param tipusUsuari (String) El tipus d'usuari a validar.
+     * @return boolean que indica si l'usuari pot inscriure's o no.
+     */
+    public boolean validarUsuari(String tipusUsuari) {
+        boolean tipusUsuariPermes = false;
+
+        int i = 0;
+        while (!tipusUsuariPermes && i < colectius.length) {
+            if (tipusUsuari.equals(colectius[i])) {
+                tipusUsuariPermes = true;
+            }
+            i++;
+        }
+        return tipusUsuariPermes;
+    }
+
 
 
 

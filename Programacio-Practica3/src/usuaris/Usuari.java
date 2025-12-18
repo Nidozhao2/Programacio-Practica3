@@ -20,4 +20,8 @@ public abstract class Usuari {
 
     }
 
+    public String getTipus(){
+        return tipus;
+    }
+
 }

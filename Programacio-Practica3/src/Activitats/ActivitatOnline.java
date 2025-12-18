@@ -11,7 +11,7 @@ public class ActivitatOnline extends Activitat {
     private int periodeVisualitzacio; // en dies
     private Data dataFiActivitat;
 
-    public ActivitatOnline(String nom, String[] colectius, Data dataIniciInscripcio, Data dataFiInscripcio, int periodeVisualitzacio, String enllaç,Data dataActivitat) {
+    public ActivitatOnline(String nom, String[] colectius, Data dataIniciInscripcio, Data dataFiInscripcio, Data dataActivitat,int periodeVisualitzacio, String enllaç) {
         super(nom, 0, colectius, dataIniciInscripcio, dataFiInscripcio,Integer.MAX_VALUE,dataActivitat);
 
         this.periodeVisualitzacio = periodeVisualitzacio;
@@ -96,6 +96,7 @@ public class ActivitatOnline extends Activitat {
     }
 
 
+    // Sempre hi ha plaçes disponibles en activitats online
     @Override
     public boolean tePlacesDisponibles(){
         return true;
