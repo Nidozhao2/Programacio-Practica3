@@ -1,7 +1,7 @@
 package Inscripcions;
 
 import packages.Data;
-import Activitats.Activitat;
+import Activitats.*;
 import usuaris.Usuari;
 
 /**
@@ -19,8 +19,12 @@ public class Inscripcions {
     private Activitat activitatInscripcio;
     private static final int MAX_ESPERA = 10;
 
-    public Inscripcions(Usuari usuariInscripcio, Activitat activitatInscripcio, Data dataInscripcio){
-        this.usuarisInscrits = new Usuari[activitatInscripcio.getPlacesMaximes()];
+    public Inscripcions(Activitat activitatInscripcio){
+        if (activitatInscripcio instanceof ActivitatOnline) {
+            this.usuarisInscrits = new Usuari[1000000]; // per a activitats online, posem un límit molt alt
+        } else {
+            this.usuarisInscrits = new Usuari[activitatInscripcio.getPlacesMaximes()];
+        }
         this.usuarisEnEspera = new Usuari[MAX_ESPERA];
         this.activitatInscripcio = activitatInscripcio;
     }
@@ -105,8 +109,20 @@ public class Inscripcions {
      * @param usuariConsulta
      * @return boolean indicant si l'usuari està inscrit o no.
      */
-    public boolean estaInscrit(Usuari usuariConsulta) {
+    public boolean estaInscritOEsperant(Usuari usuariConsulta) {
         if (usuariEnLlista(usuariConsulta, usuarisInscrits) || usuariEnLlista(usuariConsulta, usuarisEnEspera)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Comprova si un usuari ja està inscrit a l'activitat.
+     * @param usuariConsulta
+     * @return boolean indicant si l'usuari està inscrit o no.
+     */
+    public boolean estaInscrit(Usuari usuariConsulta) {
+        if (usuariEnLlista(usuariConsulta, usuarisInscrits)) {
             return true;
         }
         return false;
