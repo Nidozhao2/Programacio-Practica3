@@ -57,7 +57,11 @@ public abstract class Activitat {
         placesOcupades++;
     }
 
-
+    public void alliberarPlaca(){
+        if(placesOcupades>0){
+            placesOcupades--;
+        }
+    }
 
     public void setNom(String nom) {
         this.nom = nom;

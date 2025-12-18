@@ -24,4 +24,7 @@ public abstract class Usuari {
         return tipus;
     }
 
+    public String getAlias(){
+        return alias;
+    }
 }
