@@ -24,6 +24,7 @@ public abstract class Activitat {
         setfiActivitat();
     }
 
+
     public abstract void setfiActivitat();
     public Data getfiActivitat(){return fiActivitat;}
 
@@ -101,6 +102,10 @@ public abstract class Activitat {
 
     public void setDataActivitat(Data dataActivitat) {
         this.dataActivitat = dataActivitat;
+    }
+
+    public boolean haAcabat(Data dataActual){
+        return dataActual.dataPassada(fiActivitat);
     }
 
     /**
