@@ -66,16 +66,16 @@ public class LlistaInscripcions {
         return llistaInscripcionsUsuari;
     }
 
-    public int[] resumValoracions() {
-        int[] llistaValoracions = new int[this.nelems];
+    public float[] resumValoracions() {
+        float[] llistaValoracions = new float[this.nelems];
         for (int i = 0; i < this.nelems; i++) {
             llistaValoracions[i] = this.inscripcions[i].getValoracioDonada();
         }
         return llistaValoracions;
     }
 
-    public int[] resumValoracionsUsuari(Usuari usuariConsulta) {
-        int[] llistaValoracionsUsuari = new int[this.nelems];
+    public float[] resumValoracionsUsuari(Usuari usuariConsulta) {
+        float[] llistaValoracionsUsuari = new float[this.nelems];
         for (int i = 0; i < this.nelems; i++) {
             if (this.inscripcions[i].getUsuariInscrit().getAlias().equals(usuariConsulta.getAlias())) {
                 llistaValoracionsUsuari[i] = this.inscripcions[i].getValoracioDonada();
@@ -84,6 +84,7 @@ public class LlistaInscripcions {
         return llistaValoracionsUsuari;
     }
 
+    /*
     public void valorarActivitat(Usuari usuariConsulta, Activitat activitatConsulta, int valoracio, Data dataActual) {
         int i = 0;
         boolean trobat = false;
@@ -99,7 +100,7 @@ public class LlistaInscripcions {
             }
             i++;
         }
-    }
+    }*/
 
     /**
      * Retorna l'usuari amb més inscripcions.

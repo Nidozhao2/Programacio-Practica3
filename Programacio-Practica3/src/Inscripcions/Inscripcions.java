@@ -19,7 +19,7 @@ public class Inscripcions {
 
     private Usuari usuariInscrit;
     private Activitat activitatInscripcio;
-    private int valoracioDonada;
+    private float valoracioDonada;
     private Data dataInscripcio;
 
     public Inscripcions(Activitat activitatInscripcio, Usuari usuariInscrit, Data dataInscripcio)
@@ -38,8 +38,13 @@ public class Inscripcions {
         }
     }
 
-    public void valorar(int valoracio) {
-        this.valoracioDonada = valoracio;
+    public void valorar(float valoracio, Data dataInscripcio) throws ActivitatNoAcabada {
+
+        if (this.activitatInscripcio.haAcabat(dataInscripcio)) {
+            this.valoracioDonada = valoracio;
+        } else {
+            throw new ActivitatNoAcabada("La activitat no ha acabat encara");
+        }
     }
 
     public Usuari getUsuariInscrit() {
@@ -50,7 +55,7 @@ public class Inscripcions {
         return activitatInscripcio;
     }
 
-    public int getValoracioDonada() {
+    public float getValoracioDonada() {
         return valoracioDonada;
     }
 
