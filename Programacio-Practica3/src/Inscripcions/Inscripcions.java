@@ -28,6 +28,7 @@ public class Inscripcions {
             if (activitatInscripcio.validarUsuari(usuariInscrit.getTipus())) {
                 this.usuariInscrit = usuariInscrit;
                 this.activitatInscripcio = activitatInscripcio;
+                this.dataInscripcio = dataInscripcio;
             } else {
                 throw new TipusUsuariNoValid("El tipus d'usuari no és valid per a la activitat");
             }
@@ -55,6 +56,11 @@ public class Inscripcions {
 
     public Data getDataInscripcio() {
         return dataInscripcio;
+    }
+
+    public String toString() {
+        return "Inscripcions [usuariInscrit=" + usuariInscrit + ", activitatInscripcio=" + activitatInscripcio
+                + ", valoracioDonada=" + valoracioDonada + ", dataInscripcio=" + dataInscripcio + "]";
     }
 
 }

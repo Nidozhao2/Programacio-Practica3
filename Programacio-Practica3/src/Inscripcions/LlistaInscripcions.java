@@ -1,12 +1,11 @@
 package Inscripcions;
 
 import Activitats.Activitat;
-import Activitats.ActivitatOnline;
 import usuaris.Usuari;
 import packages.*;
 
 /*TODO:
-        - Método añadir elementos ordenados alfabéticamente por nombre de usuario (teniendo en cuenta límite de plazas de la actividad)
+        - Método añadir elementos ordenados alfabéticamente por nombre de usuario (teniendo en cuenta límite de plazas de la actividad y inscripción repetida)
         - Método eliminar elemento y mover de inscripcionsEspera a inscripcions
         - Método recorrido para obtener las actividades a las que está apuntado un usuari (hecho)
         - Método recorrido para obtener resumen de valoraciones de las inscripciones (hecho)
@@ -28,6 +27,25 @@ public class LlistaInscripcions {
         this.inscripcions = new Inscripcions[maxelems];
         this.inscripcionsEspera = new Inscripcions[maxelems];
 
+    }
+
+    /**
+     * métode privat per contar les inscripcions d'una activitat al moment de la
+     * inserció d'una nova inscripcio,
+     * amb l'objectiu de controlar que no s'excedeixi el límit de plaçes de
+     * l'activitat
+     * 
+     * @param nomActivitat
+     * @return
+     */
+    private int contarInscripcionsActivitat(String nomActivitat) {
+        int contador = 0;
+        for (int i = 0; i < this.nelems; i++) {
+            if (this.inscripcions[i].getActivitatInscripcio().getNom().equals(nomActivitat)) {
+                contador++;
+            }
+        }
+        return contador;
     }
 
     public void afegirInscripcio(Inscripcions inscripcio) {
@@ -71,7 +89,8 @@ public class LlistaInscripcions {
         boolean trobat = false;
         while (!trobat && i < this.nelems) {
             if (this.inscripcions[i].getActivitatInscripcio().haAcabat(dataActual)) {
-                if (this.inscripcions[i].getUsuariInscrit().getAlias().equals(usuariConsulta.getAlias()) && this.inscripcions[i].getActivitatInscripcio().getNom().equals(activitatConsulta.getNom())) {
+                if (this.inscripcions[i].getUsuariInscrit().getAlias().equals(usuariConsulta.getAlias())
+                        && this.inscripcions[i].getActivitatInscripcio().getNom().equals(activitatConsulta.getNom())) {
                     this.inscripcions[i].valorar(valoracio);
                     trobat = true;
                 }
