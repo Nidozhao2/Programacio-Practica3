@@ -1,6 +1,7 @@
 package Inscripcions;
 
-import Activitats.Activitat;
+import Activitats.*;
+import excepcions.InscripcioNoTrobada;
 import usuaris.Usuari;
 import packages.*;
 
@@ -79,24 +80,84 @@ public class LlistaInscripcions {
      * repetició.
      * 
      * @param inscripcio
+     * @throws TaulaPlena 
      */
-    public void afegirInscripcio(Inscripcions inscripcio) {
+    public void afegirInscripcio(Inscripcions inscripcio) throws TaulaPlena {
         if (inscripcio != null) {
             if (this.nelems < this.maxelems) {
                 this.inscripcions[this.nelems] = inscripcio;
                 this.nelems++;
+                ordenarInscripcions(this.inscripcions);
             } else if (this.nelemsEspera < this.maxelems) {
                 this.inscripcionsEspera[this.nelemsEspera] = inscripcio;
                 this.nelemsEspera++;
             }
+
+            else {
+                throw new TaulaPlena("Llista d'inscripcions plena");
+            }
         }
     }
 
-    public void eliminarInscripcio(Inscripcions inscripcio) {
-
+    /**
+     * Mètode privat per ordenar les inscripcions alfabèticament per nom d'usuari
+     * mitjançant l'algorisme de la bombolla.
+     */
+    private void ordenarInscripcions(Inscripcions[] inscripcions) { 
+        for (int i = 0; i < inscripcions.length - 1; i++) {
+            for (int j = 0; j < inscripcions.length - i - 1; j++) {
+                if (inscripcions[j].getUsuariInscrit().getAlias()
+                        .compareTo(inscripcions[j + 1].getUsuariInscrit().getAlias()) > 0) {
+                    Inscripcions temp = inscripcions[j];
+                    inscripcions[j] = inscripcions[j + 1];
+                    inscripcions[j + 1] = temp;
+                }
+            }
+        }
     }
 
-    public LlistaInscripcions inscripcionsUsuari(Usuari usuariConsulta) {
+public void eliminarInscripcio(Inscripcions inscripcioBorrar) throws InscripcioNoTrobada {
+    for (int i = 0; i < nelems; i++) { //buscar en inscripcions principals
+        if (inscripcioBorrar.equals(this.inscripcions[i])) {
+            if (nelemsEspera > 0) {
+                this.inscripcions[i] = this.inscripcionsEspera[0];
+                
+
+                for (int k = 0; k < nelemsEspera - 1; k++) {
+                    this.inscripcionsEspera[k] = this.inscripcionsEspera[k + 1];
+                }
+                this.inscripcionsEspera[nelemsEspera - 1] = null;
+                nelemsEspera--;
+                
+                ordenarInscripcions(this.inscripcions);
+            } else {
+
+                for (int k = i; k < nelems - 1; k++) {
+                    this.inscripcions[k] = this.inscripcions[k + 1];
+                }
+                this.inscripcions[nelems - 1] = null;
+                nelems--;
+            }
+            return; 
+        }
+    }
+    
+    for (int j = 0; j < nelemsEspera; j++) {//buscar en inscripcions en espera
+        if (inscripcioBorrar.equals(this.inscripcionsEspera[j])) {
+            for (int k = j; k < nelemsEspera - 1; k++) {
+                this.inscripcionsEspera[k] = this.inscripcionsEspera[k + 1];
+            }
+            this.inscripcionsEspera[nelemsEspera - 1] = null;
+            nelemsEspera--;
+            return; 
+        }
+    }
+    
+    //si no s'ha trobat en cap de les dues llistes, llençar excepció
+    throw new InscripcioNoTrobada("Inscripció no trobada");
+}
+
+    public LlistaInscripcions inscripcionsUsuari(Usuari usuariConsulta) throws TaulaPlena {
         LlistaInscripcions llistaInscripcionsUsuari = new LlistaInscripcions(this.maxelems);
         for (int i = 0; i < this.nelems; i++) {
             if (this.inscripcions[i].getUsuariInscrit().getAlias().equals(usuariConsulta.getAlias())) {
@@ -105,7 +166,7 @@ public class LlistaInscripcions {
         }
         return llistaInscripcionsUsuari;
     }
-
+ 
     public float[] resumValoracions() {
         float[] llistaValoracions = new float[this.nelems];
         for (int i = 0; i < this.nelems; i++) {
