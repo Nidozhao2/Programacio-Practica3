@@ -5,43 +5,23 @@ import packages.*;
 public class ActivitatOnline extends Activitat {
 
     private String enllaç;
-
-    //private Data dataIniciInscripcio;   
-    //private Data dataFiInscripcio;
     private int periodeVisualitzacio; // en dies
-    private Data dataFiActivitat;
 
-    public ActivitatOnline(String nom, String[] colectius, Data dataIniciInscripcio, Data dataFiInscripcio, Data dataActivitat,int periodeVisualitzacio, String enllaç) {
-        super(nom, 0, colectius, dataIniciInscripcio, dataFiInscripcio,Integer.MAX_VALUE,dataActivitat);
-
+    public ActivitatOnline(String nom, String[] colectius, Data dataIniciInscripcio, Data dataFiInscripcio,
+            Data dataActivitat, int periodeVisualitzacio, String enllaç) {
+        super(nom, 0, colectius, dataIniciInscripcio, dataFiInscripcio, Integer.MAX_VALUE, dataActivitat);
         this.periodeVisualitzacio = periodeVisualitzacio;
         this.enllaç = enllaç;
-        
-
+        setFiActivitat();
     }
-    @Override
-    public void setfiActivitat(){ 
-            // calculem la data fi de l'activitat
-        this.dataFiActivitat = dataActivitat.copia();
+
+    public void setFiActivitat() {
+        // calculem la data fi de l'activitat
+        Data fiActivitat = dataActivitat.copia();
         for (int i = 0; i < periodeVisualitzacio; i++) {
-            dataFiActivitat = dataFiActivitat.diaSeguent();
+            fiActivitat = fiActivitat.diaSeguent();
         }
-    }
-    
-    public void sumaPlacaOcupada() {
-        placesOcupades++;
-    }
-
-    public int getPlacesOcupades() {
-        return placesOcupades;
-    }
-
-    public float getPreu() {
-        return preu;
-    }
-
-    public void setPreu(float preu) {
-        this.preu = preu;
+        super.fiActivitat = fiActivitat;
     }
 
     public String getEnllaç() {
@@ -52,37 +32,11 @@ public class ActivitatOnline extends Activitat {
         this.enllaç = enllaç;
     }
 
-    public String[] getColectius() {
-        return colectius;
-    }
-
-    public String getNom() {
-        return nom;
-    }
-
-    public Data getDataIniciInscripcio() {
-        return dataIniciInscripcio;
-    }
-
-    public Data getDataFiInscripcio() {
-        return dataFiInscripcio;
-    }
-
-    public Data getDataFiActivitat() {
-        return this.dataFiActivitat;
-    }
-
-    public boolean estaEnPeriodeInscripcio(Data dataActual) {
-        return (dataActual.comparaAmb(this.dataIniciInscripcio) >= 0 &&
-                dataActual.comparaAmb(this.dataFiInscripcio) <= 0);
-    }
-
-
     public String toString() {
-        return "Activitat Online: " + nom + ", Enllaç: " + enllaç + ", Preu: " + preu + "€, Data Inici Inscripció: " + dataIniciInscripcio.toString() + ", Data Fi Inscripció: " + dataFiInscripcio.toString();
+        return "Activitat Online: " + nom + ", Enllaç: " + enllaç + ", Preu: " + preu + "€, Data Inici Inscripció: "
+                + dataIniciInscripcio.toString() + ", Data Fi Inscripció: " + dataFiInscripcio.toString();
     }
 
-    @Override
     public boolean activaEnDia(Data data) {
         Data dataFiActivitat = dataActivitat.copia();
         for (int i = 0; i < periodeVisualitzacio; i++) {
@@ -95,14 +49,10 @@ public class ActivitatOnline extends Activitat {
         return activaEnDia(data);
     }
 
-
     // Sempre hi ha plaçes disponibles en activitats online
     @Override
-    public boolean tePlacesDisponibles(){
+    public boolean tePlacesDisponibles() {
         return true;
     }
-
-
-
 
 }

@@ -3,8 +3,8 @@ package Inscripcions;
 import packages.Data;
 import Activitats.*;
 import usuaris.Usuari;
-import usuaris.LlistaUsuaris;
 import excepcions.*;
+import java.io.Serializable;
 
 /**
  * Classe Inscripcions
@@ -15,7 +15,7 @@ import excepcions.*;
  * amb un espai per la valoració de l'usuari a la seva activitat inscrita.
  * 
  */
-public class Inscripcions {
+public class Inscripcions implements Serializable {
 
     private Usuari usuariInscrit;
     private Activitat activitatInscripcio;
@@ -38,8 +38,11 @@ public class Inscripcions {
         }
     }
 
-    public void valorar(float valoracio, Data dataInscripcio) throws ActivitatNoAcabada {
-
+    public void valorar(float valoracio, Data dataInscripcio, Usuari usuariInscrit)
+            throws ActivitatNoAcabada, UsuariExtrany {
+        if (!this.usuariInscrit.getAlias().equals(usuariInscrit.getAlias())) {
+            throw new UsuariExtrany("L'usuari que vol valorar la inscripcio no és el mateix que està inscrit");
+        }
         if (this.activitatInscripcio.haAcabat(dataInscripcio)) {
             this.valoracioDonada = valoracio;
         } else {

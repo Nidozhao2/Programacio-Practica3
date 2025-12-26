@@ -1,12 +1,14 @@
 package usuaris;
-import Activitats.*;
 
-public abstract class Usuari {
+import Activitats.*;
+import java.io.Serializable;
+
+public abstract class Usuari implements Serializable {
     protected String alias;
     protected String adreça;
     protected String tipus;
 
-    protected Activitat[] activitatsusuari;//se puede argumentar
+    protected Activitat[] activitatsusuari;// se puede argumentar
 
     public Usuari(String alias, String adreça, String tipus) {
         this.alias = alias;
@@ -14,17 +16,17 @@ public abstract class Usuari {
         this.tipus = tipus;
     }
 
-    public String toString(){
+    public String toString() {
 
-        return "Alias: "+alias+" Adreça:" + adreça+" Tipus:";
+        return "Alias: " + alias + " Adreça:" + adreça + " Tipus:";
 
     }
 
-    public String getTipus(){
+    public String getTipus() {
         return tipus;
     }
 
-    public String getAlias(){
+    public String getAlias() {
         return alias;
     }
 }

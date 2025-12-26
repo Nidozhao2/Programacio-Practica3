@@ -17,16 +17,40 @@ public class LlistaInscripcions {
 
     private Inscripcions[] inscripcions;
     private Inscripcions[] inscripcionsEspera;
-    private int nelems;
+    private int nelemsEspera; // número de inscripcions en espera
+    private int nelems; // número de inscripcions
     private int maxelems;
 
     public LlistaInscripcions(int maxelems) {
 
         this.nelems = 0;
+        this.nelemsEspera = 0;
         this.maxelems = maxelems;
         this.inscripcions = new Inscripcions[maxelems];
         this.inscripcionsEspera = new Inscripcions[maxelems];
 
+    }
+
+    public int getNumeroInscripcions() {
+        return this.nelems;
+    }
+
+    public int getNumeroInscripcionsEspera() {
+        return this.nelemsEspera;
+    }
+
+    public Inscripcions getInscripcio(int i) throws IndexOutOfBoundsException {
+        if (i < 0 || i >= this.nelems) {
+            throw new IndexOutOfBoundsException("Index out of bounds");
+        }
+        return this.inscripcions[i];
+    }
+
+    public Inscripcions getInscripcioEspera(int i) throws IndexOutOfBoundsException {
+        if (i < 0 || i >= this.nelemsEspera) {
+            throw new IndexOutOfBoundsException("Index out of bounds");
+        }
+        return this.inscripcionsEspera[i];
     }
 
     /**
@@ -48,8 +72,24 @@ public class LlistaInscripcions {
         return contador;
     }
 
+    /**
+     * Afegeix una inscripcio a la llista d'inscripcions o d'inscripcions en espera.
+     * !! PROVISIONAL !!
+     * Falta ordenació per nom d'usuari, control de limit de plaçes i control de
+     * repetició.
+     * 
+     * @param inscripcio
+     */
     public void afegirInscripcio(Inscripcions inscripcio) {
-
+        if (inscripcio != null) {
+            if (this.nelems < this.maxelems) {
+                this.inscripcions[this.nelems] = inscripcio;
+                this.nelems++;
+            } else if (this.nelemsEspera < this.maxelems) {
+                this.inscripcionsEspera[this.nelemsEspera] = inscripcio;
+                this.nelemsEspera++;
+            }
+        }
     }
 
     public void eliminarInscripcio(Inscripcions inscripcio) {
@@ -85,22 +125,26 @@ public class LlistaInscripcions {
     }
 
     /*
-    public void valorarActivitat(Usuari usuariConsulta, Activitat activitatConsulta, int valoracio, Data dataActual) {
-        int i = 0;
-        boolean trobat = false;
-        while (!trobat && i < this.nelems) {
-            if (this.inscripcions[i].getActivitatInscripcio().haAcabat(dataActual)) {
-                if (this.inscripcions[i].getUsuariInscrit().getAlias().equals(usuariConsulta.getAlias())
-                        && this.inscripcions[i].getActivitatInscripcio().getNom().equals(activitatConsulta.getNom())) {
-                    this.inscripcions[i].valorar(valoracio);
-                    trobat = true;
-                }
-            } else {
-
-            }
-            i++;
-        }
-    }*/
+     * public void valorarActivitat(Usuari usuariConsulta, Activitat
+     * activitatConsulta, int valoracio, Data dataActual) {
+     * int i = 0;
+     * boolean trobat = false;
+     * while (!trobat && i < this.nelems) {
+     * if (this.inscripcions[i].getActivitatInscripcio().haAcabat(dataActual)) {
+     * if (this.inscripcions[i].getUsuariInscrit().getAlias().equals(usuariConsulta.
+     * getAlias())
+     * && this.inscripcions[i].getActivitatInscripcio().getNom().equals(
+     * activitatConsulta.getNom())) {
+     * this.inscripcions[i].valorar(valoracio);
+     * trobat = true;
+     * }
+     * } else {
+     * 
+     * }
+     * i++;
+     * }
+     * }
+     */
 
     /**
      * Retorna l'usuari amb més inscripcions.
@@ -130,6 +174,14 @@ public class LlistaInscripcions {
             }
         }
         return usuariAmbMesInscripcions;
+    }
+
+    public String toString() {
+        String s = "";
+        for (int i = 0; i < this.nelems; i++) {
+            s += this.inscripcions[i] + "\n";
+        }
+        return s;
     }
 
 }

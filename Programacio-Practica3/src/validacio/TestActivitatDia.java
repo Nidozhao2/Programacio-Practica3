@@ -8,27 +8,25 @@ public class TestActivitatDia {
     public static void main(String[] args) {
         System.out.println("Test de validació de activitat dia.");
 
-
         Data inici = new Data(1, 9, 2025);
         Data fi = new Data(15, 9, 2025);
         Data diaReale = new Data(20, 9, 2025);
-        String[] col = {"PDI", "PTGAS"};
+        String[] col = { "PDI", "PTGAS" };
 
-        try{
+        try {
             // 1. crear objecte correcte
             System.out.println("\nProva 1: Creació d'activitat correcta (Matí)");
             ActivitatDia taller = new ActivitatDia(
-                "Taller Basquet", 
-                10.0f, 
-                col, 
-                inici, 
-                fi, 
-                diaReale, 
-                9, 30,
-                120,
-                20,
-                "Tarragona"
-            );
+                    "Taller Basquet",
+                    10.0f,
+                    col,
+                    inici,
+                    fi,
+                    diaReale,
+                    9, 30,
+                    120,
+                    20,
+                    "Tarragona");
             System.out.println("Resultat toString(): " + taller.toString());
 
             // 2. validar atributs especifics
@@ -48,9 +46,9 @@ public class TestActivitatDia {
             // 3. validar places i inscripció
             System.out.println("\nProva 3: Control de places.");
             System.out.println("Places ocupades inicials: " + taller.getPlacesOcupades());
-            
+
             taller.ocuparPlaca();
-            
+
             if (taller.getPlacesOcupades() == 1) {
                 System.out.println("S'ha incrementat el comptador de places.");
             } else {
@@ -62,14 +60,13 @@ public class TestActivitatDia {
         }
 
         System.out.println("\nProva 4: Intentar crear una hora dolenta");
-        
+
         try {
             // 4. validar excepcions
             ActivitatDia activitatDolenta = new ActivitatDia(
-                "Activitat Impossible", 10, col, inici, fi, diaReale, 
-                25, 0, 60, 20, "Reus"
-            );
-            
+                    "Activitat Impossible", 10, col, inici, fi, diaReale,
+                    25, 0, 60, 20, "Reus");
+
             System.out.println("Error: S'ha creat l'activitat");
 
         } catch (HoraIncorrecta e) {
