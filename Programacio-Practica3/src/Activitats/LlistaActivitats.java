@@ -75,6 +75,10 @@ public class LlistaActivitats {
         return nElems;
     }
 
+    public Activitat[] getLlista() {
+        return llista;
+    }
+
     public int getCapacitat() {
         return llista.length;
     }

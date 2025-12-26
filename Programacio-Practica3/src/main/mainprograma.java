@@ -11,7 +11,7 @@ public class mainprograma {
         // Falta carregar dades de fitxers si n'hi ha
         Data dataActual = new Data(26, 12, 2025);
         LlistaUsuaris llistaUsuaris = new LlistaUsuaris(100);
-        LlistaInscripcions llistaInscripcions = new LlistaInscripcions(1000);
+        LlistaInscripcions llistaInscripcions = new LlistaInscripcions(10000);
         LlistaActivitats llistaActivitats = new LlistaActivitats(100);
         Scanner teclat = new Scanner(System.in);
         int opcio;
@@ -83,16 +83,17 @@ public class mainprograma {
     // Me he rendido haciendo esto, que alguien lo arregle por mí por favor.
     public static void mostrarDadesLlistes(LlistaUsuaris llistaUsuaris, LlistaInscripcions llistaInscripcions,
             LlistaActivitats llistaActivitats) {
-        System.out.println("(1) Usuaris");
-        System.out.println("(2) Inscripcions");
-        System.out.println("(3) Activitats");
-        System.out.println("(4) Tots");
+
 
         Scanner teclat = new Scanner(System.in);
         int opcio;
         boolean inputInvalid = false;
         do {
-            try {
+            try {        
+                System.out.println("(1) Usuaris");
+                System.out.println("(2) Inscripcions");
+                System.out.println("(3) Activitats");
+                System.out.println("(4) Tots");
                 System.out.println("\nIntrodueix una opcio: ");
                 opcio = Integer.parseInt(teclat.nextLine());
                 switch (opcio) {
@@ -120,7 +121,7 @@ public class mainprograma {
                                 inputInvalid = false;
                                 break;
                             default:
-                                System.out.println("Error: Opcio no valida.");
+                                System.out.println("Error: Opcio no valida de Usuaris.");
                                 inputInvalid = true;
                                 break;
                         }
@@ -152,7 +153,7 @@ public class mainprograma {
                                 inputInvalid = false;
                                 break;
                             default:
-                                System.out.println("Error: Opcio no valida.");
+                                System.out.println("Error: Opcio no valida de Activitats.");
                                 inputInvalid = true;
                                 break;
                         }
@@ -178,5 +179,72 @@ public class mainprograma {
         System.out.println("Activitats en periode d'inscripcio: \n");
         System.out.println(llistaActivitats.getActivitatsPeriodeInscripcio(dataActual));
     }
+
+
+    public static void mostrarActivitatsClasseAvui(LlistaActivitats llistaActivitats, Data dataActual) { //punt 4, places ocupades? llista espera?
+        System.out.println("Activitats amb classe avui: \n");
+        for(int i=0; i<llistaActivitats.getNElems(); i++) {
+            if(llistaActivitats.getLlista()[i].activaEnDia(dataActual)) {
+                System.out.println(llistaActivitats.getLlista()[i].toString() + "\n");
+            } 
+        }
+    }
+
+    public static void mostrarActivitatsActivesAvui(LlistaActivitats llistaActivitats, Data dataActual) { //punt 5
+        System.out.println("Activitats actives avui: \n");
+        for(int i=0; i<llistaActivitats.getNElems(); i++) {
+            if(llistaActivitats.getLlista()[i].getDataInici().comparaAmb(dataActual) <= 0 && 
+               llistaActivitats.getLlista()[i].getFiActivitat().comparaAmb(dataActual) >= 0) {
+                System.out.println(llistaActivitats.getLlista()[i].toString() + "\n");
+            } 
+        }
+    }
+
+
+    public static void mostrarActivitatsPlacesDisponibles(LlistaActivitats llistaActivitats) { //punt 6
+        System.out.println("Activitats amb places disponibles: \n");
+        for(int i=0; i<llistaActivitats.getNElems(); i++) {
+            if(llistaActivitats.getLlista()[i].tePlacesDisponibles()) {
+                System.out.println(llistaActivitats.getLlista()[i].toString() + "\n");
+            } 
+        }
+    }
+
+    public static void mostrarDetallsActivitat(String nom,LlistaActivitats llistaActivitats) { //punt 7
+        
+        int i=0;
+        boolean trobat=false;
+        while (!trobat && i<llistaActivitats.getNElems()) {
+            if(llistaActivitats.getLlista()[i].getNom().equals(nom)) {
+                System.out.println(llistaActivitats.getLlista()[i].toString());
+                trobat=true;
+            }
+            i++;
+        }
+    }      
+
+
+    public static void mostrarDetallsUsuari(String nom,LlistaUsuaris usuaris) { //punt 8
+        int i=0;
+        boolean trobat=false;
+        while (!trobat && i<usuaris.getNusuaris()) {
+            if(usuaris.getUsuari(i).getAlias().equals(nom)) {
+                System.out.println(usuaris.getUsuari(i).toString());
+                trobat=true;
+            }
+            i++;
+        }
+    }
+
+    public static void mostrarActivitatsUsuari(String nom, LlistaInscripcions inscripcions) { //punt 9
+        for(int i=0;i<inscripcions.getNumeroInscripcions();i++) {
+            if(inscripcions.getInscripcio(i).getUsuariInscrit().equals(nom)) {
+                System.out.println(inscripcions.getInscripcio(i).getActivitatInscripcio().toString() + "\n");
+            }
+        }
+    }
+
+
+    
 
 }

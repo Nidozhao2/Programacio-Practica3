@@ -36,8 +36,12 @@ public class LlistaUsuaris {
         }
     }
 
-    public int length() {
+    public int getNusuaris() {
         return nUsuaris;
+    }
+
+    public Usuari[] getLlista() {
+        return usuaris;
     }
 
     public Usuari getUsuari(int index) {
