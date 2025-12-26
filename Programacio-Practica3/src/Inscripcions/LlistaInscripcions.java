@@ -84,11 +84,15 @@ public class LlistaInscripcions {
      */
     public void afegirInscripcio(Inscripcions inscripcio) throws TaulaPlena {
         if (inscripcio != null) {
-            if (this.nelems < this.maxelems) {
+            if ( inscripcio.getActivitatInscripcio().tePlacesDisponibles() 
+                 && !this.existeixInscripcio(inscripcio)) {
+                    
+
+                inscripcio.getActivitatInscripcio().ocuparPlaca();
                 this.inscripcions[this.nelems] = inscripcio;
                 this.nelems++;
                 ordenarInscripcions(this.inscripcions);
-            } else if (this.nelemsEspera < this.maxelems) {
+            } else if (this.nelemsEspera < maxelems) {
                 this.inscripcionsEspera[this.nelemsEspera] = inscripcio;
                 this.nelemsEspera++;
             }
@@ -116,46 +120,70 @@ public class LlistaInscripcions {
         }
     }
 
-public void eliminarInscripcio(Inscripcions inscripcioBorrar) throws InscripcioNoTrobada {
-    for (int i = 0; i < nelems; i++) { //buscar en inscripcions principals
-        if (inscripcioBorrar.equals(this.inscripcions[i])) {
-            if (nelemsEspera > 0) {
-                this.inscripcions[i] = this.inscripcionsEspera[0];
-                
+    public boolean existeixInscripcio(Inscripcions inscripcioCercar) {
+        for (int i = 0; i < nelems; i++) {
+            if (inscripcioCercar.equals(this.inscripcions[i])) {
+                return true;
+            }
+        }
+        for (int j = 0; j < nelemsEspera; j++) {
+            if (inscripcioCercar.equals(this.inscripcionsEspera[j])) {
+                return true;
+            }
+        }
+        return false;
+    }
 
-                for (int k = 0; k < nelemsEspera - 1; k++) {
+    public void eliminarInscripcio(Inscripcions inscripcioBorrar) throws InscripcioNoTrobada {
+        for (int i = 0; i < nelems; i++) { //buscar en inscripcions principals
+            if (inscripcioBorrar.equals(this.inscripcions[i])) {
+                
+                    int k=0;
+                    boolean trobat = false;
+                    
+                    while(!trobat && k < nelemsEspera) { //busque en la llista de espera
+                        if (this.inscripcionsEspera[k].mateixaActivitat(inscripcioBorrar) ) {
+                            this.inscripcions[i] = this.inscripcionsEspera[k];
+                            trobat = true; 
+                        }
+                        k++;
+                    }
+
+                    if(trobat) {
+                        for ( int j=k; j < nelemsEspera - 1; j++) { //moure llista d'espera si hem trobat el element
+                            this.inscripcionsEspera[j] = this.inscripcionsEspera[j + 1];
+                        }
+                        this.inscripcionsEspera[nelemsEspera - 1] = null; //eliminar últim element repetit
+                        nelemsEspera--;
+                        ordenarInscripcions(this.inscripcions);
+                    }
+ 
+                    else {
+                        for (k = i; k < nelems - 1; k++) {
+                            this.inscripcions[k] = this.inscripcions[k + 1];
+                        }
+                        this.inscripcions[nelems - 1] = null;
+                        nelems--;
+                        }
+            }
+                return; 
+            }
+        
+        
+        for (int j = 0; j < nelemsEspera; j++) {//buscar en inscripcions en espera
+            if (inscripcioBorrar.equals(this.inscripcionsEspera[j])) {
+                for (int k = j; k < nelemsEspera - 1; k++) {
                     this.inscripcionsEspera[k] = this.inscripcionsEspera[k + 1];
                 }
                 this.inscripcionsEspera[nelemsEspera - 1] = null;
                 nelemsEspera--;
-                
-                ordenarInscripcions(this.inscripcions);
-            } else {
-
-                for (int k = i; k < nelems - 1; k++) {
-                    this.inscripcions[k] = this.inscripcions[k + 1];
-                }
-                this.inscripcions[nelems - 1] = null;
-                nelems--;
+                return; 
             }
-            return; 
         }
+        
+        //si no s'ha trobat en cap de les dues llistes, llençar excepció
+        throw new InscripcioNoTrobada("Inscripció no trobada");
     }
-    
-    for (int j = 0; j < nelemsEspera; j++) {//buscar en inscripcions en espera
-        if (inscripcioBorrar.equals(this.inscripcionsEspera[j])) {
-            for (int k = j; k < nelemsEspera - 1; k++) {
-                this.inscripcionsEspera[k] = this.inscripcionsEspera[k + 1];
-            }
-            this.inscripcionsEspera[nelemsEspera - 1] = null;
-            nelemsEspera--;
-            return; 
-        }
-    }
-    
-    //si no s'ha trobat en cap de les dues llistes, llençar excepció
-    throw new InscripcioNoTrobada("Inscripció no trobada");
-}
 
     public LlistaInscripcions inscripcionsUsuari(Usuari usuariConsulta) throws TaulaPlena {
         LlistaInscripcions llistaInscripcionsUsuari = new LlistaInscripcions(this.maxelems);

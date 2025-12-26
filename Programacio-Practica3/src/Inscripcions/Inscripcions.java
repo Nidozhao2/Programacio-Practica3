@@ -71,4 +71,8 @@ public class Inscripcions implements Serializable {
                 + ", valoracioDonada=" + valoracioDonada + ", dataInscripcio=" + dataInscripcio + "]";
     }
 
+    public boolean mateixaActivitat(Inscripcions altraInscripcio) {
+        return this.activitatInscripcio.equals(altraInscripcio.getActivitatInscripcio());
+    }
+
 }
