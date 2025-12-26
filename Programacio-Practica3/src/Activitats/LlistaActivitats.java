@@ -1,7 +1,9 @@
 package Activitats;
 
+import packages.*;
+
 public class LlistaActivitats {
-    
+
     private Activitat[] llista;
     private int nElems;
 
@@ -11,7 +13,7 @@ public class LlistaActivitats {
     }
 
     public void afegirActivitat(Activitat a) throws TaulaPlena {
-        
+
         if (nElems >= llista.length) {
             throw new TaulaPlena("Error: La llista està plena. No es pot afegir: " + a.getNom());
         } else {
@@ -39,7 +41,7 @@ public class LlistaActivitats {
                 i++;
             }
         }
-        
+
         return trobada;
     }
 
@@ -59,11 +61,11 @@ public class LlistaActivitats {
             for (int j = i; j < nElems - 1; j++) {
                 llista[j] = llista[j + 1];
             }
-            
+
             llista[nElems - 1] = null;
             nElems--;
             System.out.println("Activitat '" + nom + "' esborrada correctament.");
-            
+
         } else {
             System.out.println("Error: No s'ha trobat l'activitat per esborrar.");
         }
@@ -72,7 +74,7 @@ public class LlistaActivitats {
     public int getNElems() {
         return nElems;
     }
-    
+
     public int getCapacitat() {
         return llista.length;
     }
@@ -81,6 +83,51 @@ public class LlistaActivitats {
         String res = "Cataleg (" + nElems + "/" + llista.length + ") \n";
         for (int i = 0; i < nElems; i++) {
             res += (i + 1) + ". " + llista[i].toString() + "\n";
+        }
+        return res;
+    }
+
+    public String getDiaries() {
+        String res = "Diaries (" + nElems + "/" + llista.length + ") \n";
+        for (int i = 0; i < nElems; i++) {
+            if (llista[i] instanceof ActivitatDia) {
+                res += (i + 1) + ". " + llista[i].toString() + "\n";
+            }
+        }
+        return res;
+    }
+
+    public String getPeriodiques() {
+        String res = "Periodiques (" + nElems + "/" + llista.length + ") \n";
+        for (int i = 0; i < nElems; i++) {
+            if (llista[i] instanceof ActivitatPeriodiques) {
+                res += (i + 1) + ". " + llista[i].toString() + "\n";
+            }
+        }
+        return res;
+    }
+
+    public String getEnLinea() {
+        String res = "EnLinea (" + nElems + "/" + llista.length + ") \n";
+        for (int i = 0; i < nElems; i++) {
+            if (llista[i] instanceof ActivitatOnline) {
+                res += (i + 1) + ". " + llista[i].toString() + "\n";
+            }
+        }
+        return res;
+    }
+
+    public LlistaActivitats getActivitatsPeriodeInscripcio(Data dataActual) {
+        LlistaActivitats res = new LlistaActivitats(llista.length);
+
+        for (int i = 0; i < nElems; i++) {
+            if (llista[i].estaEnPeriodeInscripcio(dataActual)) {
+                try {
+                    res.afegirActivitat(llista[i]);
+                } catch (TaulaPlena e) {
+                    break;
+                }
+            }
         }
         return res;
     }

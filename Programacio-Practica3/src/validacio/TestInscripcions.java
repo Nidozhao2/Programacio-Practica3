@@ -84,10 +84,10 @@ public class TestInscripcions {
         }
 
         System.out.println("6) Guardar inscripcions en fitxer serialitzat");
-        llistaInscripcions.afegirInscripcio(inscripcio1);
-        llistaInscripcions.afegirInscripcio(inscripcio2);
-        llistaInscripcions.afegirInscripcio(inscripcio3);
         try {
+            llistaInscripcions.afegirInscripcio(inscripcio1);
+            llistaInscripcions.afegirInscripcio(inscripcio2);
+            llistaInscripcions.afegirInscripcio(inscripcio3);
             escriureInscripcions(llistaInscripcions);
             System.out.println("Correcte: Inscripcions guardades correctament");
         } catch (Exception e) {

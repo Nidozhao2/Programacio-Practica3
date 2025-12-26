@@ -57,6 +57,36 @@ public class LlistaUsuaris {
         return false;
     }
 
+    public LlistaUsuaris getEstudiants() {
+        LlistaUsuaris llistaEstudiants = new LlistaUsuaris(capacitat);
+        for (int i = 0; i < nUsuaris; i++) {
+            if (usuaris[i] instanceof Estudiant) {
+                llistaEstudiants.afegirUsuari(usuaris[i]);
+            }
+        }
+        return llistaEstudiants;
+    }
+
+    public LlistaUsuaris getPdi() {
+        LlistaUsuaris llistaPdi = new LlistaUsuaris(capacitat);
+        for (int i = 0; i < nUsuaris; i++) {
+            if (usuaris[i] instanceof UsuariPDI) {
+                llistaPdi.afegirUsuari(usuaris[i]);
+            }
+        }
+        return llistaPdi;
+    }
+
+    public LlistaUsuaris getPtgas() {
+        LlistaUsuaris llistaPtgas = new LlistaUsuaris(capacitat);
+        for (int i = 0; i < nUsuaris; i++) {
+            if (usuaris[i] instanceof UsuariPTGAS) {
+                llistaPtgas.afegirUsuari(usuaris[i]);
+            }
+        }
+        return llistaPtgas;
+    }
+
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Llista d'usuaris:\n");
