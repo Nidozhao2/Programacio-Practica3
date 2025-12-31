@@ -19,7 +19,7 @@ public class Inscripcions implements Serializable {
 
     private Usuari usuariInscrit;
     private Activitat activitatInscripcio;
-    private float valoracioDonada;
+    private int valoracioDonada;
     private Data dataInscripcio;
 
     public Inscripcions(Activitat activitatInscripcio, Usuari usuariInscrit, Data dataInscripcio)
@@ -38,7 +38,7 @@ public class Inscripcions implements Serializable {
         }
     }
 
-    public void valorar(float valoracio, Data dataInscripcio, Usuari usuariInscrit)
+    public void valorar(int valoracio, Data dataInscripcio, Usuari usuariInscrit)
             throws ActivitatNoAcabada, UsuariExtrany {
         if (!this.usuariInscrit.getAlias().equals(usuariInscrit.getAlias())) {
             throw new UsuariExtrany("L'usuari que vol valorar la inscripcio no és el mateix que està inscrit");
@@ -58,7 +58,7 @@ public class Inscripcions implements Serializable {
         return activitatInscripcio;
     }
 
-    public float getValoracioDonada() {
+    public int getValoracioDonada() {
         return valoracioDonada;
     }
 

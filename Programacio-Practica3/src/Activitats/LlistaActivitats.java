@@ -45,6 +45,14 @@ public class LlistaActivitats {
         return trobada;
     }
 
+    public Activitat getActivitat(int index){
+        if (index >= 0 && index < this.nElems) {
+            return this.llista[index];
+        } else {
+            return null;
+        }
+    }
+
     public void esborrarActivitat(String nom) {
         boolean trobat = false;
         int i = 0;
@@ -134,5 +142,20 @@ public class LlistaActivitats {
             }
         }
         return res;
+    }
+
+        public LlistaActivitats getActivitatsAcabades(Data dataActual) {
+        LlistaActivitats llistaActivitatsAcabades = new LlistaActivitats(this.nElems);
+        for (int i = 0; i < this.nElems; i++) {
+            if (llista[i].haAcabat(dataActual)) {
+                try {
+                    llistaActivitatsAcabades.afegirActivitat(llista[i]);
+                } catch (TaulaPlena e) {
+                    System.out.println("Error: No es poden afegir més activitats acabades a la llista.");
+                }
+            }
+        }
+        return llistaActivitatsAcabades;
+
     }
 }

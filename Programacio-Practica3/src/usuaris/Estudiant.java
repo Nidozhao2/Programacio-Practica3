@@ -7,20 +7,11 @@ public class Estudiant extends Usuari{
     private int any;
     private String grau;
 
-
-
-    
     public Estudiant(String alias, String adreça,int any, String grau) {
-        super(alias,adreça, "Estudiant");
+        super(alias,adreça, "Estudiants");
         this.any = any;
         this.grau = grau;
     }
-
-
-
-
-
-
 
     public int getAny() {
         return any;
@@ -35,13 +26,9 @@ public class Estudiant extends Usuari{
         this.grau = grau;
     }
 
-
-
-
     @Override
     public String toString() {
-        // TODO Auto-generated method stub
-        return super.toString()+" Tipus:Estudiant";
+        return "Estudiant;" + alias + ";" + adreça + ";" + any + ";" + grau;
     }
 
 }

@@ -27,36 +27,60 @@ public class TestInscripcions {
         Usuari usuari1 = new UsuariPDI("Joan", "joan@example.com", "sescelades", "ETSE");
         Usuari usuari2 = new UsuariPTGAS("Maria", "maria@example.com", "sescelades");
 
-        Activitat activitatProva1 = new ActivitatOnline("Curs Java", new String[] { "PDI", "Estudiant" },
-                new Data(1, 1, 2025), new Data(15, 1, 2025), new Data(16, 1, 2025), 10, "http://cursos.com/cursjava");
-        Activitat activitatProva2 = new ActivitatPeriodiques("Classe particular de pintura",
-                new String[] { "PDI", "PTGAS" }, new Data(1, 1, 2025), new Data(10, 1, 2025), 2, 8, 30, 10, 30, "IAMF",
-                "Tarragona", 1, new Data(11, 1, 2025));
+        Activitat activitatProva1 = null;
+        Activitat activitatProva2 = null;
+
+        try {
+            activitatProva1 = new ActivitatOnline("Curs Java", new String[] { "PDI", "Estudiant" },
+                    new Data(1, 1, 2025), new Data(15, 1, 2025), new Data(16, 1, 2025), 10, "http://cursos.com/cursjava");
+            activitatProva2 = new ActivitatPeriodiques("Classe particular de pintura",
+                    new String[] { "PDI", "PTGAS" }, new Data(1, 1, 2025), new Data(10, 1, 2025), 2, 8, 30, 10, 30, "IAMF",
+                    "Tarragona", 1, new Data(11, 1, 2025));
+        } catch (Exception e) {
+            System.out.println(e);
+        }
 
         LlistaInscripcions llistaInscripcions = new LlistaInscripcions(1000);
 
+        Inscripcions inscripcio1 = null;
+        Inscripcions inscripcio2 = null;
+        Inscripcions inscripcio3 = null;
         System.out.println("1) Crear inscripcio correcta");
-        Inscripcions inscripcio1 = crearInscripcio(usuari1, activitatProva1, new Data(1, 1, 2025));
-        if (inscripcio1 != null) {
-            System.out.println("Correcte: Inscripcio correcta: " + inscripcio1);
-        } else {
-            System.out.println("Incorrecte: Error al crear inscripcio");
+        try {
+            inscripcio1 = crearInscripcio(usuari1, activitatProva1, new Data(1, 1, 2025));
+            if (inscripcio1 != null) {
+                System.out.println("Correcte: Inscripcio correcta: " + inscripcio1);
+            } else {
+                System.out.println("Incorrecte: Error al crear inscripcio");
+            }
+    
+        } catch (Exception e) {
+            System.out.println(e);
         }
 
         System.out.println("2) Crear inscripcio fora de data d'inscripcio");
-        Inscripcions inscripcio2 = crearInscripcio(usuari1, activitatProva1, new Data(16, 1, 2025));
-        if (inscripcio2 == null) {
-            System.out.println("Correcte: No s'ha creat inscripcio");
-        } else {
-            System.out.println("Incorrecte: No s'ha controlat data d'inscripcio");
+        try {
+            inscripcio2 = crearInscripcio(usuari1, activitatProva1, new Data(16, 1, 2025));
+            if (inscripcio2 == null) {
+                System.out.println("Correcte: No s'ha creat inscripcio");
+            } else {
+                System.out.println("Incorrecte: No s'ha controlat data d'inscripcio");
+            }
+            
+        } catch (Exception e) {
+            System.out.println(e);
         }
 
         System.out.println("3) Crear inscripció amb tipus d'usuari no vàlid");
-        Inscripcions inscripcio3 = crearInscripcio(usuari2, activitatProva1, new Data(1, 1, 2025));
-        if (inscripcio3 == null) {
-            System.out.println("Correcte: No s'ha creat inscripcio");
-        } else {
-            System.out.println("Incorrecte: No s'ha controlat tipus d'usuari");
+        try {
+            inscripcio3 = crearInscripcio(usuari2, activitatProva1, new Data(1, 1, 2025));
+            if (inscripcio3 == null) {
+                System.out.println("Correcte: No s'ha creat inscripcio");
+            } else {
+                System.out.println("Incorrecte: No s'ha controlat tipus d'usuari");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
         }
 
         System.out.println("4) Valorar inscripció vàlida");
@@ -111,11 +135,18 @@ public class TestInscripcions {
         LlistaInscripcions llistaTest = new LlistaInscripcions(10);
         
         // es crea una activitat amb nomes 1 plaça per forçar la llista d'espera
-        Activitat activitatPetita = new ActivitatOnline("curs intensiu", new String[] { "PDI", "PTGAS" },
-                new Data(1, 1, 2025), new Data(15, 1, 2025), new Data(16, 1, 2025), 1, "http://zoom.us");
+        Activitat activitatPetita;
+        Inscripcions insUsuari1 = null;
+        Inscripcions insUsuari2 = null;
+        try {
+            activitatPetita = new ActivitatDia("curs intensiu", 3, new String[] { "PDI", "PTGAS" },
+                    new Data(1, 1, 2025), new Data(15, 1, 2025), new Data(16, 1, 2025), 8, 30, 2, 1, "Tarragona");
+            insUsuari1 = crearInscripcio(usuari1, activitatPetita, new Data(2, 1, 2025));
+            insUsuari2 = crearInscripcio(usuari2, activitatPetita, new Data(2, 1, 2025));
+        } catch (Exception e) {
+            System.out.println(e);
+        }
 
-        Inscripcions insUsuari1 = crearInscripcio(usuari1, activitatPetita, new Data(2, 1, 2025));
-        Inscripcions insUsuari2 = crearInscripcio(usuari2, activitatPetita, new Data(2, 1, 2025));
 
         // 8) validar inscripció normal
         System.out.println("8) Crear inscripcio correcta (hi ha lloc)");

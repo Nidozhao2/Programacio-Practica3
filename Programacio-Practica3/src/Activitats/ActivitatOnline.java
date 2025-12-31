@@ -42,7 +42,7 @@ public class ActivitatOnline extends Activitat {
         for (int i = 0; i < periodeVisualitzacio; i++) {
             dataFiActivitat = dataFiActivitat.diaSeguent();
         }
-        return (data.comparaAmb(dataActivitat) >= 0 && data.comparaAmb(dataFiActivitat) <= 0);
+        return (data.comparaAmb(dataActivitat) > 0 && data.comparaAmb(dataFiActivitat) <= 0);
     }
 
     public boolean classeEnDia(Data data) {

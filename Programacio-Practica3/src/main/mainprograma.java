@@ -4,6 +4,7 @@ import usuaris.*;
 import packages.*;
 import Activitats.*;
 import Inscripcions.*;
+import excepcions.NovaDataNoValida;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -45,11 +46,11 @@ public class mainprograma {
                             menu();
                             break;
                         case 1:
-                            System.out.println("Data actual: " + dataActual.toString());
+                            modificarDadaSistema(dataActual, teclat);
                             break;
 
                         case 2:
-                            mostrarDadesLlistes(llistaUsuaris, llistaInscripcions, llistaActivitats);
+                            mostrarDadesLlistes(llistaUsuaris, llistaInscripcions, llistaActivitats, teclat);
                             break;
                         case 3:
                             mostrarActivitatsPeriodeInscripcio(llistaActivitats, dataActual);
@@ -101,6 +102,28 @@ public class mainprograma {
                         case 15:
                             afegirActivitatOnline(llistaActivitats, teclat);
                             break;
+                        
+                        case 16:
+                            String aliasUsuari;
+                            System.out.println("alias de l'usuari que valora:");
+                            aliasUsuari = teclat.nextLine();
+                            valorarActivitat(llistaInscripcions, aliasUsuari, dataActual, teclat);
+                            break;
+                        case 17:
+                            mostrarResumValoracionsActivitatsAcabades(llistaInscripcions, llistaActivitats, dataActual);
+                            break;
+                        case 18:
+                            mostrarResumValoracionsUsuari(llistaInscripcions, teclat);
+                            break;
+                        case 19:
+                            mostrarMitjanaValoracionsCollectiu(llistaInscripcions);
+                            break;
+                        case 20:
+                            mostrarUsuariMesActiuDeCollectiu(llistaInscripcions, teclat);
+                            break;
+                        case 21:
+                            donarDeBaixaActivitatsSegonsOcupacio(llistaActivitats, llistaInscripcions, dataActual);
+                            break;
                         case 22:
                             sortir = true;
                             break;
@@ -114,7 +137,6 @@ public class mainprograma {
                     inputInvalid = true;
                 }
             } while (inputInvalid);
-            dataActual = dataActual.diaSeguent();
         }
         System.out.println("Sortint del programa. Vols guardar les dades? (S/N)");
         String resposta = teclat.nextLine();
@@ -162,11 +184,30 @@ public class mainprograma {
         System.out.println("22. Sortir");
     }
 
-    // Me he rendido haciendo esto, que alguien lo arregle por mí por favor.
-    public static void mostrarDadesLlistes(LlistaUsuaris llistaUsuaris, LlistaInscripcions llistaInscripcions,
-            LlistaActivitats llistaActivitats) {
+    public static void modificarDadaSistema(Data data, Scanner teclat) {
+        System.out.println("Data actual: "  + data);
 
-        Scanner teclat = new Scanner(System.in);
+        System.out.println("Vols modificar la data? (S/n):");
+        boolean modificar = teclat.nextLine().toLowerCase().equals("s");
+        if (modificar) {
+            try {
+                System.out.println("Nou dia:");
+                int dia = Integer.parseInt(teclat.nextLine());
+                System.out.println("Nou mes:");
+                int mes = Integer.parseInt(teclat.nextLine());
+                System.out.println("Nou any:");
+                int any = Integer.parseInt(teclat.nextLine());
+                data.setData(dia, mes, any);
+                System.out.println("Nova data: " + data);
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+    }
+
+    public static void mostrarDadesLlistes(LlistaUsuaris llistaUsuaris, LlistaInscripcions llistaInscripcions,
+            LlistaActivitats llistaActivitats, Scanner teclat) {
+
         int opcio;
         boolean inputInvalid = false;
         do {
@@ -253,7 +294,6 @@ public class mainprograma {
                 inputInvalid = true;
             }
         } while (inputInvalid);
-        teclat.close();
     }
 
     public static void mostrarActivitatsPeriodeInscripcio(LlistaActivitats llistaActivitats, Data dataActual) {
@@ -261,11 +301,7 @@ public class mainprograma {
         System.out.println(llistaActivitats.getActivitatsPeriodeInscripcio(dataActual));
     }
 
-    public static void mostrarActivitatsClasseAvui(LlistaActivitats llistaActivitats, Data dataActual) { // punt 4,
-                                                                                                         // places
-                                                                                                         // ocupades?
-                                                                                                         // llista
-                                                                                                         // espera?
+    public static void mostrarActivitatsClasseAvui(LlistaActivitats llistaActivitats, Data dataActual) {
         System.out.println("Activitats amb classe avui: \n");
         for (int i = 0; i < llistaActivitats.getNElems(); i++) {
             if (llistaActivitats.getLlista()[i].activaEnDia(dataActual)) {
@@ -326,7 +362,7 @@ public class mainprograma {
 
     public static void mostrarActivitatsUsuari(String nom, LlistaInscripcions inscripcions) { // punt 9
         for (int i = 0; i < inscripcions.getNumeroInscripcions(); i++) {
-            if (inscripcions.getInscripcio(i).getUsuariInscrit().equals(nom)) {
+            if (inscripcions.getInscripcio(i).getUsuariInscrit().getAlias().equals(nom)) {
                 System.out.println(inscripcions.getInscripcio(i).getActivitatInscripcio().toString() + "\n");
             }
         }
@@ -354,11 +390,9 @@ public class mainprograma {
                 new FileOutputStream("src/main/dadesGuardades/Inscripcions.bin"));
         for (int i = 0; i < llistaInscripcions.getNumeroInscripcions(); i++) {
             sortida.writeObject(llistaInscripcions.getInscripcio(i));
-            System.out.println(llistaInscripcions.getInscripcio(i));
         }
         for (int i = 0; i < llistaInscripcions.getNumeroInscripcionsEspera(); i++) {
             sortida.writeObject(llistaInscripcions.getInscripcioEspera(i));
-            System.out.println(llistaInscripcions.getInscripcioEspera(i));
         }
         sortida.flush();
         sortida.close();
@@ -371,12 +405,17 @@ public class mainprograma {
         String alias = teclat.nextLine();
         Usuari u = usuaris.getUsuari(alias);
 
+        if (u == null) { // Si l'usuari no es troba a la llista, li demanem les dades
+            System.out.println("No hem trobat cap usuari registrat amb aquest alias. Registra un nou usuari.");
+            u = donarDaltaUsuari(usuaris, teclat, alias);
+        }
+
         System.out.print("Nom de l'activitat: ");
         String nomAct = teclat.nextLine();
         // es busca l'activitat
         Activitat a = null;
         for(int i=0; i<activitats.getNElems(); i++) {
-            if(activitats.getLlista()[i].getNom().equals(nomAct)) a = activitats.getLlista()[i];
+            if(activitats.getLlista()[i].getNom().equals(nomAct)) a = activitats.getLlista()[i]; // activitats.getActivitat() ??
         }
 
         if (u != null && a != null) {
@@ -384,7 +423,7 @@ public class mainprograma {
                 // Creem la inscripció amb la data actual del sistema
                 Inscripcions nova = new Inscripcions(a, u, dataActual);
                 inscripcions.afegirInscripcio(nova);
-                System.out.println("L'inscipcio s'ha fet correctament");
+                System.out.println("L'inscripcio s'ha fet correctament");
                 
                 
             } catch (Exception e) {
@@ -602,8 +641,8 @@ public class mainprograma {
             System.out.print("Enllaç : ");
             String url = teclat.nextLine();
 
-            System.out.print("Places Màximes: ");
-            int places = Integer.parseInt(teclat.nextLine());
+            System.out.print("Període d'activitat: ");
+            int periode = Integer.parseInt(teclat.nextLine());
 
             System.out.println("Data de l'activitat:");
             System.out.print("Dia (dd): ");
@@ -613,27 +652,18 @@ public class mainprograma {
             System.out.print("Any (aaaa): ");
             int a = Integer.parseInt(teclat.nextLine());
             Data dataAct = new Data(d, m, a);
+            Data iniciIns = dataAct.copia();
+            Data fiIns = dataAct.copia();
 
-            int diaInici = 1;
-            if (d > 10) {
-                diaInici = d - 10;
-            } else {
-                diaInici = 1;
+            for (int i = 0; i < 10; i++) {
+                iniciIns = iniciIns.diaAnterior();
             }
 
-            int diaFi = 1;
-            if (d > 1) {
-                diaFi = d - 1;
-            } else {
-                diaFi = 1;
-            }
+            fiIns = dataAct.diaAnterior();
 
-            Data iniciIns = new Data(diaInici, m, a);
-            Data fiIns = new Data(diaFi, m, a);
+            String[] col = {"Estudiants", "PDI", "PTGAS" };
 
-            String[] col = { "Estudiants", "PDI", "PTGAS" };
-
-            ActivitatOnline ao = new ActivitatOnline(nom, col, iniciIns, fiIns, dataAct, places, url);
+            ActivitatOnline ao = new ActivitatOnline(nom, col, iniciIns, fiIns, dataAct, periode, url);
             
             llista.afegirActivitat(ao);
             System.out.println("Activitat Online s'ha creat correctament");
@@ -643,4 +673,171 @@ public class mainprograma {
         }
     }
 
+    public static Usuari donarDaltaUsuari(LlistaUsuaris llistaUsuaris, Scanner teclat, String alias) {
+        try {
+            System.out.println("Tipus d'usuari:");
+            System.out.println("(1) Estudiant");
+            System.out.println("(2) PDI");
+            System.out.println("(3) PTGAS");
+            int tipus = Integer.parseInt(teclat.nextLine());
+            Usuari nouUsuari = null;
+            String adreca;
+            String campus;
+            switch (tipus) {
+                case 1: // Estudiant
+                    System.out.println("Adreça:");
+                    adreca = teclat.nextLine();
+                    System.out.println("Any d'estudi:");
+                    int any = Integer.parseInt(teclat.nextLine());
+                    System.out.println("Grau:");
+                    String grau = teclat.nextLine();
+                    nouUsuari = new Estudiant(alias, adreca, any, grau);
+                    break;
+                case 2: // PDI
+                    System.out.println("Adreça:");
+                    adreca = teclat.nextLine();
+                    System.out.println("Campus:");
+                    campus = teclat.nextLine();
+                    System.out.println("Departament:");
+                    String dept = teclat.nextLine();
+                    nouUsuari = new UsuariPDI(alias, adreca, campus, dept);
+                    break;
+                case 3: // PTGAS
+                    System.out.println("Adreça:");
+                    adreca = teclat.nextLine();
+                    System.out.println("Campus:");
+                    campus = teclat.nextLine();
+                    nouUsuari = new UsuariPTGAS(alias, adreca, campus);
+                    break;
+                default:
+                    System.out.println("Opció no vàlida.");
+            }
+            llistaUsuaris.afegirUsuari(nouUsuari);
+            return nouUsuari;
+        } catch (Exception e) {
+            System.out.println(e);
+            return null;
+        }
+    }
+
+    public static void valorarActivitat(LlistaInscripcions llistaInscripcions, String aliasUsuari, 
+                                        Data dataActual, Scanner teclat) {
+        System.out.print("Nom de l'activitat a valorar: ");
+        String nomAct = teclat.nextLine();
+
+        boolean trobat = false;
+        for (int i = 0; i < llistaInscripcions.getNumeroInscripcions(); i++) {
+            Inscripcions ins = llistaInscripcions.getInscripcio(i);
+            Usuari usuari = ins.getUsuariInscrit();
+            if (ins.getActivitatInscripcio().getNom().equals(nomAct) &&
+                usuari.getAlias().equals(aliasUsuari)) {
+                
+                try {
+                    System.out.print("Introdueix la valoració (1-5): ");
+                    int valoracio = Integer.parseInt(teclat.nextLine());
+                    ins.valorar(valoracio, dataActual, usuari);
+                    System.out.println("Valoració afegida correctament.");
+                } catch (Exception e) {
+                    System.out.println("Error afegint valoració: " + e.getMessage());
+                }
+            }
+            trobat = true;
+        }
+        if (!trobat) {
+            System.out.println("No s'ha trobat cap inscripció per aquest usuari i activitat.");
+        }
+    }
+
+    public static void mostrarResumValoracionsActivitatsAcabades(LlistaInscripcions llistaInscripcions, LlistaActivitats llistaActivitats, Data dataActual) {
+        System.out.println("Resum de valoracions de les activitats acabades:");
+        LlistaActivitats activitatsAcabades = llistaActivitats.getActivitatsAcabades(dataActual);
+        for (int i = 0; i < activitatsAcabades.getNElems(); i++) {
+            Activitat act = activitatsAcabades.getLlista()[i];
+            float mitjana = llistaInscripcions.getMitjanaValoracionsActivitat(act.getNom());
+            System.out.println("Activitat: " + act.getNom() + " - Mitjana valoracions: " + mitjana);
+        }
+    }
+
+    public static void mostrarResumValoracionsUsuari(LlistaInscripcions llistaInscripcions, Scanner teclat) {
+        System.out.print("Alias de l'usuari a consultar: ");
+        String aliasUsuari = teclat.nextLine();
+        String resum = llistaInscripcions.getResumValoracionsUsuari(aliasUsuari);
+        System.out.println(resum);
+    }
+
+    public static void mostrarMitjanaValoracionsCollectiu(LlistaInscripcions llistaInscripcions) {
+        System.out.println("Mitjana de valoracions per col·lectiu:");
+        String[] collectius = {"Estudiants", "PDI", "PTGAS"};
+        for (int i = 0; i < collectius.length; i++) {
+            float mitjana = llistaInscripcions.getMitjanaValoracionsCollectiu(collectius[i]);
+            System.out.println("Col·lectiu: " + collectius[i] + " - Mitjana valoracions: " + mitjana);
+        }
+    }
+
+    public static void mostrarUsuariMesActiuDeCollectiu(LlistaInscripcions llistaInscripcions, Scanner teclat) {
+        System.out.println("Introdueix col·lectiu:");
+        System.out.println("(1) Estudiants");
+        System.out.println("(2) PDI");
+        System.out.println("(3) PTGAS");
+        int opcio = Integer.parseInt(teclat.nextLine());
+        String collectiu = "";
+        switch (opcio) {
+            case 1:
+                collectiu = "Estudiants";
+                break;
+            case 2:
+                collectiu = "PDI";
+                break;
+            case 3:
+                collectiu = "PTGAS";
+                break;
+            default:
+                System.out.println("Opció no vàlida.");
+                break;
+        }
+        LlistaInscripcions novaLlista = llistaInscripcions.filtrarPerCollectiu(collectiu);
+        if (novaLlista.getNumeroInscripcions() == 0) {
+            System.out.println("No hi ha inscripcions per al col·lectiu " + collectiu);
+        } else {
+            Usuari usuariMesActiu = novaLlista.usuariAmbMesInscripcions();
+            System.out.println("L'usuari més actiu del col·lectiu " + collectiu + " és: " + usuariMesActiu.getAlias());
+        }
+
+    }
+
+    public static void donarDeBaixaActivitatsSegonsOcupacio(LlistaActivitats llistaActivitats, LlistaInscripcions llistaInscripcions, Data dataActual) {
+        try {
+            
+            for (int i = 0; i < llistaActivitats.getNElems(); i++) {
+                Activitat activitat = llistaActivitats.getActivitat(i);
+                boolean eliminar = false;
+                if (!activitat.estaEnPeriodeInscripcio(dataActual)) {
+                    if (activitat instanceof ActivitatOnline) {
+                        eliminar = (activitat.getPlacesOcupades() < 20);
+                    } else {
+                        float percentatgeOcupacio = (float) activitat.getPlacesOcupades() / activitat.getPlacesMaximes();
+                        eliminar = (percentatgeOcupacio < 0.10);
+                    }
+                    if (eliminar) {
+                        System.out.println("Donant de baixa l'activitat: " + activitat.getNom());
+                        llistaActivitats.esborrarActivitat(activitat.getNom());
+                        for (int j = 0; j < llistaInscripcions.getNumeroInscripcions(); j++) {
+                            Inscripcions inscripcio = llistaInscripcions.getInscripcio(j);
+                            if (inscripcio.getActivitatInscripcio().getNom().equals(activitat.getNom())) {
+                                try 
+                                {
+                                    llistaInscripcions.eliminarInscripcio(inscripcio);
+                                    j--; // Ajustar l'índex després d'eliminar una inscripció
+                                } catch (Exception e) {
+                                    System.out.println("Error eliminant inscripció: " + e.getMessage());
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Error donant de baixa activitats: " + e.getMessage());
+        }
+    }
 }

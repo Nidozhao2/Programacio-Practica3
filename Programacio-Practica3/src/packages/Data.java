@@ -1,6 +1,7 @@
 package packages;
 
 import java.io.Serializable;
+import excepcions.NovaDataNoValida;
 
 public class Data implements Serializable {
 	private int dia;
@@ -39,6 +40,14 @@ public class Data implements Serializable {
 		}
 	}
 
+	public void setData(int dia, int mes, int any) throws NovaDataNoValida {
+		if (esDataCorrecta(dia, mes, any)) {
+			this.dia = dia;
+			this.mes = mes;
+			this.any = any;
+		}
+		else throw new NovaDataNoValida("El nou dia no es válid amb la data");
+	}
 	/**
 	 * Mètode que calcula i retorna una instància amb el valor del dia següent
 	 * 
@@ -55,6 +64,22 @@ public class Data implements Serializable {
 				mes = 1;
 				any = this.any + 1;
 			}
+		}
+		Data novaData = new Data(dia, mes, any);
+		return novaData;
+	}
+
+	public Data diaAnterior() {
+		int dia = this.dia - 1;
+		int mes = this.mes;
+		int any = this.any;
+		if (dia < 1) {
+			mes = this.mes - 1;
+			if (mes < 1) {
+				mes = 12;
+				any = this.any - 1;
+			}
+			dia = diesMes(mes, any);
 		}
 		Data novaData = new Data(dia, mes, any);
 		return novaData;
