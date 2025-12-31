@@ -104,6 +104,90 @@ public class TestInscripcions {
             System.out.println("Incorrecte: " + e.getMessage());
         }
 
+        // noves proves per als TODOS (llista, capacitat i espera)
+        
+        System.out.println("\nProves de llista i cua d'espera");
+        
+        LlistaInscripcions llistaTest = new LlistaInscripcions(10);
+        
+        // es crea una activitat amb nomes 1 plaça per forçar la llista d'espera
+        Activitat activitatPetita = new ActivitatOnline("curs intensiu", new String[] { "PDI", "PTGAS" },
+                new Data(1, 1, 2025), new Data(15, 1, 2025), new Data(16, 1, 2025), 1, "http://zoom.us");
+
+        Inscripcions insUsuari1 = crearInscripcio(usuari1, activitatPetita, new Data(2, 1, 2025));
+        Inscripcions insUsuari2 = crearInscripcio(usuari2, activitatPetita, new Data(2, 1, 2025));
+
+        // 8) validar inscripció normal
+        System.out.println("8) Crear inscripcio correcta (hi ha lloc)");
+        try {
+            if (insUsuari1 != null) {
+                llistaTest.afegirInscripcio(insUsuari1);
+                if (llistaTest.getNumeroInscripcions() == 1) {
+                    System.out.println("Correcte: usuari 1 inscrit a la llista principal");
+                } else {
+                    System.out.println("Incorrecte: no s'ha afegit");
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Incorrecte: " + e.getMessage());
+        }
+
+        // 9) Validar que l'usuari ja està inscrit (duplicats)
+        System.out.println("9) Intentar inscriure el mateix usuari a la mateixa activitat");
+        try {
+            // es torna a intentar afegir insUsuari1
+            llistaTest.afegirInscripcio(insUsuari1); 
+            
+            // si la llista detecta duplicats, no hauria d'afegir-lo ni a inscrits ni a espera
+            if (llistaTest.getNumeroInscripcions() == 1 && llistaTest.getNumeroInscripcionsEspera() == 0) {
+                 System.out.println("Correcte: el sistema ha ignorat el duplicat");
+            } else {
+                 System.out.println("Incorrecte: s'ha duplicat l'usuari");
+            }
+        } catch (Exception e) {
+            System.out.println("Correcte: ha saltat error -> " + e.getMessage());
+        }
+
+        // 10) Validar màxim de places -> cap a llista d'espera
+        System.out.println("10) Afegir segon usuari quan nomes hi ha 1 placa (llista d'espera)");
+        try {
+            if (insUsuari2 != null) {
+                llistaTest.afegirInscripcio(insUsuari2);
+                
+                // es comprova si esta a la llista d'espera
+                if (llistaTest.getNumeroInscripcions() == 1 && llistaTest.getNumeroInscripcionsEspera() == 1) {
+                    System.out.println("Correcte: l'usuari 2 ha anat a la llista d'espera");
+                } else {
+                    System.out.println("Incorrecte: no s'ha detectat a la llista d'espera");
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Error inesperat: " + e.getMessage());
+        }
+
+        // 11) Validar canvi de espera a inscrit
+        System.out.println("11) Eliminar el primer usuari i veure si el segon entra");
+        try {
+            // s'esborra l'usuari 1 (que ocupava la plaça)
+            llistaTest.eliminarInscripcio(insUsuari1); 
+
+            // l'usuari 1 ha marxat -> queda lloc -> l'usuari 2 (espera) puja a inscrit automaticament
+            if (llistaTest.getNumeroInscripcions() == 1 && llistaTest.getNumeroInscripcionsEspera() == 0) {
+                 
+                 // es comprova que sigui l'usuari 2 qui hi ha a la llista
+                 if (llistaTest.getInscripcio(0).getUsuariInscrit().getAlias().equals(usuari2.getAlias())) {
+                     System.out.println("Correcte: l'usuari 2 ha passat d'espera a inscrit automaticament");
+                 } else {
+                     System.out.println("Incorrecte: hi ha un usuari pero no es l'usuari 2");
+                 }
+            } else {
+                System.out.println("Incorrecte: la promocio automatica no ha funcionat");
+            }
+
+        } catch (Exception e) {
+            System.out.println("Error testejant promocio: " + e.getMessage());
+        }
+
         System.out.println("\n--- Fi del test de validació d'inscripcions ---");
     }
 

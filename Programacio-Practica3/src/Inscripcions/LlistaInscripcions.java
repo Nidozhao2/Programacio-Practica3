@@ -75,30 +75,37 @@ public class LlistaInscripcions {
 
     /**
      * Afegeix una inscripcio a la llista d'inscripcions o d'inscripcions en espera.
-     * !! PROVISIONAL !!
-     * Falta ordenació per nom d'usuari, control de limit de plaçes i control de
-     * repetició.
-     * 
      * @param inscripcio
      * @throws TaulaPlena 
      */
     public void afegirInscripcio(Inscripcions inscripcio) throws TaulaPlena {
         if (inscripcio != null) {
-            if ( inscripcio.getActivitatInscripcio().tePlacesDisponibles() 
-                 && !this.existeixInscripcio(inscripcio)) {
-                    
+            
+            // Es comprova primer que no existeixi duplicat
+            if (!this.existeixInscripcio(inscripcio)) {
 
-                inscripcio.getActivitatInscripcio().ocuparPlaca();
-                this.inscripcions[this.nelems] = inscripcio;
-                this.nelems++;
-                ordenarInscripcions(this.inscripcions);
-            } else if (this.nelemsEspera < maxelems) {
-                this.inscripcionsEspera[this.nelemsEspera] = inscripcio;
-                this.nelemsEspera++;
-            }
+                // Si no existeix, mirem si hi ha lloc a l'activitat
+                if (inscripcio.getActivitatInscripcio().tePlacesDisponibles()) {
+                    inscripcio.getActivitatInscripcio().ocuparPlaca();
+                    this.inscripcions[this.nelems] = inscripcio;
+                    this.nelems++;
+                    ordenarInscripcions(this.inscripcions);
+                } 
+                
+                // Si no hi ha lloc a l'activitat, mirem la llista d'espera
+                else if (this.nelemsEspera < maxelems) {
+                    this.inscripcionsEspera[this.nelemsEspera] = inscripcio;
+                    this.nelemsEspera++;
+                } 
+                
+                // Si tot està ple
+                else {
+                    throw new TaulaPlena("No queden places ni lloc a la llista d'espera.");
+                }
 
-            else {
-                throw new TaulaPlena("Llista d'inscripcions plena");
+            } else {
+                // Si hi ha duplicat llencem l'excepcio
+                throw new TaulaPlena("Error: L'usuari ja té una inscripció per aquesta activitat (Duplicat).");
             }
         }
     }
@@ -108,8 +115,8 @@ public class LlistaInscripcions {
      * mitjançant l'algorisme de la bombolla.
      */
     private void ordenarInscripcions(Inscripcions[] inscripcions) { 
-        for (int i = 0; i < inscripcions.length - 1; i++) {
-            for (int j = 0; j < inscripcions.length - i - 1; j++) {
+        for (int i = 0; i < this.nelems - 1; i++) {
+            for (int j = 0; j < this.nelems - i - 1; j++) {
                 if (inscripcions[j].getUsuariInscrit().getAlias()
                         .compareTo(inscripcions[j + 1].getUsuariInscrit().getAlias()) > 0) {
                     Inscripcions temp = inscripcions[j];

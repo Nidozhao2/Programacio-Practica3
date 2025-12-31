@@ -61,6 +61,26 @@ public class LlistaUsuaris {
         return false;
     }
 
+    /**
+     * Busca un usuari pel seu àlies.
+     * Retorna l'objecte Usuari si el troba, o null si no existeix.
+     */
+    public Usuari getUsuari(String alias) {
+        Usuari usuariTrobat = null;
+        int i = 0;
+        boolean trobat = false;
+
+        while (i < nUsuaris && !trobat) {
+            if (usuaris[i].getAlias().equals(alias)) {
+                usuariTrobat = usuaris[i];
+                trobat = true;
+            }
+            i++;
+        }
+        
+        return usuariTrobat;
+    }
+
     public LlistaUsuaris getEstudiants() {
         LlistaUsuaris llistaEstudiants = new LlistaUsuaris(capacitat);
         for (int i = 0; i < nUsuaris; i++) {

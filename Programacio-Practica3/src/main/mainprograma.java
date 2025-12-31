@@ -78,6 +78,29 @@ public class mainprograma {
                             String nomUsuari2 = teclat.nextLine();
                             mostrarActivitatsUsuari(nomUsuari2, llistaInscripcions);
                             break;
+                        case 10:
+                            inscriureUsuari(llistaUsuaris, llistaActivitats, llistaInscripcions, dataActual, teclat);
+                            break;
+
+                        case 11:
+                            mostrarInscritsActivitat(llistaInscripcions, teclat);
+                            break;
+
+                        case 12:
+                            eliminarInscripcio(llistaUsuaris, llistaActivitats, llistaInscripcions, teclat);
+                            break;
+
+                        case 13:
+                            afegirActivitatDia(llistaActivitats, teclat);
+                            break;
+
+                        case 14:
+                            afegirActivitatPeriodica(llistaActivitats, teclat);
+                            break;
+
+                        case 15:
+                            afegirActivitatOnline(llistaActivitats, teclat);
+                            break;
                         case 22:
                             sortir = true;
                             break;
@@ -339,6 +362,285 @@ public class mainprograma {
         }
         sortida.flush();
         sortida.close();
+    }
+
+    public static void inscriureUsuari(LlistaUsuaris usuaris, LlistaActivitats activitats, 
+                                       LlistaInscripcions inscripcions, Data dataActual, Scanner teclat) {
+        System.out.println("Nova inscripcio");
+        System.out.print("Alias de l'usuari: ");
+        String alias = teclat.nextLine();
+        Usuari u = usuaris.getUsuari(alias);
+
+        System.out.print("Nom de l'activitat: ");
+        String nomAct = teclat.nextLine();
+        // es busca l'activitat
+        Activitat a = null;
+        for(int i=0; i<activitats.getNElems(); i++) {
+            if(activitats.getLlista()[i].getNom().equals(nomAct)) a = activitats.getLlista()[i];
+        }
+
+        if (u != null && a != null) {
+            try {
+                // Creem la inscripció amb la data actual del sistema
+                Inscripcions nova = new Inscripcions(a, u, dataActual);
+                inscripcions.afegirInscripcio(nova);
+                System.out.println("L'inscipcio s'ha fet correctament");
+                
+                
+            } catch (Exception e) {
+                System.out.println("Error en la inscripció: " + e.getMessage());
+            }
+        } else {
+            System.out.println("Error: Usuari o Activitat no trobats.");
+        }
+    }
+
+    public static void mostrarInscritsActivitat(LlistaInscripcions llista, Scanner teclat) {
+        System.out.print("Nom de l'activitat a consultar: ");
+        String nomAct = teclat.nextLine();
+
+        System.out.println("\nLlista d'inscrits");
+        boolean trobat = false;
+        for (int i = 0; i < llista.getNumeroInscripcions(); i++) {
+            if (llista.getInscripcio(i).getActivitatInscripcio().getNom().equals(nomAct)) {
+                System.out.println("- " + llista.getInscripcio(i).getUsuariInscrit().getAlias());
+                trobat = true;
+            }
+        }
+        if (!trobat) System.out.println("(Cap inscrit)");
+
+        System.out.println("\nLlista d'espera");
+        trobat = false;
+        for (int i = 0; i < llista.getNumeroInscripcionsEspera(); i++) {
+            if (llista.getInscripcioEspera(i).getActivitatInscripcio().getNom().equals(nomAct)) {
+                System.out.println("- " + llista.getInscripcioEspera(i).getUsuariInscrit().getAlias());
+                trobat = true;
+            }
+        }
+        if (!trobat) System.out.println("(Cap en espera)");
+    }
+
+    public static void eliminarInscripcio(LlistaUsuaris usuaris, LlistaActivitats activitats, 
+                                          LlistaInscripcions inscripcions, Scanner teclat) {
+        System.out.println("Eliminar inscripcio");
+        System.out.print("Alias de l'usuari: ");
+        String alias = teclat.nextLine();
+        System.out.print("Nom de l'activitat: ");
+        String nomAct = teclat.nextLine();
+
+        Inscripcions aEsborrar = null;
+        
+        // es busca a la llista principal
+        for(int i=0; i<inscripcions.getNumeroInscripcions(); i++) {
+            Inscripcions ins = inscripcions.getInscripcio(i);
+            if(ins.getUsuariInscrit().getAlias().equals(alias) && 
+               ins.getActivitatInscripcio().getNom().equals(nomAct)) {
+                aEsborrar = ins;
+            }
+        }
+        
+        // Si no, es busca a la llista d'espera (per si es vol esborrar d'allà)
+        if (aEsborrar == null) {
+             for(int i=0; i<inscripcions.getNumeroInscripcionsEspera(); i++) {
+                Inscripcions ins = inscripcions.getInscripcioEspera(i);
+                if(ins.getUsuariInscrit().getAlias().equals(alias) && 
+                   ins.getActivitatInscripcio().getNom().equals(nomAct)) {
+                    aEsborrar = ins;
+                }
+            }
+        }
+
+        if (aEsborrar != null) {
+            try {
+                inscripcions.eliminarInscripcio(aEsborrar);
+                System.out.println("Inscripció eliminada correctament.");
+            } catch (Exception e) {
+                System.out.println("Error al eliminar: " + e.getMessage());
+            }
+        } else {
+            System.out.println("No s'ha trobat cap inscripció amb aquestes dades.");
+        }
+    }
+
+    public static void afegirActivitatDia(LlistaActivitats llista, Scanner teclat) {
+        try {
+            System.out.println("\nNova activitat del dia");
+            System.out.print("Nom de l'activitat: ");
+            String nom = teclat.nextLine();
+
+            System.out.print("Preu: ");
+            float preu = Float.parseFloat(teclat.nextLine());
+
+            System.out.print("Places Màximes: ");
+            int places = Integer.parseInt(teclat.nextLine());
+
+            System.out.println("Data de l'activitat:");
+            System.out.print("Dia (dd): ");
+            int d = Integer.parseInt(teclat.nextLine());
+            System.out.print("Mes: (mm)");
+            int m = Integer.parseInt(teclat.nextLine());
+            System.out.print("Any: (aaaa)");
+            int a = Integer.parseInt(teclat.nextLine());
+            Data dataAct = new Data(d, m, a);
+
+            // calcul de dades d'inscripcio
+            // es vol que la inscripció comenci 10 dies abans ( per exemple )
+            int diaInici = 1;
+            if (d > 10) {
+                diaInici = d - 10;
+            } else {
+                diaInici = 1; // si estem a principis de mes, posem dia 1
+            }
+            
+            // es vol que la inscripció acabi 1 dia abans
+            int diaFi = 1;
+            if (d > 1) {
+                diaFi = d - 1;
+            } else {
+                diaFi = 1;
+            }
+
+            Data iniciIns = new Data(diaInici, m, a);
+            Data fiIns = new Data(diaFi, m, a);
+
+            System.out.print("Hora inici (0-23): ");
+            int h = Integer.parseInt(teclat.nextLine());
+            
+            System.out.print("Minuts inici (0-59): ");
+            int min = Integer.parseInt(teclat.nextLine());
+            
+            System.out.print("Durada (minuts): ");
+            int dur = Integer.parseInt(teclat.nextLine());
+            
+            System.out.print("Ciutat: ");
+            String ciutat = teclat.nextLine();
+
+            String[] col = { "Estudiants", "PDI", "PTGAS" };
+
+            ActivitatDia ad = new ActivitatDia(nom, preu, col, iniciIns, fiIns, dataAct, h, min, dur, places, ciutat);
+            llista.afegirActivitat(ad);
+            System.out.println("L'Activitat de Dia s'ha creat correctament");
+
+        } catch (Exception e) {
+            System.out.println("Error creant activitat: " + e.getMessage());
+        }
+    }
+
+    public static void afegirActivitatPeriodica(LlistaActivitats llista, Scanner teclat) {
+        try {
+            System.out.println("\nNova activitat periodica");
+            System.out.print("Nom de l'activitat: ");
+            String nom = teclat.nextLine();
+
+            System.out.print("Places Màximes: ");
+            int places = Integer.parseInt(teclat.nextLine());
+
+            System.out.println("Data d'inici de l'activitat");
+            System.out.print("Dia (dd): ");
+            int d = Integer.parseInt(teclat.nextLine());
+            System.out.print("Mes (mm): ");
+            int m = Integer.parseInt(teclat.nextLine());
+            System.out.print("Any: (aaaa)");
+            int a = Integer.parseInt(teclat.nextLine());
+            Data dataInici = new Data(d, m, a);
+
+            int diaInici = 1;
+            if (d > 10) {
+                diaInici = d - 10;
+            } else {
+                diaInici = 1;
+            }
+
+            int diaFi = 1;
+            if (d > 1) {
+                diaFi = d - 1;
+            } else {
+                diaFi = 1;
+            }
+
+            Data iniciIns = new Data(diaInici, m, a);
+            Data fiIns = new Data(diaFi, m, a);
+
+            System.out.print("Setmanes totals de durada: ");
+            int setmanes = Integer.parseInt(teclat.nextLine());
+
+            System.out.print("Hora inici (0-23): ");
+            int hIni = Integer.parseInt(teclat.nextLine());
+            System.out.print("Minuts inici: ");
+            int mIni = Integer.parseInt(teclat.nextLine());
+
+            System.out.print("Hora final (0-23): ");
+            int hFi = Integer.parseInt(teclat.nextLine());
+            System.out.print("Minuts final: ");
+            int mFi = Integer.parseInt(teclat.nextLine());
+
+            System.out.print("Nom del Centre: ");
+            String centre = teclat.nextLine();
+
+            System.out.print("Ciutat: ");
+            String ciutat = teclat.nextLine();
+
+            String[] col = { "Estudiants", "PDI", "PTGAS" };
+
+            ActivitatPeriodiques ap = new ActivitatPeriodiques(nom, col, iniciIns, fiIns, 
+                    setmanes, hIni, mIni, hFi, mFi, centre, ciutat, places, dataInici);
+            
+            llista.afegirActivitat(ap);
+            System.out.println("Activitat Periòdica creada correctament!");
+
+        } catch (Exception e) {
+            System.out.println("Error creant activitat periòdica: " + e.getMessage());
+        }
+    }
+
+    public static void afegirActivitatOnline(LlistaActivitats llista, Scanner teclat) {
+        try {
+            System.out.println("\nNova activitat online");
+            System.out.print("Nom de l'activitat: ");
+            String nom = teclat.nextLine();
+
+            System.out.print("Enllaç : ");
+            String url = teclat.nextLine();
+
+            System.out.print("Places Màximes: ");
+            int places = Integer.parseInt(teclat.nextLine());
+
+            System.out.println("Data de l'activitat:");
+            System.out.print("Dia (dd): ");
+            int d = Integer.parseInt(teclat.nextLine());
+            System.out.print("Mes (mm): ");
+            int m = Integer.parseInt(teclat.nextLine());
+            System.out.print("Any (aaaa): ");
+            int a = Integer.parseInt(teclat.nextLine());
+            Data dataAct = new Data(d, m, a);
+
+            int diaInici = 1;
+            if (d > 10) {
+                diaInici = d - 10;
+            } else {
+                diaInici = 1;
+            }
+
+            int diaFi = 1;
+            if (d > 1) {
+                diaFi = d - 1;
+            } else {
+                diaFi = 1;
+            }
+
+            Data iniciIns = new Data(diaInici, m, a);
+            Data fiIns = new Data(diaFi, m, a);
+
+            String[] col = { "Estudiants", "PDI", "PTGAS" };
+
+            ActivitatOnline ao = new ActivitatOnline(nom, col, iniciIns, fiIns, dataAct, places, url);
+            
+            llista.afegirActivitat(ao);
+            System.out.println("Activitat Online s'ha creat correctament");
+
+        } catch (Exception e) {
+            System.out.println("Error creant activitat online: " + e.getMessage());
+        }
     }
 
 }
