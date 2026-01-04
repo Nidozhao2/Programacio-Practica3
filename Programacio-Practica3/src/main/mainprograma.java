@@ -367,7 +367,12 @@ public class mainprograma {
         }
     }
 
-    private static void llegirInscripcions(LlistaInscripcions llistaInscripcions) throws Exception {
+    /**
+     * Mètode per llegir les inscripcions des d'un fitxer binari i enmagatzemar-les a la llista
+     * @param llistaInscripcions
+     * @throws Exception
+     */
+    public static void llegirInscripcions(LlistaInscripcions llistaInscripcions) throws Exception {
         ObjectInputStream entrada = new ObjectInputStream(
                 new FileInputStream("src/main/dadesGuardades/Inscripcions.bin"));
         Inscripcions instancia;
@@ -384,7 +389,12 @@ public class mainprograma {
         entrada.close();
     }
 
-    private static void escriureInscripcions(LlistaInscripcions llistaInscripcions) throws Exception {
+    /**
+     * Mètode per escriure les inscripcions a un fitxer binari
+     * @param llistaInscripcions
+     * @throws Exception
+     */
+    public static void escriureInscripcions(LlistaInscripcions llistaInscripcions) throws Exception {
         ObjectOutputStream sortida = new ObjectOutputStream(
                 new FileOutputStream("src/main/dadesGuardades/Inscripcions.bin"));
         for (int i = 0; i < llistaInscripcions.getNumeroInscripcions(); i++) {
@@ -395,6 +405,24 @@ public class mainprograma {
         }
         sortida.flush();
         sortida.close();
+    }
+
+    /**
+     * Mètode per escriure les activitats a un fitxer de text
+     * @param llistaActivitats
+     * @throws Exception
+     */
+    public static void escriureActivitats(LlistaActivitats llistaActivitats) throws Exception {
+       
+    }
+
+    /**
+     * Mètode per llegir les activitats des d'un fitxer de text i enmagatzemar-les a la llista
+     * @param llistaActivitats
+     * @throws Exception
+     */
+    public static void llegirActivitats(LlistaActivitats llistaActivitats) throws Exception {
+       
     }
 
     public static void inscriureUsuari(LlistaUsuaris usuaris, LlistaActivitats activitats, 
