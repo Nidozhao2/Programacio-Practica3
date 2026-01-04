@@ -4,7 +4,6 @@ import usuaris.*;
 import packages.*;
 import Activitats.*;
 import Inscripcions.*;
-import excepcions.NovaDataNoValida;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
