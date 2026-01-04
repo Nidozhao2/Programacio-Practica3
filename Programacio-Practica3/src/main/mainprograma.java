@@ -4,6 +4,7 @@ import usuaris.*;
 import packages.*;
 import Activitats.*;
 import Inscripcions.*;
+import excepcions.*;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -421,7 +422,39 @@ public class mainprograma {
 
         for (int i = 0; i < llistaActivitats.getNElems(); i++) {
             Activitat a = llistaActivitats.getLlista()[i];
-            dades.write(a.toString());
+            
+            if(a instanceof ActivitatDia) {
+                ActivitatDia ad = (ActivitatDia) a;
+                dades.write("D;");
+
+                dades.write(ad.getNom()+";" + ad.getPreu()+";"+ String.join(",", ad.getColectius()) + ";" + 
+                            ad.getDataIniciInscripcio().toString() + ";" + ad.getDataFiInscripcio().toString() + ";" + 
+                            ad.getPlacesMaximes() + ";" + ad.getDataInici().toString() + ";");
+
+                dades.write(ad.getHora()+";" + ad.getMinut()+";" + ad.getCiutat() + ";" + ad.getDurada() + ";");
+
+            } else if (a instanceof ActivitatOnline) {
+                dades.write("O;");
+                ActivitatOnline ao = (ActivitatOnline) a;
+
+                dades.write(ao.getNom()+";" + ao.getPreu()+";"+ String.join(",", ao.getColectius()) + ";" + 
+                            ao.getDataIniciInscripcio().toString() + ";" + ao.getDataFiInscripcio().toString() + ";" + 
+                            ao.getPlacesMaximes() + ";" + ao.getDataInici().toString() + ";");
+
+                dades.write(ao.getEnllaç()+";"+ao.getPeriodeVisualitzacio());
+            } else if( a instanceof ActivitatPeriodiques) {
+                dades.write("P;");
+                ActivitatPeriodiques ap = (ActivitatPeriodiques) a;
+            
+                dades.write(ap.getNom()+";" + ap.getPreu()+";"+ String.join(",", ap.getColectius()) + ";" + 
+                            ap.getDataIniciInscripcio().toString() + ";" + ap.getDataFiInscripcio().toString() + ";" + 
+                            ap.getPlacesMaximes() + ";" + ap.getDataInici().toString() + ";");
+
+            }
+            else{
+                throw new ActivitatDesconeguda("Tipus d'activitat desconegut");
+            }
+
             dades.newLine();
         }
 
@@ -441,60 +474,72 @@ public class mainprograma {
     while ((linia = br.readLine()) != null) {
 
         String[] parts = linia.split(";");
+
         char tipus = parts[0].charAt(0);
 
         String nom = parts[1];
-        String[] colectius = parts[2].split(",");
-        Data dataInici = parseData(parts[3]);
-        Data dataFi = parseData(parts[4]);
+
+        float preu = Float.parseFloat(parts[2]);
+
+        String[] colectius = parts[3].split(",");
+        Data dataIniciInsc = parseData(parts[4]);
+        Data dataFiInsc = parseData(parts[5]);
+        Data dataIniciAct = parseData(parts[6]);
+        int placesMaximes=Integer.parseInt(parts[7]);
+        int placesOcupades=Integer.parseInt(parts[8]);
 
         switch (tipus) {
 
             case 'D':
-                float preu = Float.parseFloat(parts[5]);
-                Data dataActivitat = parseData(parts[6]);
-                int hora = Integer.parseInt(parts[7]);
-                int minut = Integer.parseInt(parts[8]);
-                int durada = Integer.parseInt(parts[9]);
-                int places = Integer.parseInt(parts[10]);
+                
+                int hora = Integer.parseInt(parts[9]);
+                int minut = Integer.parseInt(parts[10]);
                 String ciutat = parts[11];
+                int durada = Integer.parseInt(parts[12]);
+                
+               
 
                 ActivitatDia ad = new ActivitatDia(
-                        nom, preu, colectius, dataInici, dataFi,
-                        dataActivitat, hora, minut, durada, places, ciutat
+                        nom, preu, colectius, dataIniciInsc, dataFiInsc, placesMaximes,
+                        dataIniciAct, hora, minut, durada, ciutat
                 );
+                ad.setPlacesOcupades(placesOcupades);
                 llistaActivitats.afegirActivitat(ad);
                 break;
 
-            case 'O':
-                Data dataActOnline = parseData(parts[5]);
-                int periode = Integer.parseInt(parts[6]);
-                String enllac = parts[7];
+               case 'O':
+                
+                int periode = Integer.parseInt(parts[9]);
+                String enllac = parts[10];
 
                 ActivitatOnline ao = new ActivitatOnline(
-                        nom, colectius, dataInici, dataFi,
-                        dataActOnline, periode, enllac
+                        nom, colectius, dataIniciInsc, dataFiInsc,
+                        dataIniciAct, periode, enllac
                 );
+                
                 llistaActivitats.afegirActivitat(ao);
+                
                 break;
 
             case 'P':
-                int setmanes = Integer.parseInt(parts[5]);
-                int horaInici = Integer.parseInt(parts[6]);
-                int minutInici = Integer.parseInt(parts[7]);
-                int horaFinal = Integer.parseInt(parts[8]);
-                int minutFinal = Integer.parseInt(parts[9]);
-                String centre = parts[10];
-                String ciutatP = parts[11];
-                int placesMax = Integer.parseInt(parts[12]);
-                Data dataActP = parseData(parts[13]);
+                int setmanes = Integer.parseInt(parts[9]);
+                int horaInici = Integer.parseInt(parts[10]);
+                int minutInici = Integer.parseInt(parts[11]);
+                int horaFinal = Integer.parseInt(parts[12]);
+                int minutFinal = Integer.parseInt(parts[13]);
+
+
+                String centre = parts[14];
+                String ciutatP = parts[15];
+                
+                
 
                 ActivitatPeriodiques ap = new ActivitatPeriodiques(
-                        nom, colectius, dataInici, dataFi,
-                        setmanes, horaInici, minutInici,
-                        horaFinal, minutFinal, centre,
-                        ciutatP, placesMax, dataActP
+                        nom, preu, colectius, dataIniciInsc, dataFiInsc,
+                        placesMaximes, dataIniciAct, setmanes, horaInici,
+                        minutInici, horaFinal, minutFinal, centre, ciutatP
                 );
+                ap.setPlacesOcupades(placesOcupades);
                 llistaActivitats.afegirActivitat(ap);
                 break;
         }
@@ -672,7 +717,7 @@ public class mainprograma {
 
             String[] col = { "Estudiants", "PDI", "PTGAS" };
 
-            ActivitatDia ad = new ActivitatDia(nom, preu, col, iniciIns, fiIns, dataAct, h, min, dur, places, ciutat);
+            ActivitatDia ad = new ActivitatDia(nom, preu, col, iniciIns, fiIns, places, dataAct, h, min, dur, ciutat);
             llista.afegirActivitat(ad);
             System.out.println("L'Activitat de Dia s'ha creat correctament");
 
@@ -686,6 +731,9 @@ public class mainprograma {
             System.out.println("\nNova activitat periodica");
             System.out.print("Nom de l'activitat: ");
             String nom = teclat.nextLine();
+
+            System.out.println("Preu: ");
+            float preu = Float.parseFloat(teclat.nextLine());
 
             System.out.print("Places Màximes: ");
             int places = Integer.parseInt(teclat.nextLine());
@@ -737,9 +785,9 @@ public class mainprograma {
 
             String[] col = { "Estudiants", "PDI", "PTGAS" };
 
-            ActivitatPeriodiques ap = new ActivitatPeriodiques(nom, col, iniciIns, fiIns, 
-                    setmanes, hIni, mIni, hFi, mFi, centre, ciutat, places, dataInici);
-            
+            ActivitatPeriodiques ap = new ActivitatPeriodiques(nom, preu, col, iniciIns, fiIns , places, dataInici,
+                setmanes, hIni, mIni, hFi, mFi, centre, ciutat);
+
             llista.afegirActivitat(ap);
             System.out.println("Activitat Periòdica creada correctament!");
 

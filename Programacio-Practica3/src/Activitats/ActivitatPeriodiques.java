@@ -17,12 +17,11 @@ public class ActivitatPeriodiques extends Activitat {
     private String centre;
     private String ciutat;
 
-    public ActivitatPeriodiques(String nom, String[] colectius, Data dataIniciInscripcio, Data dataFiInscripcio,
-            int setmanes_totals, int horaInici, int minutInici, int horaFinal, int minutFinal, String centre,
-            String ciutat, int placesMaximes, Data dataActivitat) {
+    public ActivitatPeriodiques(String nom, float preu, String[] colectius, Data dataIniciInscripcio, Data dataFiInscripcio,
+             int placesMaximes, Data dataActivitat,int setmanes_totals, int horaInici, int minutInici, int horaFinal, int minutFinal, String centre,
+            String ciutat) {
 
-        super(nom, 0, colectius, dataIniciInscripcio, dataFiInscripcio, placesMaximes, dataActivitat);
-
+        super(nom, preu, colectius, dataIniciInscripcio, dataFiInscripcio, placesMaximes, dataActivitat);
         this.setmanes_totals = setmanes_totals;
         this.horaInici = horaInici;
         this.minutInici = minutInici;
@@ -30,10 +29,22 @@ public class ActivitatPeriodiques extends Activitat {
         this.minutFinal = minutFinal;
         this.centre = centre;
         this.ciutat = ciutat;
-        placesOcupades = 0;
         setFiActivitat();
         setDurada();
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public void setFiActivitat() {
         this.fiActivitat = dataActivitat.copia(); // copia bien implementado?

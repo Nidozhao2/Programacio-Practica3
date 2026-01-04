@@ -10,8 +10,8 @@ public class ActivitatDia extends Activitat {
     private int durada;
 
     public ActivitatDia(String nom, float preu, String[] colectius,
-            Data dataIniciInscripcio, Data dataFiInscripcio,
-            Data dataActivitat, int hora, int minut, int durada, int placesMaximes, String ciutat)
+            Data dataIniciInscripcio, Data dataFiInscripcio, int placesMaximes,
+            Data dataActivitat, int hora, int minut, int durada, String ciutat)
             throws HoraIncorrecta {
 
         super(nom, preu, colectius, dataIniciInscripcio, dataFiInscripcio, placesMaximes, dataActivitat);

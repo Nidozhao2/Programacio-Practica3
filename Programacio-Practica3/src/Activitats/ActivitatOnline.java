@@ -32,6 +32,13 @@ public class ActivitatOnline extends Activitat {
         this.enllaç = enllaç;
     }
 
+    public int getPeriodeVisualitzacio() {
+        return periodeVisualitzacio;
+    }
+    public void setPeriodeVisualitzacio(int periodeVisualitzacio) {
+        this.periodeVisualitzacio = periodeVisualitzacio;
+    }
+
     public String toString() {
         return "Activitat Online: " + nom + ", Enllaç: " + enllaç + ", Preu: " + preu + "€, Data Inici Inscripció: "
                 + dataIniciInscripcio.toString() + ", Data Fi Inscripció: " + dataFiInscripcio.toString();
