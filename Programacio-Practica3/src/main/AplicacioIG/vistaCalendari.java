@@ -7,6 +7,12 @@ import java.util.Scanner;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
+import Activitats.ActivitatDia;
+import Activitats.ActivitatOnline;
+import Activitats.ActivitatPeriodiques;
+import Activitats.LlistaActivitats;
+
+import packages.Data;
 
 public class vistaCalendari extends JFrame{
     private static final long serialVersionUID = 1L;
@@ -26,10 +32,18 @@ public class vistaCalendari extends JFrame{
     private JLabel labelFiltreMes;
     private JButton botoAplicarFiltres;
 
-    private String mesMostrat = "gener";
+    private int mesMostrat = 0; // El mes es guarda com a índex (0-11) per facilitar la gestió de la classe Data
     private String activitatMostrada = "Totes";
+    private LlistaActivitats llistaActivitats;
+    private Data dataActual = new Data(1,1,2026);
 
     public vistaCalendari() {
+        this.llistaActivitats = new LlistaActivitats(1000);
+        try {
+            llegirActivitats(llistaActivitats);
+        } catch (Exception e) {
+            System.out.println("Error en llegir les activitats: " + e.getMessage());
+        }
         setTitle("Calendari");
         setSize(700, 600);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -86,6 +100,7 @@ public class vistaCalendari extends JFrame{
 
         
         dies = new JButton[4][10];
+        Data diaCalendari = dataActual.copia();
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 10; j++) {
                 if (i * 10 + j + 1 > 31) {
@@ -95,29 +110,28 @@ public class vistaCalendari extends JFrame{
                     panellCalendari.add(dies[i][j]);
                     dies[i][j].setBackground(color_dia);
                     dies[i][j].setVerticalAlignment(SwingConstants.TOP);
+                    mostrarActivitatsActivesEnDia(diaCalendari, dies[i][j]);
+                    diaCalendari = diaCalendari.diaSeguent();
                 }
             }
         }
     }
 
     /**
-     * Mètode per actualitzar el calendari segons els filtres
+     * Actualitza el calendari mostrant les activitats segons els filtres seleccionats
      */
     public void actualitzarCalendari() {
         int diesMaxims = 31;
         System.out.println(mesMostrat);
-        for (int i = 0; i < mesos.length; i++) {
-            if (mesMostrat.equalsIgnoreCase(mesos[i])) {
-                if (i == 1) {
-                    diesMaxims = 28;
-                } else if (i == 3 || i == 5 || i == 8 || i == 10) { // Abril, Juny, Setembre, Novembre
-                    diesMaxims = 30;
-                } else { // Altres mesos amb 31 dies
-                    diesMaxims = 31;
-                }
-                break;
-            }
+        if (mesMostrat == 1) {
+            diesMaxims = 28;
+        } else if (mesMostrat == 3 || mesMostrat == 5 || mesMostrat == 8 || mesMostrat == 10) { // Abril, Juny, Setembre, Novembre
+            diesMaxims = 30;
+        } else { // Altres mesos amb 31 dies
+            diesMaxims = 31;
         }
+        
+        Data diaCalendari = dataActual.copia();
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 10; j++) {
                 if (i * 10 + j + 1 > diesMaxims) {
@@ -127,8 +141,30 @@ public class vistaCalendari extends JFrame{
                 } else {
                     dies[i][j].setVisible(true);
                     dies[i][j].setBackground(color_dia);
+                    dies[i][j].setText(String.valueOf(i * 10 + j + 1));
+                    mostrarActivitatsActivesEnDia(diaCalendari, dies[i][j]);
+                    diaCalendari = diaCalendari.diaSeguent();
                 }
             }
+        }
+    }
+
+    /**
+     * Afegeix al text de dins d'un botó que representa un dia del calendari les activitats actives en aquesta data
+     * @param data
+     * @param botoDia
+     */
+    private void mostrarActivitatsActivesEnDia(Data data, JButton botoDia) {
+        LlistaActivitats activitatsActives = this.llistaActivitats.getActivitatsActivesEnData(data);
+
+        for (int i = 0; i < activitatsActives.getNElems(); i++) {
+            String nomActivitat = activitatsActives.getActivitat(i).getNom();
+            String textActual = botoDia.getText();
+            botoDia.setText("<html>" + textActual + "<br>· " + nomActivitat + "</html>"); // fem servir HTML per simular salts de linia, ja què JButton no els suporta directament
+        }
+        if (activitatsActives.getNElems() == 0) {
+            String textActual = botoDia.getText();
+            botoDia.setText("<html>" + textActual + "<br><i>No hi ha activitats</i></html>");
         }
     }
 
@@ -136,7 +172,7 @@ public class vistaCalendari extends JFrame{
         new vistaCalendari();
     }
 
-    public String getMesMostrat() {
+    public int getMesMostrat() {
         return mesMostrat;
     }
 
@@ -144,12 +180,20 @@ public class vistaCalendari extends JFrame{
         return activitatMostrada;
     }
 
-    public void setMesMostrat(String mesMostrat) {
+    public void setMesMostrat(int mesMostrat) {
         this.mesMostrat = mesMostrat;
     }
 
     public void setActivitatMostrada(String activitatMostrada) {
         this.activitatMostrada = activitatMostrada;
+    }
+
+    public void setDataActual(Data dataActual) {
+        this.dataActual = dataActual;
+    }
+
+    public Data getDataActual() {
+        return this.dataActual;
     }
 
     public JComboBox getFiltreActivitat() {
@@ -158,5 +202,101 @@ public class vistaCalendari extends JFrame{
 
     public JComboBox getFiltreMes() {
         return filtreMes;
+    }
+
+    /**
+     * Mètode per llegir les activitats des d'un fitxer de text i enmagatzemar-les a la llista
+     * @param llistaActivitats
+     * @throws Exception
+     */
+    public static void llegirActivitats(LlistaActivitats llistaActivitats) throws Exception {
+       
+    BufferedReader br = new BufferedReader(new FileReader("Activitats.txt"));
+    String linia;
+
+    while ((linia = br.readLine()) != null) {
+
+        String[] parts = linia.split(";");
+
+        char tipus = parts[0].charAt(0);
+
+        String nom = parts[1];
+
+        float preu = Float.parseFloat(parts[2]);
+
+        String[] colectius = parts[3].split(",");
+        Data dataIniciInsc = parseData(parts[4]);
+        Data dataFiInsc = parseData(parts[5]);
+        Data dataIniciAct = parseData(parts[6]);
+        int placesMaximes=Integer.parseInt(parts[7]);
+        int placesOcupades=Integer.parseInt(parts[8]);
+
+        switch (tipus) {
+
+            case 'D':
+                
+                int hora = Integer.parseInt(parts[9]);
+                int minut = Integer.parseInt(parts[10]);
+                String ciutat = parts[11];
+                int durada = Integer.parseInt(parts[12]);
+                
+               
+
+                ActivitatDia ad = new ActivitatDia(
+                        nom, preu, colectius, dataIniciInsc, dataFiInsc, placesMaximes,
+                        dataIniciAct, hora, minut, durada, ciutat
+                );
+                ad.setPlacesOcupades(placesOcupades);
+                llistaActivitats.afegirActivitat(ad);
+                break;
+
+            case 'O':
+
+                String enllac = parts[9];
+                int periode = Integer.parseInt(parts[10]);
+
+                ActivitatOnline ao = new ActivitatOnline(
+                        nom, colectius, dataIniciInsc, dataFiInsc,
+                        dataIniciAct, periode, enllac
+                );
+                
+                llistaActivitats.afegirActivitat(ao);
+                
+                break;
+
+            case 'P':
+                int setmanes = Integer.parseInt(parts[9]);
+                int horaInici = Integer.parseInt(parts[10]);
+                int minutInici = Integer.parseInt(parts[11]);
+                int horaFinal = Integer.parseInt(parts[12]);
+                int minutFinal = Integer.parseInt(parts[13]);
+
+
+                String centre = parts[14];
+                String ciutatP = parts[15];
+                
+                
+
+                ActivitatPeriodiques ap = new ActivitatPeriodiques(
+                        nom, preu, colectius, dataIniciInsc, dataFiInsc,
+                        placesMaximes, dataIniciAct, setmanes, horaInici,
+                        minutInici, horaFinal, minutFinal, centre, ciutatP
+                );
+                ap.setPlacesOcupades(placesOcupades);
+                llistaActivitats.afegirActivitat(ap);
+                break;
+        }
+    }
+
+        br.close();
+    }
+
+    private static Data parseData(String text) {
+        String[] aux = text.split("/");
+        return new Data(
+                Integer.parseInt(aux[0]),
+                Integer.parseInt(aux[1]),
+                Integer.parseInt(aux[2])
+        );
     }
 }

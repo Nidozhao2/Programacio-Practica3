@@ -144,7 +144,7 @@ public class LlistaActivitats {
         return res;
     }
 
-        public LlistaActivitats getActivitatsAcabades(Data dataActual) {
+    public LlistaActivitats getActivitatsAcabades(Data dataActual) {
         LlistaActivitats llistaActivitatsAcabades = new LlistaActivitats(this.nElems);
         for (int i = 0; i < this.nElems; i++) {
             if (llista[i].haAcabat(dataActual)) {
@@ -157,5 +157,19 @@ public class LlistaActivitats {
         }
         return llistaActivitatsAcabades;
 
+    }
+
+    public LlistaActivitats getActivitatsActivesEnData(Data data) {
+        LlistaActivitats llistaActivitatsActives = new LlistaActivitats(this.nElems);
+        for (int i = 0; i < this.nElems; i++) {
+            if (llista[i].activaEnDia(data)) {
+                try {
+                    llistaActivitatsActives.afegirActivitat(llista[i]);
+                } catch (TaulaPlena e) {
+                    System.out.println("Error: No es poden afegir més activitats actives a la llista.");
+                }
+            }
+        }
+        return llistaActivitatsActives;
     }
 }

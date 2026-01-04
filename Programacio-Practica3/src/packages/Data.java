@@ -102,6 +102,42 @@ public class Data implements Serializable {
 		return novaData;
 	}
 
+	public Data mesSeguent() {
+		int dia = this.dia;
+		int mes = this.mes + 1;
+		int any = this.any;
+
+		if (mes > 12) {
+			mes = 1;
+			any = this.any + 1;
+		}
+		// comprovem que el dia sigui correcte en el nou mes
+		if (dia > diesMes(mes, any)) {
+			dia = diesMes(mes, any);
+		}
+
+		Data novaData = new Data(dia, mes, any);
+		return novaData;
+	}
+
+	public Data mesAnterior() {
+		int dia = this.dia;
+		int mes = this.mes - 1;
+		int any = this.any;
+
+		if (mes < 1) {
+			mes = 12;
+			any = this.any - 1;
+		}
+		// comprovem que el dia sigui correcte en el nou mes
+		if (dia > diesMes(mes, any)) {
+			dia = diesMes(mes, any);
+		}
+
+		Data novaData = new Data(dia, mes, any);
+		return novaData;
+	}
+
 	/**
 	 * Mètode que retorna el resultat de comparar la data data amb una altra per
 	 * paràmetre
@@ -160,7 +196,7 @@ public class Data implements Serializable {
 	 * mostrat per pantalla
 	 */
 	public String toString() {
-		return ("\tDATA => dia " + dia + " mes " + mes + " any " + any);
+		return dia + "/" + mes + "/" + any;
 	}
 
 	/**

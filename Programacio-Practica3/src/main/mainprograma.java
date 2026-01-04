@@ -32,7 +32,7 @@ public class mainprograma {
         // Carregar dades de fitxers si n'hi ha
         try {
             // llegirUsuaris(llistaUsuaris); TODO
-            // llegirActivitats(llistaActivitats); TODO
+            llegirActivitats(llistaActivitats);
             llegirInscripcions(llistaInscripcions);
         } catch (FileNotFoundException e) {
             System.out.println("Falta algun fitxer per llegir.");
@@ -146,7 +146,7 @@ public class mainprograma {
         String resposta = teclat.nextLine();
         if (resposta.toLowerCase().equals("s")) {
             // escriureUsuaris(llistaUsuaris); TODO
-            // escriureActivitats(llistaActivitats); TODO
+            escriureActivitats(llistaActivitats);
             escriureInscripcions(llistaInscripcions);
         } else if (resposta.toLowerCase().equals("n")) {
             System.out.println("Sortint del programa sense guardar les dades.");
@@ -379,7 +379,7 @@ public class mainprograma {
      */
     public static void llegirInscripcions(LlistaInscripcions llistaInscripcions) throws Exception {
         ObjectInputStream entrada = new ObjectInputStream(
-                new FileInputStream("src/main/dadesGuardades/Inscripcions.bin"));
+                new FileInputStream("Inscripcions.bin"));
         Inscripcions instancia;
         boolean llegit = false;
 
@@ -401,7 +401,7 @@ public class mainprograma {
      */
     public static void escriureInscripcions(LlistaInscripcions llistaInscripcions) throws Exception {
         ObjectOutputStream sortida = new ObjectOutputStream(
-                new FileOutputStream("src/main/dadesGuardades/Inscripcions.bin"));
+                new FileOutputStream("Inscripcions.bin"));
         for (int i = 0; i < llistaInscripcions.getNumeroInscripcions(); i++) {
             sortida.writeObject(llistaInscripcions.getInscripcio(i));
         }
@@ -418,7 +418,7 @@ public class mainprograma {
      * @throws Exception
      */
     public static void escriureActivitats(LlistaActivitats llistaActivitats) throws Exception {
-        BufferedWriter dades = new BufferedWriter(new FileWriter("activitats.txt"));
+        BufferedWriter dades = new BufferedWriter(new FileWriter("Activitats.txt"));
 
         for (int i = 0; i < llistaActivitats.getNElems(); i++) {
             Activitat a = llistaActivitats.getLlista()[i];
@@ -429,7 +429,7 @@ public class mainprograma {
 
                 dades.write(ad.getNom()+";" + ad.getPreu()+";"+ String.join(",", ad.getColectius()) + ";" + 
                             ad.getDataIniciInscripcio().toString() + ";" + ad.getDataFiInscripcio().toString() + ";" + 
-                            ad.getPlacesMaximes() + ";" + ad.getDataInici().toString() + ";");
+                            ad.getDataInici().toString() + ";" + ad.getPlacesMaximes() + ";" + ad.getPlacesOcupades() + ";");
 
                 dades.write(ad.getHora()+";" + ad.getMinut()+";" + ad.getCiutat() + ";" + ad.getDurada() + ";");
 
@@ -439,7 +439,7 @@ public class mainprograma {
 
                 dades.write(ao.getNom()+";" + ao.getPreu()+";"+ String.join(",", ao.getColectius()) + ";" + 
                             ao.getDataIniciInscripcio().toString() + ";" + ao.getDataFiInscripcio().toString() + ";" + 
-                            ao.getPlacesMaximes() + ";" + ao.getDataInici().toString() + ";");
+                            ao.getDataInici().toString() + ";" + ao.getPlacesMaximes()+ ";" + ao.getPlacesOcupades() + ";");
 
                 dades.write(ao.getEnllaç()+";"+ao.getPeriodeVisualitzacio());
             } else if( a instanceof ActivitatPeriodiques) {
@@ -448,10 +448,11 @@ public class mainprograma {
             
                 dades.write(ap.getNom()+";" + ap.getPreu()+";"+ String.join(",", ap.getColectius()) + ";" + 
                             ap.getDataIniciInscripcio().toString() + ";" + ap.getDataFiInscripcio().toString() + ";" + 
-                            ap.getPlacesMaximes() + ";" + ap.getDataInici().toString() + ";");
+                            ap.getDataInici().toString() + ";" + ap.getPlacesMaximes() + ";" + ap.getPlacesOcupades() + ";");
 
             }
             else{
+                dades.close();
                 throw new ActivitatDesconeguda("Tipus d'activitat desconegut");
             }
 
@@ -468,7 +469,7 @@ public class mainprograma {
      */
     public static void llegirActivitats(LlistaActivitats llistaActivitats) throws Exception {
        
-    BufferedReader br = new BufferedReader(new FileReader("activitats.txt"));
+    BufferedReader br = new BufferedReader(new FileReader("Activitats.txt"));
     String linia;
 
     while ((linia = br.readLine()) != null) {
@@ -507,10 +508,10 @@ public class mainprograma {
                 llistaActivitats.afegirActivitat(ad);
                 break;
 
-               case 'O':
-                
-                int periode = Integer.parseInt(parts[9]);
-                String enllac = parts[10];
+            case 'O':
+
+                String enllac = parts[9];
+                int periode = Integer.parseInt(parts[10]);
 
                 ActivitatOnline ao = new ActivitatOnline(
                         nom, colectius, dataIniciInsc, dataFiInsc,
