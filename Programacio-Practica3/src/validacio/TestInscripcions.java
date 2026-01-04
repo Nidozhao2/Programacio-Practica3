@@ -33,9 +33,6 @@ public class TestInscripcions {
         try {
             activitatProva1 = new ActivitatOnline("Curs Java", new String[] { "PDI", "Estudiant" },
                     new Data(1, 1, 2025), new Data(15, 1, 2025), new Data(16, 1, 2025), 10, "http://cursos.com/cursjava");
-            activitatProva2 = new ActivitatPeriodiques("Classe particular de pintura",
-                    new String[] { "PDI", "PTGAS" }, new Data(1, 1, 2025), new Data(10, 1, 2025), 2, 8, 30, 10, 30, "IAMF",
-                    "Tarragona", 1, new Data(11, 1, 2025));
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -140,7 +137,7 @@ public class TestInscripcions {
         Inscripcions insUsuari2 = null;
         try {
             activitatPetita = new ActivitatDia("curs intensiu", 3, new String[] { "PDI", "PTGAS" },
-                    new Data(1, 1, 2025), new Data(15, 1, 2025), new Data(16, 1, 2025), 8, 30, 2, 1, "Tarragona");
+                    new Data(1, 1, 2025), new Data(15, 1, 2025), 1, new Data(16, 1, 2025), 8, 30, 2, "Tarragona");
             insUsuari1 = crearInscripcio(usuari1, activitatPetita, new Data(2, 1, 2025));
             insUsuari2 = crearInscripcio(usuari2, activitatPetita, new Data(2, 1, 2025));
         } catch (Exception e) {

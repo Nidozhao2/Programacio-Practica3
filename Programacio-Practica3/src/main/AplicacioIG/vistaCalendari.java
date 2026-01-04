@@ -2,7 +2,6 @@ package main.AplicacioIG;
 
 import java.awt.*;
 import java.io.*;
-import java.util.Scanner;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
