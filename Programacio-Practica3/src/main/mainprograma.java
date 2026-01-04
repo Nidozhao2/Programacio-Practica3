@@ -5,9 +5,13 @@ import packages.*;
 import Activitats.*;
 import Inscripcions.*;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Scanner;
@@ -413,7 +417,15 @@ public class mainprograma {
      * @throws Exception
      */
     public static void escriureActivitats(LlistaActivitats llistaActivitats) throws Exception {
-       
+        BufferedWriter dades = new BufferedWriter(new FileWriter("activitats.txt"));
+
+        for (int i = 0; i < llistaActivitats.getNElems(); i++) {
+            Activitat a = llistaActivitats.getLlista()[i];
+            dades.write(a.toString());
+            dades.newLine();
+        }
+
+        dades.close();
     }
 
     /**
@@ -423,7 +435,84 @@ public class mainprograma {
      */
     public static void llegirActivitats(LlistaActivitats llistaActivitats) throws Exception {
        
+    BufferedReader br = new BufferedReader(new FileReader("activitats.txt"));
+    String linia;
+
+    while ((linia = br.readLine()) != null) {
+
+        String[] parts = linia.split(";");
+        char tipus = parts[0].charAt(0);
+
+        String nom = parts[1];
+        String[] colectius = parts[2].split(",");
+        Data dataInici = parseData(parts[3]);
+        Data dataFi = parseData(parts[4]);
+
+        switch (tipus) {
+
+            case 'D':
+                float preu = Float.parseFloat(parts[5]);
+                Data dataActivitat = parseData(parts[6]);
+                int hora = Integer.parseInt(parts[7]);
+                int minut = Integer.parseInt(parts[8]);
+                int durada = Integer.parseInt(parts[9]);
+                int places = Integer.parseInt(parts[10]);
+                String ciutat = parts[11];
+
+                ActivitatDia ad = new ActivitatDia(
+                        nom, preu, colectius, dataInici, dataFi,
+                        dataActivitat, hora, minut, durada, places, ciutat
+                );
+                llistaActivitats.afegirActivitat(ad);
+                break;
+
+            case 'O':
+                Data dataActOnline = parseData(parts[5]);
+                int periode = Integer.parseInt(parts[6]);
+                String enllac = parts[7];
+
+                ActivitatOnline ao = new ActivitatOnline(
+                        nom, colectius, dataInici, dataFi,
+                        dataActOnline, periode, enllac
+                );
+                llistaActivitats.afegirActivitat(ao);
+                break;
+
+            case 'P':
+                int setmanes = Integer.parseInt(parts[5]);
+                int horaInici = Integer.parseInt(parts[6]);
+                int minutInici = Integer.parseInt(parts[7]);
+                int horaFinal = Integer.parseInt(parts[8]);
+                int minutFinal = Integer.parseInt(parts[9]);
+                String centre = parts[10];
+                String ciutatP = parts[11];
+                int placesMax = Integer.parseInt(parts[12]);
+                Data dataActP = parseData(parts[13]);
+
+                ActivitatPeriodiques ap = new ActivitatPeriodiques(
+                        nom, colectius, dataInici, dataFi,
+                        setmanes, horaInici, minutInici,
+                        horaFinal, minutFinal, centre,
+                        ciutatP, placesMax, dataActP
+                );
+                llistaActivitats.afegirActivitat(ap);
+                break;
+        }
     }
+
+        br.close();
+    }
+
+    private static Data parseData(String text) {
+        String[] aux = text.split("/");
+        return new Data(
+                Integer.parseInt(aux[0]),
+                Integer.parseInt(aux[1]),
+                Integer.parseInt(aux[2])
+        );
+    }
+
+
 
     public static void inscriureUsuari(LlistaUsuaris usuaris, LlistaActivitats activitats, 
                                        LlistaInscripcions inscripcions, Data dataActual, Scanner teclat) {
