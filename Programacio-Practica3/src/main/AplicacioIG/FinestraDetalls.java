@@ -2,7 +2,6 @@ package main.AplicacioIG;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 import activitats.*;
 import packages.Data;
 
@@ -16,35 +15,42 @@ public class FinestraDetalls extends JDialog {
         this.setLayout(new BorderLayout()); 
 
         JTextArea areaText = new JTextArea();
+        areaText.setEditable(false); // Perquè no es pugui escriure a sobre
         
-        String textFinal = "Dia: " + dataSeleccionada + "\n\n";
+        areaText.append("Dia: " + dataSeleccionada + "\n\n");
         
         LlistaActivitats actives = llista.getActivitatsActivesEnData(dataSeleccionada);
+        
         if (actives.getNElems() > 0) {
             for (int i = 0; i < actives.getNElems(); i++) {
                 Activitat act = actives.getActivitat(i);
+                
                 areaText.append("Nom: " + act.getNom() + "\n");
                 areaText.append("Tipus: " + act.getClass().getSimpleName() + "\n");
                 
-                String places = "No";
-                if (act.tePlacesDisponibles()) {
-                    places = "Sí";
+                areaText.append("Places Ocupades: " + act.getPlacesOcupades() + "\n");
+
+                // Si no és online, mostrem les màximes
+                if (! (act instanceof ActivitatOnline)) {
+                    areaText.append("Places Màximes: " + act.getPlacesMaximes() + "\n");
                 }
-                areaText.append("Places: " + places + "\n\n");
+                
+                // Es pot inscriure?
+                String esPot = "No";
+                if (act.tePlacesDisponibles()) {
+                    esPot = "Sí";
+                }
+                areaText.append("Es pot Inscriure: " + esPot + "\n");
             }
         } else {
-            areaText.setText("No hi ha activitats.");
+            areaText.append("No hi ha activitats programades.");
         }
 
         this.add(areaText, BorderLayout.CENTER);
 
         JButton botoTancar = new JButton("Tancar");
-        
-        botoTancar.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                setVisible(false); // Ocultar finestra en lloc de dispose() que no surt
-            }
-        });
+        AccioBotoTancar accioTancar = new AccioBotoTancar(this);
+        botoTancar.addActionListener(accioTancar);
         
         this.add(botoTancar, BorderLayout.SOUTH);
     }

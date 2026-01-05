@@ -1,0 +1,7 @@
+D;Partit Obert;0.0;Tots;01/01/2026;31/01/2026;02/01/2026;20;5;10;00;Camp Futbol;60
+D;Partit Ple;0.0;Tots;01/01/2026;31/01/2026;03/01/2026;10;10;10;00;Pavello;60
+O;Webinar Java;0.0;Tots;01/01/2026;31/01/2026;04/01/2026;999;50;www.zoom.us;1
+D;Matí de Ioga;0.0;Tots;01/01/2026;31/01/2026;05/01/2026;15;0;09;00;Gimnàs;60
+D;Tarda de Peses;0.0;Tots;01/01/2026;31/01/2026;05/01/2026;15;5;18;00;Gimnàs;60
+D;Conferència Internacional sobre la Programació Orientada a Objectes i Java Avançat;0.0;Tots;01/01/2026;31/01/2026;06/01/2026;100;50;10;00;Auditori;120
+D;Gairebé Ple;0.0;Tots;01/01/2026;31/01/2026;07/01/2026;20;19;10;00;Sala 1;60
