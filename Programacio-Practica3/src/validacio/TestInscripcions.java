@@ -1,24 +1,22 @@
 package validacio;
 
-import Inscripcions.Inscripcions;
-import Inscripcions.LlistaInscripcions;
 import excepcions.ActivitatNoAcabada;
 import excepcions.ForaDePeriode;
+import inscripcions.Inscripcions;
+import inscripcions.LlistaInscripcions;
 import usuaris.*;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+
+import activitats.*;
+
 import java.io.ObjectInputStream;
 import java.io.FileInputStream;
 
-import Activitats.*;
 import packages.Data;
 
-/* TODO:
-    - Validar màxim de plaçes
-    - Validar que l'usuari ja està inscrit
-    - Validar cambi de espera a inscrit */
 public class TestInscripcions {
     public static void main(String[] args) {
         System.out.println("--- Test de validació d'inscripcions ---");
@@ -28,7 +26,6 @@ public class TestInscripcions {
         Usuari usuari2 = new UsuariPTGAS("Maria", "maria@example.com", "sescelades");
 
         Activitat activitatProva1 = null;
-        Activitat activitatProva2 = null;
 
         try {
             activitatProva1 = new ActivitatOnline("Curs Java", new String[] { "PDI", "Estudiant" },

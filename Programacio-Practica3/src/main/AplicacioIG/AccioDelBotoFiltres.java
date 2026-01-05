@@ -5,9 +5,9 @@ import javax.swing.*;
 import packages.Data;
 
 public class AccioDelBotoFiltres implements ActionListener {
-    private vistaCalendari vista;
+    private VistaCalendari vista;
 
-    public AccioDelBotoFiltres(vistaCalendari vista) {
+    public AccioDelBotoFiltres(VistaCalendari vista) {
         this.vista = vista;
     }
 

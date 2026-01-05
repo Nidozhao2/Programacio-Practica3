@@ -1,4 +1,4 @@
-package Activitats;
+package activitats;
 
 import packages.*;
 

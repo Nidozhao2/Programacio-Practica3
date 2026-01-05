@@ -6,14 +6,13 @@ import java.io.*;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
-import Activitats.ActivitatDia;
-import Activitats.ActivitatOnline;
-import Activitats.ActivitatPeriodiques;
-import Activitats.LlistaActivitats;
-
+import activitats.ActivitatDia;
+import activitats.ActivitatOnline;
+import activitats.ActivitatPeriodiques;
+import activitats.LlistaActivitats;
 import packages.Data;
 
-public class vistaCalendari extends JFrame{
+public class VistaCalendari extends JFrame{
     private static final long serialVersionUID = 1L;
     private static final String[] mesos = {"Gener", "Febrer", "Març", "Abril", "Maig", "Juny", "Juliol", "Agost", "Setembre", "Octubre", "Novembre", "Desembre"};
     private static final String[] tipusActivitats = {"Totes", "Diaries", "Online", "Periòdiques"};
@@ -36,7 +35,7 @@ public class vistaCalendari extends JFrame{
     private LlistaActivitats llistaActivitats;
     private Data dataActual = new Data(1,1,2026);
 
-    public vistaCalendari() {
+    public VistaCalendari() {
         this.llistaActivitats = new LlistaActivitats(1000);
         try {
             llegirActivitats(llistaActivitats);
@@ -168,7 +167,7 @@ public class vistaCalendari extends JFrame{
     }
 
     public static void main(String[] args) {
-        new vistaCalendari();
+        new VistaCalendari();
     }
 
     public int getMesMostrat() {

@@ -1,4 +1,4 @@
-package Activitats;
+package activitats;
 
 public class HoraIncorrecta extends Exception {
 

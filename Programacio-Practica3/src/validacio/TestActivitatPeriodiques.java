@@ -1,6 +1,6 @@
 package validacio;
 
-import Activitats.ActivitatPeriodiques;
+import activitats.ActivitatPeriodiques;
 import packages.Data;
 
 public class TestActivitatPeriodiques {

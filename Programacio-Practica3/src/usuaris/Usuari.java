@@ -1,7 +1,8 @@
 package usuaris;
 
-import Activitats.*;
 import java.io.Serializable;
+
+import activitats.*;
 
 public abstract class Usuari implements Serializable {
     protected String alias;

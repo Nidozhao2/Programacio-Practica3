@@ -1,6 +1,6 @@
 package validacio;
 
-import Activitats.ActivitatOnline;
+import activitats.ActivitatOnline;
 import packages.Data;
 
 public class TestActivitatOnline {

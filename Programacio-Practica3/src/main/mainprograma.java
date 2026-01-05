@@ -2,8 +2,8 @@ package main;
 
 import usuaris.*;
 import packages.*;
-import Activitats.*;
-import Inscripcions.*;
+import activitats.*;
+import inscripcions.*;
 import excepcions.*;
 
 import java.io.BufferedReader;
@@ -1064,22 +1064,7 @@ public class mainprograma {
 
         }
         sortida.close();
+        }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }
