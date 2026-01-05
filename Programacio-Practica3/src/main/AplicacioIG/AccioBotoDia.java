@@ -12,19 +12,23 @@ public class AccioBotoDia implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
+
         JButton botoPremut = (JButton) e.getSource();
-        
         String textBoto = botoPremut.getText();
-        System.out.println(textBoto);
+        
+        // Treiem totes les paraules "<html>" i "</html>" del text primer
+        String textNet = textBoto.replace("<html>", "").replace("</html>", "");
+
+        String diaString = textBoto;
+        
+        int fi = textNet.indexOf("<br>");
+        if (fi != -1) {
+            diaString = textNet.substring(0, fi);
+        }
+        
 
         try {
-            // El format es: <html><b>DÍA</b><br>... així que hem d'extreure el número entre les etiquetes <b> i </b>
-            int iniciBold = textBoto.indexOf("<b>") + 3;
-            int finiBold = textBoto.indexOf("</b>");
-            String numeroDiaStr = textBoto.substring(iniciBold, finiBold).trim();
-            
-            int dia = Integer.parseInt(numeroDiaStr);
-            System.out.println(dia);
+            int dia = Integer.parseInt(diaString.trim());
             
             Data dataActualVista = vista.getDataActual();
             Data dataClicada = new Data(dia, dataActualVista.getMes(), dataActualVista.getAny());
@@ -33,7 +37,7 @@ public class AccioBotoDia implements ActionListener {
             dialog.setVisible(true);
 
         } catch (NumberFormatException ex) {
-            // Si el text del botó no és un número, ignorem el clic i no fem res.
+            System.out.println("Error llegint el dia. Text rebut: " + diaString);
         }
     }
 }
