@@ -22,16 +22,18 @@ public class TestActivitatPeriodiques {
         // Hora: 10:00 a 11:30 (90 minuts)
         ActivitatPeriodiques ap = new ActivitatPeriodiques(
                 "Curs de Ioga", 
+                30.0f, 
                 colectius, 
                 iniciIns, 
-                fiIns, 
+                fiIns,
+                20, 
+                dataIniciActivitat, 
                 3,
                 10, 0, // 10:00
                 11, 30, // 11:30
                 "Gimnàs URV", 
-                "Tarragona", 
-                20, 
-                dataIniciActivitat);
+                "Tarragona"
+        );
 
         // Prova 1: creació i durada
         System.out.println("\n1) prova de dades i durada");

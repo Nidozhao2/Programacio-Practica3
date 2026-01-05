@@ -1,7 +1,7 @@
 package validacio;
 
-import Activitats.ActivitatDia;
-import Activitats.HoraIncorrecta;
+import activitats.ActivitatDia;
+import excepcions.HoraIncorrecta;
 import packages.Data;
 
 public class TestActivitatDia {
@@ -22,10 +22,10 @@ public class TestActivitatDia {
                     col,
                     inici,
                     fi,
+                    20,
                     diaReale,
                     9, 30,
                     120,
-                    20,
                     "Tarragona");
             System.out.println("Resultat toString(): " + taller.toString());
 
@@ -64,8 +64,8 @@ public class TestActivitatDia {
         try {
             // 4. validar excepcions
             ActivitatDia activitatDolenta = new ActivitatDia(
-                    "Activitat Impossible", 10, col, inici, fi, diaReale,
-                    25, 0, 60, 20, "Reus");
+                    "Activitat Impossible", 10, col, inici, fi, 20, diaReale,
+                    25, 0, 60, "Reus");
 
             System.out.println("Error: S'ha creat l'activitat");
 

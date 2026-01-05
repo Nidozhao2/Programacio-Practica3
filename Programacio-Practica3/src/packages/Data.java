@@ -209,6 +209,18 @@ public class Data implements Serializable {
 		return novaData;
 	}
 
+    public int getDia() {
+        return dia;
+    }
+
+    public int getMes() {
+        return mes;
+    }
+
+    public int getAny() {
+        return any;
+    }
+
 	//////////////////////////////////////////////////////////////////////////////////
 	///
 	// Mètodes de classe (STATIC).

@@ -96,18 +96,23 @@ public class VistaCalendari extends JFrame{
         panellCentralContent.add(panellCalendari, BorderLayout.CENTER);
         add(panellCentralContent, BorderLayout.CENTER);
 
-        
         dies = new JButton[4][10];
-        Data diaCalendari = dataActual.copia();
+        Data diaCalendari = dataActual.copia(); 
+
+        AccioBotoDia accioDia = new AccioBotoDia(this);
+
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 10; j++) {
-                if (i * 10 + j + 1 > 31) {
-                    break;
-                } else {
-                    dies[i][j] = new JButton(String.valueOf(i * 10 + j + 1));
+                int numeroDia = i * 10 + j + 1;
+
+                if (numeroDia <= 31) {
+                    dies[i][j] = new JButton(String.valueOf(numeroDia));
                     panellCalendari.add(dies[i][j]);
                     dies[i][j].setBackground(color_dia);
                     dies[i][j].setVerticalAlignment(SwingConstants.TOP);
+
+                    dies[i][j].addActionListener(accioDia);
+
                     mostrarActivitatsActivesEnDia(diaCalendari, dies[i][j]);
                     diaCalendari = diaCalendari.diaSeguent();
                 }
@@ -200,6 +205,10 @@ public class VistaCalendari extends JFrame{
 
     public JComboBox getFiltreMes() {
         return filtreMes;
+    }
+
+    public LlistaActivitats getLlistaActivitats() {
+        return this.llistaActivitats;
     }
 
     /**
