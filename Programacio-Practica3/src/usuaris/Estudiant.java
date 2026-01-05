@@ -2,8 +2,6 @@ package usuaris;
 
 public class Estudiant extends Usuari{
 
-
-
     private int any;
     private String grau;
 

@@ -11,7 +11,7 @@ public class AccioDelBotoFiltres implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        String activitatFiltre = vista.getFiltreActivitat().getSelectedItem().toString().trim().toLowerCase();
+        int activitatFiltre = vista.getFiltreActivitat().getSelectedIndex();
         int mesFiltre = vista.getFiltreMes().getSelectedIndex();
 
         Data dataActual = vista.getDataActual();

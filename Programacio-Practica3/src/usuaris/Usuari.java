@@ -9,8 +9,6 @@ public abstract class Usuari implements Serializable {
     protected String adreça;
     protected String tipus;
 
-    protected Activitat[] activitatsusuari;// se puede argumentar
-
     public Usuari(String alias, String adreça, String tipus) {
         this.alias = alias;
         this.adreça = adreça;

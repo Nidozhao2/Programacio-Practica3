@@ -1,1 +1,3 @@
 O;test1;0.0;Estudiants,PDI,PTGAS;22/12/2025;31/12/2025;1/1/2026;2147483647;0;test1.cat;4
+O;test2;0.0;Estudiants,PTGAS;22/12/2025;31/12/2025;2/1/2026;2147483647;0;test1.cat;4
+

@@ -6,10 +6,7 @@ import java.io.*;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
-import activitats.ActivitatDia;
-import activitats.ActivitatOnline;
-import activitats.ActivitatPeriodiques;
-import activitats.LlistaActivitats;
+import activitats.*;
 import packages.Data;
 
 public class VistaCalendari extends JFrame{
@@ -31,7 +28,7 @@ public class VistaCalendari extends JFrame{
     private JButton botoAplicarFiltres;
 
     private int mesMostrat = 0; // El mes es guarda com a índex (0-11) per facilitar la gestió de la classe Data
-    private String activitatMostrada = "Totes";
+    private int activitatMostrada = 0;
     private LlistaActivitats llistaActivitats;
     private Data dataActual = new Data(1,1,2026);
 
@@ -159,16 +156,52 @@ public class VistaCalendari extends JFrame{
      */
     private void mostrarActivitatsActivesEnDia(Data data, JButton botoDia) {
         LlistaActivitats activitatsActives = this.llistaActivitats.getActivitatsActivesEnData(data);
+        String textOriginal = botoDia.getText(); 
+        StringBuilder sb = new StringBuilder();
+        sb.append("<html>");
+        sb.append("<b>").append(textOriginal).append("</b>");
 
-        for (int i = 0; i < activitatsActives.getNElems(); i++) {
-            String nomActivitat = activitatsActives.getActivitat(i).getNom();
-            String textActual = botoDia.getText();
-            botoDia.setText("<html>" + textActual + "<br>· " + nomActivitat + "</html>"); // fem servir HTML per simular salts de linia, ja què JButton no els suporta directament
+        if (activitatMostrada != 0) {
+            // filtrem les activitats segons el tipus del filtre
+            for (int i = 0; i < activitatsActives.getNElems(); ) {
+                Activitat activitat = activitatsActives.getActivitat(i);
+
+                boolean eliminar = false;
+                if (activitatMostrada == 1 && !(activitat instanceof ActivitatDia)) {
+                    eliminar = true;
+                } else if (activitatMostrada == 2 && !(activitat instanceof ActivitatOnline)) {
+                    eliminar = true;
+                } else if (activitatMostrada == 3 && !(activitat instanceof ActivitatPeriodiques)) {
+                    eliminar = true;
+                }
+
+                if (eliminar) {
+                    activitatsActives.esborrarActivitat(activitat.getNom());
+                } else {
+                    i++; // només incrementem l'índex si no hem eliminat l'activitat
+                }
+            }
         }
-        if (activitatsActives.getNElems() == 0) {
-            String textActual = botoDia.getText();
-            botoDia.setText("<html>" + textActual + "<br><i>No hi ha activitats</i></html>");
+
+        if (activitatsActives.getNElems() > 0) {
+            for (int i = 0; i < activitatsActives.getNElems(); i++) {
+                Activitat activitat = activitatsActives.getActivitat(i);
+
+                if (activitatMostrada == 0 || // Totes
+                    (activitatMostrada == 1 && activitat instanceof ActivitatDia) ||
+                    (activitatMostrada == 2 && activitat instanceof ActivitatOnline) ||
+                    (activitatMostrada == 3 && activitat instanceof ActivitatPeriodiques)) {
+                        // L'activitat compleix el filtre, l'afegim al text
+                        sb.append("<br>· ").append(activitat.getNom());
+                } else {
+                    continue; // Saltem aquesta activitat ja que no compleix el filtre
+                }
+            }
+        } else {
+            sb.append("<br><br><i>No hi ha activitats</i>");
         }
+        sb.append("</html>");
+        botoDia.setText(sb.toString());
     }
 
     public static void main(String[] args) {
@@ -179,7 +212,7 @@ public class VistaCalendari extends JFrame{
         return mesMostrat;
     }
 
-    public String getActivitatMostrada() {
+    public int getActivitatMostrada() {
         return activitatMostrada;
     }
 
@@ -187,7 +220,7 @@ public class VistaCalendari extends JFrame{
         this.mesMostrat = mesMostrat;
     }
 
-    public void setActivitatMostrada(String activitatMostrada) {
+    public void setActivitatMostrada(int activitatMostrada) {
         this.activitatMostrada = activitatMostrada;
     }
 

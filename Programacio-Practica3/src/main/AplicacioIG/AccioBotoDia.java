@@ -15,10 +15,16 @@ public class AccioBotoDia implements ActionListener {
         JButton botoPremut = (JButton) e.getSource();
         
         String textBoto = botoPremut.getText();
+        System.out.println(textBoto);
 
         try {
-
-            int dia = Integer.parseInt(textBoto.trim());
+            // El format es: <html><b>DÍA</b><br>... així que hem d'extreure el número entre les etiquetes <b> i </b>
+            int iniciBold = textBoto.indexOf("<b>") + 3;
+            int finiBold = textBoto.indexOf("</b>");
+            String numeroDiaStr = textBoto.substring(iniciBold, finiBold).trim();
+            
+            int dia = Integer.parseInt(numeroDiaStr);
+            System.out.println(dia);
             
             Data dataActualVista = vista.getDataActual();
             Data dataClicada = new Data(dia, dataActualVista.getMes(), dataActualVista.getAny());
