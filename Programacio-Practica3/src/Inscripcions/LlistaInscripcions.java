@@ -1,6 +1,6 @@
-package Inscripcions;
+package inscripcions;
 
-import Activitats.*;
+import activitats.*;
 import excepcions.InscripcioNoTrobada;
 import usuaris.Usuari;
 import packages.*;

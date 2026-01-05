@@ -1,10 +1,11 @@
-package Inscripcions;
+package inscripcions;
 
 import packages.Data;
-import Activitats.*;
 import usuaris.Usuari;
 import excepcions.*;
 import java.io.Serializable;
+
+import activitats.*;
 
 /**
  * Classe Inscripcions
