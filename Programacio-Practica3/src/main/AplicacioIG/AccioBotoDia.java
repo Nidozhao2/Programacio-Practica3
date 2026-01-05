@@ -21,9 +21,10 @@ public class AccioBotoDia implements ActionListener {
 
         String diaString = textBoto;
         
-        int fi = textNet.indexOf("<br>");
+        int inici = textNet.indexOf("<b>") + 3;
+        int fi = textNet.indexOf("</b>");
         if (fi != -1) {
-            diaString = textNet.substring(0, fi);
+            diaString = textNet.substring(inici, fi);
         }
         
 
