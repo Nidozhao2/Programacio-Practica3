@@ -14,6 +14,7 @@ public abstract class Usuari implements Serializable {
         this.alias = alias;
         this.adreça = adreça;
         this.tipus = tipus;
+        
     }
 
     public String toString() {
@@ -28,5 +29,9 @@ public abstract class Usuari implements Serializable {
 
     public String getAlias() {
         return alias;
+    }
+
+    public String getAdreça() {
+        return adreça;
     }
 }

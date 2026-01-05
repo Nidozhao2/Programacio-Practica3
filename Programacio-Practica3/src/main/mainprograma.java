@@ -1005,4 +1005,81 @@ public class mainprograma {
             System.out.println("Error donant de baixa activitats: " + e.getMessage());
         }
     }
+
+
+
+    public static void llegirUsuaris(LlistaUsuaris llistaUsuaris) throws Exception {
+        BufferedReader dades = new BufferedReader(new FileReader("Usuaris.txt"));
+        String linia;
+
+        while ((linia = dades.readLine()) != null) {
+
+        String[] parts = linia.split(";");
+
+        char tipus = parts[0].charAt(0);
+        String alias = parts[1];
+        String adreça = parts[2];
+
+        switch (tipus) {
+            case 'T':
+                String campusT = parts[3];
+                llistaUsuaris.afegirUsuari(new UsuariPTGAS(alias, adreça, campusT));
+                break;
+        
+            case 'D':
+                String campusD= parts[3];
+                String departament = parts[4];
+                llistaUsuaris.afegirUsuari(new UsuariPDI(alias, adreça, campusD, departament));
+            
+                break;
+
+            case 'E':
+                int anyEstudi = Integer.parseInt(parts[3]);
+                String grau = parts[4];
+                llistaUsuaris.afegirUsuari(new Estudiant(alias, adreça, anyEstudi, grau));
+
+                break;
+            default:
+                dades.close();
+                throw new TipusUsuariNoValid("Tipus d'usuari desconegut");
+                
+        }
+
+        }
+        dades.close();
+    }
+    public static void escriureUsuaris(LlistaUsuaris llistaUsuaris) throws Exception {
+        BufferedWriter sortida = new BufferedWriter(new FileWriter("Usuaris.txt"));
+        for (int i = 0; i < llistaUsuaris.getNusuaris(); i++) {
+            Usuari u= llistaUsuaris.getUsuari(i);
+            if(u instanceof UsuariPTGAS) {
+                UsuariPTGAS up= (UsuariPTGAS) u;
+                sortida.write("T;" + up.getAlias() + ";" + up.getAdreça() + ";" + up.getCampus());
+            } else if (u instanceof UsuariPDI) {
+                UsuariPDI ud= (UsuariPDI) u;
+                sortida.write("D;" + ud.getAlias() + ";" + ud.getAdreça() + ";" + ud.getCampus() + ";" + ud.getDepartament());
+            } else if (u instanceof Estudiant) {
+                Estudiant e= (Estudiant) u;
+                sortida.write("E;" + e.getAlias() + ";" + e.getAdreça() + ";" + e.getAny() + ";" + e.getGrau());
+
+        }
+        sortida.close();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
