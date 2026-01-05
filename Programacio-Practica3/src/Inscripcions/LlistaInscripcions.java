@@ -2,18 +2,10 @@ package inscripcions;
 
 import activitats.*;
 import excepcions.InscripcioNoTrobada;
+import excepcions.TaulaPlena;
 import usuaris.Usuari;
 import packages.*;
 
-/*TODO:
-        - Método añadir elementos ordenados alfabéticamente por nombre de usuario (teniendo en cuenta límite de plazas de la actividad y inscripción repetida)
-        - Método eliminar elemento y mover de inscripcionsEspera a inscripcions
-        - Método recorrido para obtener las actividades a las que está apuntado un usuari (hecho)
-        - Método recorrido para obtener resumen de valoraciones de las inscripciones (hecho)
-        - Método recorrido para obtener resumen de valoraciones de un usuario en concreto (hecho)
-        - Método recorrido para calcular media de valoraciones de cada colectivo
-        - Método recorrido para obtener usuario con más inscripciones (hecho)
-        - Método cerca para valorar una actividad por un usuario*/
 public class LlistaInscripcions {
 
     private Inscripcions[] inscripcions;

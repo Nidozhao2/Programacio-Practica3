@@ -1,5 +1,6 @@
 package activitats;
 
+import excepcions.HoraIncorrecta;
 import packages.Data;
 
 public class ActivitatDia extends Activitat {

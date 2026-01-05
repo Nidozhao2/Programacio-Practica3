@@ -1,5 +1,6 @@
 package activitats;
 
+import excepcions.TaulaPlena;
 import packages.*;
 
 public class LlistaActivitats {

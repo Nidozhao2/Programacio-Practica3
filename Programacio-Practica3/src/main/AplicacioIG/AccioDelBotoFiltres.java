@@ -1,7 +1,6 @@
 package main.AplicacioIG;
 
 import java.awt.event.*;
-import javax.swing.*;
 import packages.Data;
 
 public class AccioDelBotoFiltres implements ActionListener {
