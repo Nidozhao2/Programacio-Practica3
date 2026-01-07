@@ -12,7 +12,7 @@ public class TestActivitatOnline {
         Data dataIniciActivitat = new Data(18, 9, 2025);
         String[] col = { "Estudiants", "PDI" };
 
-        // 1. crear objecte correcte
+        
         System.out.println("\nProva 1: Creació d'activitat correcta (Matí)");
         ActivitatOnline taller = new ActivitatOnline(
                 "Introducció a la IA",
@@ -24,7 +24,7 @@ public class TestActivitatOnline {
                 "www.exemple.com/ia-course");
         System.out.println("Resultat toString(): " + taller.toString());
 
-        // 2. validar atributs especifics
+        
         System.out.println("\nProva 2: validació dels atributs");
         if (taller.getEnllaç().equals("www.exemple.com/ia-course")) {
             System.out.println("L'enllaç s'ha guardat correctament (www.example.com/ia-course).");
@@ -38,7 +38,7 @@ public class TestActivitatOnline {
             System.out.println("La data de fi d'activitat no és correcta: " + taller.getFiActivitat());
         }
 
-        // 3. validar places i inscripció
+     
         System.out.println("\nProva 3: Control de places.");
         System.out.println("Places ocupades inicials: " + taller.getPlacesOcupades());
 

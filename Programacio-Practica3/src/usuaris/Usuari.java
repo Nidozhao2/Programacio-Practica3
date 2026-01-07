@@ -16,6 +16,13 @@ public abstract class Usuari implements Serializable {
         
     }
 
+    @Override
+    public boolean equals(Object o){
+        Usuari u=(Usuari)o;
+        return alias.equals(u.getAlias());
+
+    }
+
     public String toString() {
 
         return "Alias: " + alias + " Adreça:" + adreça + " Tipus:";

@@ -11,18 +11,18 @@ public class TestLlistaUsuaris {
         UsuariPDI pdi = new UsuariPDI("Marc", "b@urv.cat", "Sescelades", "Medicina");
         UsuariPTGAS ptgas = new UsuariPTGAS("Maria",  "c@urv.cat", "Catalunya");
 
-        // 1. Prova de filtres
+       
         System.out.println("\nProva 1: filtres per tipus");
         LlistaUsuaris llistaMix = new LlistaUsuaris(10);
         llistaMix.afegirUsuari(est);
         llistaMix.afegirUsuari(pdi);
         llistaMix.afegirUsuari(ptgas);
 
-        // prova getEstudiants
+      
         LlistaUsuaris llistaNomesEstudiants = llistaMix.getEstudiants();
         if (llistaNomesEstudiants.getNusuaris() == 1) {
             System.out.println("Correcte: getEstudiants ha retornat 1 element.");
-            // verifiquem el nom
+           
             if (llistaNomesEstudiants.getUsuari(0).getAlias().equals("Pep")) {
                 System.out.println("Correcte: L'estudiant és en Pep.");
             }
@@ -30,19 +30,19 @@ public class TestLlistaUsuaris {
             System.out.println("Error: getEstudiants ha fallat.");
         }
 
-        // prova getPdi
+        
         if (llistaMix.getPdi().getNusuaris() == 1) {
             System.out.println("Correcte: getPdi ha trobat 1 PDI.");
         } else {
             System.out.println("Error: getPdi ha fallat.");
         }
 
-        // 2. Prova d'excepcions
+        
         System.out.println("\nProva 2: excepcions");
         
-        // prova llista plena
+       
         System.out.println("Intentant omplir una llista petita...");
-        LlistaUsuaris llistaPetita = new LlistaUsuaris(1); // només cap 1!
+        LlistaUsuaris llistaPetita = new LlistaUsuaris(1); // nomes espai poer 1
         
         try {
             llistaPetita.afegirUsuari(est); // 1r (Correcte)
@@ -61,7 +61,7 @@ public class TestLlistaUsuaris {
             System.out.println("Correcte: Excepció capturada -> " + e.getMessage());
         }
 
-        // 3. Prova de cerca i esborrat
+        // 3. cerca i esborrat
         System.out.println("\nProva 3: usuariExisteix i eliminarUsuari");
         
         // usuariExisteix

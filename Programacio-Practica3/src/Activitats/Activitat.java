@@ -15,6 +15,17 @@ public abstract class Activitat implements Serializable {
     protected Data dataActivitat;
     protected Data fiActivitat;
 
+
+    @Override
+    public boolean equals(Object act){
+        return this.nom.equals(((Activitat) act).getNom());
+    }
+
+
+
+
+
+
     public Activitat(String nom, float preu, String[] colectius, Data dataIniciInscripcio, Data dataFiInscripcio,
             int placesMaximes, Data dataActivitat) {
         this.nom = nom;

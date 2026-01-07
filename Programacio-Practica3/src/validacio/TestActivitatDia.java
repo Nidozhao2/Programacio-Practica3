@@ -14,7 +14,7 @@ public class TestActivitatDia {
         String[] col = { "PDI", "PTGAS" };
 
         try {
-            // 1. crear objecte correcte
+       
             System.out.println("\nProva 1: Creació d'activitat correcta (Matí)");
             ActivitatDia taller = new ActivitatDia(
                     "Taller Basquet",
@@ -29,7 +29,6 @@ public class TestActivitatDia {
                     "Tarragona");
             System.out.println("Resultat toString(): " + taller.toString());
 
-            // 2. validar atributs especifics
             System.out.println("\nProva 2: validació dels atributs");
             if (taller.getHora() == 9 && taller.getMinut() == 30) {
                 System.out.println("L'hora s'ha guardat correctament (9:30).");
@@ -43,7 +42,6 @@ public class TestActivitatDia {
                 System.out.println("La ciutat no és correcta.");
             }
 
-            // 3. validar places i inscripció
             System.out.println("\nProva 3: Control de places.");
             System.out.println("Places ocupades inicials: " + taller.getPlacesOcupades());
 
@@ -62,7 +60,7 @@ public class TestActivitatDia {
         System.out.println("\nProva 4: Intentar crear una hora dolenta");
 
         try {
-            // 4. validar excepcions
+        
             ActivitatDia activitatDolenta = new ActivitatDia(
                     "Activitat Impossible", 10, col, inici, fi, 20, diaReale,
                     25, 0, 60, "Reus");

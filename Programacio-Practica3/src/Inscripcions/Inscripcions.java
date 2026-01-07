@@ -39,6 +39,14 @@ public class Inscripcions implements Serializable {
         }
     }
 
+    @Override
+    public boolean equals(Object o){
+        Inscripcions ins=(Inscripcions)o;
+        
+        return ins.getActivitatInscripcio().getNom()==this.getActivitatInscripcio().getNom();
+        
+    }
+
     public void valorar(int valoracio, Data dataInscripcio, Usuari usuariInscrit)
             throws ActivitatNoAcabada, UsuariExtrany {
         if (!this.usuariInscrit.getAlias().equals(usuariInscrit.getAlias())) {

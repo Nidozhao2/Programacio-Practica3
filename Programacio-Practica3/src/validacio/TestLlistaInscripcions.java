@@ -6,12 +6,13 @@ import inscripcions.Inscripcions;
 import inscripcions.LlistaInscripcions;
 import packages.Data;
 import usuaris.Estudiant;
+import usuaris.Usuari;
 import usuaris.UsuariPTGAS;
 
 public class TestLlistaInscripcions {
 
     
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws ForaDePeriode, TipusUsuariNoValid,TaulaPlena,InscripcioNoTrobada{
         LlistaInscripcions llista=new LlistaInscripcions(10);
         
 
@@ -38,17 +39,30 @@ public class TestLlistaInscripcions {
                 "Tarragona"
         );
 
-UsuariPTGAS usuari = new UsuariPTGAS("pau.segarrae", "pau.segarrae", "Sescelades");
+        UsuariPTGAS usuari = new UsuariPTGAS("pau.segarrae", "pau.segarrae", "Sescelades");
 
         Estudiant es=new Estudiant(null, null, 0, null);
+        Inscripcions ins=new Inscripcions(ap,usuari,new Data(2,1,2000));
 
         System.out.println("GetNumeroInscripcions:    Esperat:0 Obtingut:"+llista.getNumeroInscripcions());
         
-        llista.afegirInscripcio(new Inscripcions(ap,usuari,new Data(2,1,2000)));
+        System.out.println("Existeis inscripcio:"+(llista.existeixInscripcio(ins)));
+
         
+       
+        
+        llista.afegirInscripcio(ins);
+    
+
         System.out.println("GetNumeroInscripcions:    Esperat:1 Obtingut:"+llista.getNumeroInscripcions());
-        
-        
+        System.out.println("Existeis inscripcio:"+(llista.existeixInscripcio(ins)));
+      
+        System.out.println("Eliminant Inscripcio...");
+
+        llista.eliminarInscripcio(ins);
+
+        System.out.println("\nGetNumeroInscripcions:    Esperat:0 Obtingut:"+llista.getNumeroInscripcions());
+
     }
 
 
