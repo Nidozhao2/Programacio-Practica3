@@ -1,5 +1,5 @@
-E;alumneGuay1;joan.garcia;2023;GEI
-E;alumneGuay2;laura.sanz;2022;GESST
+E;alumneGuay1;joan.garcia@estudiants.urv.cat;2023;GEI
+E;alumneGuay2;laura.sanz@estudiants.urv.cat;2022;GESST
 E;p1;nom.fals1;2024;GEI
 E;p2;nom.fals2;2024;GEI
 E;p3;nom.fals3;2024;GEI
@@ -10,7 +10,7 @@ E;p7;nom.fals7;2024;GEI
 E;p8;nom.fals8;2024;GEI
 E;p9;nom.fals9;2024;GEI
 E;p10;nom.fals10;2024;GEI
-D;profeMates1;mariona.lopez;Sescelades;DEIM
-D;profeMates2;jordi.mas;Catalunya;DEEEA
-T;tècnic1;pere.martinez;Catalunya
-T;tecnic2;ana.vila;Sescelades
+D;profeMates1;mariona.lopez@urv.cat;Sescelades;DEIM
+D;profeMates2;jordi.mas@urv.cat;Catalunya;DEEEA
+T;tècnic1;pere.martinez@urv.cat;Catalunya
+T;tecnic2;ana.vila@urv.cat;Sescelades

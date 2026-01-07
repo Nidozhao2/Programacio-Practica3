@@ -851,7 +851,7 @@ public class mainprograma {
             switch (tipus) {
                 case 1: // Estudiant
                     System.out.println("Adreça:");
-                    adreca = teclat.nextLine();
+                    adreca = teclat.nextLine().split("@")[0]+"@estudiants.urv.cat";
                     System.out.println("Any d'estudi:");
                     int any = Integer.parseInt(teclat.nextLine());
                     System.out.println("Grau:");
@@ -860,7 +860,7 @@ public class mainprograma {
                     break;
                 case 2: // PDI
                     System.out.println("Adreça:");
-                    adreca = teclat.nextLine();
+                    adreca = teclat.nextLine().split("@")[0]+" @urv.cat";
                     System.out.println("Campus:");
                     campus = teclat.nextLine();
                     System.out.println("Departament:");
@@ -869,7 +869,7 @@ public class mainprograma {
                     break;
                 case 3: // PTGAS
                     System.out.println("Adreça:");
-                    adreca = teclat.nextLine();
+                    adreca = teclat.nextLine().split("@")[0]+" @urv.cat";
                     System.out.println("Campus:");
                     campus = teclat.nextLine();
                     nouUsuari = new UsuariPTGAS(alias, adreca, campus);
