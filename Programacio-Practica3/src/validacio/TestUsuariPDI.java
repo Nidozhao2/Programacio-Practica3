@@ -4,7 +4,7 @@ import usuaris.UsuariPDI;
 
 public class TestUsuariPDI {
     public static void main(String[] args) {
-        System.out.println("Test de validació de l'usuari PTGAS.");
+        System.out.println("Test de validació de l'usuari PDI.");
 
         // 1. crear l'usuari
         System.out.println("\nProva 1: Creació d'usuari");
